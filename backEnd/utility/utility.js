@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 /**
  * Purpose      :   This utility is reqired to write logic of verify token.

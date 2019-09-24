@@ -1,3 +1,7 @@
+
+
 module.exports = {
-    url: 'mongodb://localhost:27017/fundooNotes'
+    url:  process.env.dbURL,
+    port: process.env.listenPort
+
 }

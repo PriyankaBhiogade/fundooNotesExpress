@@ -13,6 +13,9 @@ let jwt = require('jsonwebtoken');
  * @since       :   23-9-2019
  **/
 
+/** 
+ * @discription : Create user schema in database
+ */
 const userSchema = new schema({
     firstName: {
         type: String,
@@ -36,6 +39,11 @@ const userSchema = new schema({
 const userModel = mongoose.model('register', userSchema);
 class Model {
 
+    /**
+     * @description : FindEmail is a function which find user is already register or not.
+     * @param : request
+     * @returns : promise
+     */
     findEmail(req) {
         return new Promise((resolve, reject) => {
             userModel.find({ 'email': req.email }).then((data) => {
@@ -50,6 +58,11 @@ class Model {
             })
         })
     }
+    /**
+     * @description :registerUser function for register new user and stored data into database using save() method .
+     * @param :  body
+     * @returns : promise
+     */
     registerUser(body) {
         return new Promise((resolve, reject) => {
             let newRegister = new userModel({
@@ -72,6 +85,12 @@ class Model {
             })
         })
     }
+    /**
+     * @description :loginUser function for login user and genrated token.
+     * @param :  body
+     * @param :  findData
+     * @returns : promise
+     */
     loginUser(body, findData) {
         let payload = {
             'firstName': findData.firstName,
@@ -94,18 +113,23 @@ class Model {
             })
         })
     }
-
-    resetPassword(body , callback) {
-        console.log("body in model",body)
+    /**
+     * @description :resetPassword function for create new password.
+     * @param :  body
+     * @param :  callback
+     * @returns : promise
+     */
+    resetPassword(body, callback) {
+        console.log("body in model", body)
         let newPassword = bcrypt.hashSync(body.password, saltRounds)
-        userModel.updateOne({_id: body.id},{ password: newPassword }, (err, result) => {
+        userModel.updateOne({ _id: body.id }, { password: newPassword }, (err, result) => {
             if (err) {
                 console.log("Error", err)
                 callback(err);
             }
             else {
 
-                return callback(null,result)
+                return callback(null, result)
             }
         })
     }
