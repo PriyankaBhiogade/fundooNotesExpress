@@ -1,0 +1,28 @@
+
+{
+    "register": {
+        "firstName": "priyanka",
+        "lastName": "bhiogade",
+        "email": "pbhiogade1111@gmail.com",
+        "password": "Piyu@54321"
+    },
+    "login": {
+        "email": "pbhiogade1111@gmail.com",
+        "password": "Piyu@54321"
+    },
+    "resetPassword":{
+        "password": "Piyu@5432112"
+    },
+    "forgotPassword":{
+        "email": "pbhiogade1111@gmail.com"
+    },
+    "token":{
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNWQ4YjU2NTYyNjIxODM0YzVhM2EyZTY3IiwiZW1haWwiOiJwYmhpb2dhZGUxMTExQGdtYWlsLmNvbSJ9LCJpYXQiOjE1Njk0NzYzMDIsImV4cCI6MTU2OTU2MjcwMn0.S56pwVWIUKZleoGQHzTnKgRDusWBz_mI5Gmp-ie54r4"
+    },
+    "uploadImage":{
+        "image":"/home/user/Downloads/img_1560320616843.png"
+    }
+    
+    
+    
+}

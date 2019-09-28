@@ -1,7 +1,4 @@
-
-
 module.exports = {
-    url:  process.env.dbURL,
-    port: process.env.listenPort
-
+    "url": process.env.MONGO_URL,
+    "port": process.env.PORT
 }

@@ -1,19 +1,18 @@
 const jwt = require('jsonwebtoken');
 
 /**
- * Purpose      :   This utility is reqired to write logic of verify token.
- * @file        :   utility.js
+ * Purpose      :   This token Verify service file  for verify Token.
+ * @file        :   tokenVerifyService.js
  * @author      :   PriyankaBhiogade
  * @version     :   1.0
  * @since       :   23-09-2019
  **/
 
- const checkToken = (req, res, next) =>  {
+const checkToken = (req, res, next) =>  {
     let token = req.headers['token'];
     if (token) {
-        jwt.verify(token, 'secretekey', (err, decoded) => {
+        jwt.verify(token, process.env.secretekey, (err, decoded) => {
             console.log("decoded error",err);
-            
             if (err) {
                 return res.send({
                     success: false,
@@ -34,7 +33,6 @@ const jwt = require('jsonwebtoken');
         });
     }
 }
-
 module.exports = {
     checkToken
 };
