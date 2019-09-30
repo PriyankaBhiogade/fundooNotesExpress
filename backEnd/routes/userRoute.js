@@ -1,6 +1,7 @@
 
-const contoller = require('../controllers/userController');
-const token = require('../service/tokenVerifyService');
+const userContoller = require('../controllers/userController');
+const notesController = require('../controllers/notesController');
+const auth = require('../service/tokenVerifyService');
 const express = require('express');
 
 /**
@@ -11,14 +12,31 @@ const express = require('express');
  * @version     :   1.0
  * @since       :   23-09-2019
  **/
-// const upload = imageUplaod.single('image');
 const router = express.Router();
-router.post('/register', contoller.registerUser);
-router.post('/login',contoller.loginUser);
-router.post('/forgotPassword',contoller.forgotPassword);
-router.post('/reset',token.checkToken,contoller.resetPassword);
-router.post('/upload',contoller.upload);
+/**
+* @description :User routes
+*/
+try {
+    router.post('/register', userContoller.registerUser);
+    router.post('/login', userContoller.loginUser);
+    router.post('/forgotPassword', userContoller.forgotPassword);
+    router.post('/reset', auth.checkToken, userContoller.resetPassword);
+    router.post('/upload', userContoller.upload);
 
+    /**
+    * @description :Notes routes
+    */
+    router.post('/createNotes', auth.checkToken, notesController.createNotes);
+    router.get('/getAllNotes', auth.checkToken, notesController.getAllNotes);
+    router.post('/updateNotes', auth.checkToken, notesController.updateNotes);
+    router.post('/deleteNotes', auth.checkToken, notesController.deleteNotes);
+
+
+
+}
+catch (err) {
+    throw (err);
+}
 module.exports = router;
 
 

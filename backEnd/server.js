@@ -48,7 +48,7 @@ app.use((error, req, res, next) => {
     res.json(response);
 })
 /**
-* @description :MongoDb Connection
+* @description : MongoDb Connection
 */
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url, {

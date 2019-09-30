@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-
+const redis = require('redis');
+const client = redis.createClient();
 /**
  * Purpose      :   This token Verify service file  for verify Token.
  * @file        :   tokenVerifyService.js
@@ -8,11 +9,11 @@ const jwt = require('jsonwebtoken');
  * @since       :   23-09-2019
  **/
 
-const checkToken = (req, res, next) =>  {
+const checkToken = (req, res, next) => {
     let token = req.headers['token'];
+    // client.get(token,(err,reply) => {
     if (token) {
         jwt.verify(token, process.env.secretekey, (err, decoded) => {
-            console.log("decoded error",err);
             if (err) {
                 return res.send({
                     success: false,
@@ -21,6 +22,7 @@ const checkToken = (req, res, next) =>  {
             }
             else {
                 req.decoded = decoded;
+console.log("in verify token",req.decoded)
                 next();
             }
         });
@@ -32,6 +34,7 @@ const checkToken = (req, res, next) =>  {
             message: 'No token provided.'
         });
     }
+    // })
 }
 module.exports = {
     checkToken

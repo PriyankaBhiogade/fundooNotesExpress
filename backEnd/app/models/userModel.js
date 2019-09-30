@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 /**
- * Purpose      :   UserModels method is derived from services, and deaclared all schema to stord data into database 
-                    and return callback to services.
+ * Purpose      :   UserModels is derived from services, and deaclared all schema to stord data into database 
+                    and return promise to services.
  * @file        :   usermodels.js
  * @author      :   PriyankaBhiogade
  * @version     :   1.0
@@ -36,11 +36,16 @@ const userSchema = new schema({
         type: String,
         required: true
     }
+},
+     {
+    timestamps: true
 });
+
+
 
 const userModel = mongoose.model('register', userSchema);
 class Model {
-
+    constructor() { }
     /**
      * @description : FindEmail is a function which find user is already register or not.
      * @param : request
@@ -57,12 +62,9 @@ class Model {
                         resolve({ 'message': 'already exits', 'data': data });
                     }
                 }).catch((err) => {
-                    console.log(err);
-
                     reject({ 'success': true, 'status': 500, 'message': 'Internal Server Error ', 'Error': err })
                 })
             })
-
         }
         catch (error) {
             next(error);
@@ -123,7 +125,6 @@ class Model {
             next(error);
         }
     }
-
     /**
      * @description :forgotPasswordUser function for forgot Password
      * @param :  body
@@ -156,7 +157,6 @@ class Model {
      */
     resetPassword(body, callback, next) {
         try {
-            console.log("body in model", body)
             let newPassword = bcrypt.hashSync(body.password, saltRounds)
             userModel.updateOne({ _id: body.id }, { $set: { password: newPassword } }, (err, result) => {
                 if (err) {

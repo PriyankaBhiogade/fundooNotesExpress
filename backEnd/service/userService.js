@@ -58,7 +58,10 @@ class Service {
             }
             else {
                 result = await model.loginUser(req, findData.data[0]);
-                return (result);
+                const response = {
+                    'userId':findData.data[0]._id
+                }
+                return (response);
             }
         }
         catch (error) {
@@ -88,17 +91,14 @@ class Service {
                     'id': findData.data[0]._id,
                     'email': findData.data[0].email
                 }
-            
                 result = await model.forgotPasswordUser(req, findData.data[0]);
                 let token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: "24hr" });
                 const url = `${process.env.resetPasswordUrl}${token}`;
-                sendmailer.sendMail(url);
-                
                 return (url);
             }
         }
         catch (error) {
-            throw(error);
+            throw (error);
         }
     }
     /**
@@ -110,9 +110,9 @@ class Service {
     async resetPassword(req, callback) {
         try {
             const responseResult = {
-               success : false,
-               message : "Invalid Password ",
-               result : {}
+                success: false,
+                message: "Invalid Password ",
+                result: {}
             };
             await model.resetPassword(req, (err, data) => {
                 if (err) {
@@ -128,7 +128,7 @@ class Service {
             })
         }
         catch (error) {
-            throw(error)
+            throw (error)
         }
     }
 }

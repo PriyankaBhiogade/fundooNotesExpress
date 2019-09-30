@@ -23,6 +23,10 @@ class Controller {
     */
     async registerUser(req, res, next) {
         try {
+            /*
+            * @description :validation using expressValidator
+            */
+
             req.checkBody('firstName').isAlpha()
                 .withMessage('No Special characters or number ..Invalid FirstName! ')
                 .notEmpty({ message: 'FirstName is required' })
@@ -57,8 +61,11 @@ class Controller {
                     "email": req.body.email,
                     "password": req.body.password
                 }
-                let result = await service.registerUser(filterRequest);
-                res.send(result);
+                await service.registerUser(filterRequest).then((result) => {
+                    res.send(result);
+                }).catch((err) => {
+                    res.send(err);
+                })
             }
         }
         catch (error) {
@@ -96,13 +103,12 @@ class Controller {
                     "password": req.body.password
                 }
                 let result = await service.loginUser(filterRequest);
-                let payload = {
-                    'email': req.body.email
-                }
+
+                let payload = result
                 /*
                 * token genrated
                 */
-                let token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: "24hr" });
+                let token = jwt.sign(payload, process.env.secretekey, { expiresIn: "24hr" });
                 /*
                 * token set and get using redis 
                 */
@@ -112,14 +118,13 @@ class Controller {
                         console.log(error);
                         throw error;
                     }
-                    console.log('GET result ->' + result);
+                    // console.log('GET result ->' + result);
                 });
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
                     data: token
                 }
-
                 res.send(response);
             }
         }
@@ -143,7 +148,7 @@ class Controller {
             const errors = req.validationErrors();
             let response = {
                 success: false,
-                status : 400,
+                status: 400,
                 message: "Invalid Input",
                 data: { errors }
             }
@@ -154,12 +159,15 @@ class Controller {
                 const filterRequest = {
                     "email": req.body.email
                 }
-                let result = await service.forgotPasswordUser(filterRequest);
-                response.success = true,
-                    response.status = 200,
-                    response.message = "Password Forgot Sucessfully",
-                    response.data = result
-                res.send(response);
+                await service.forgotPasswordUser(filterRequest).then((result) => {
+                    response.success = true,
+                        response.status = 200,
+                        response.message = "Password Forgot Sucessfully",
+                        response.data = result
+                    res.send(response);
+                }).catch((err) => {
+                    res.send(err);
+                })
             }
         } catch (error) {
             next(error)
@@ -201,7 +209,7 @@ class Controller {
             }
         }
         catch (error) {
-            throw(error)
+            throw (error)
         }
     }
 
@@ -229,7 +237,6 @@ class Controller {
                         responseResult.success = true;
                         responseResult.message = "Image uploaded successfully.."
                         //  responseResult.data = req.file.location;
-                        
                         resolve(res.status(200).send(responseResult));
                     }
                 }
