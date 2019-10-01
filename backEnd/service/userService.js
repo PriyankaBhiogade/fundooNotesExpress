@@ -59,7 +59,7 @@ class Service {
             else {
                 result = await model.loginUser(req, findData.data[0]);
                 const response = {
-                    'userId':findData.data[0]._id
+                    'userId': findData.data[0]._id
                 }
                 return (response);
             }
@@ -94,6 +94,7 @@ class Service {
                 result = await model.forgotPasswordUser(req, findData.data[0]);
                 let token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: "24hr" });
                 const url = `${process.env.resetPasswordUrl}${token}`;
+                sendmailer.sendMail(url);
                 return (url);
             }
         }

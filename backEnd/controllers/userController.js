@@ -1,5 +1,5 @@
 const service = require('../service/userService');
-const uploadService = require('../service/s3ImplementaionService');
+// const uploadService = require('../service/s3ImplementaionService');
 let jwt = require('jsonwebtoken');
 const redis = require('redis');
 const client = redis.createClient();
@@ -21,7 +21,7 @@ class Controller {
     * @param :  res
     * @returns : res.send(result)
     */
-    async registerUser(req, res, next) {
+     registerUser(req, res, next) {
         try {
             /*
             * @description :validation using expressValidator
@@ -52,7 +52,7 @@ class Controller {
                 data: { errors }
             }
             if (errors) {
-                return res.send(response);
+                return res.status(422).send(response);
             }
             else {
                 const filterRequest = {
@@ -61,8 +61,8 @@ class Controller {
                     "email": req.body.email,
                     "password": req.body.password
                 }
-                await service.registerUser(filterRequest).then((result) => {
-                    res.send(result);
+                 service.registerUser(filterRequest).then((result) => {
+                    res.status(200).send(result);
                 }).catch((err) => {
                     res.send(err);
                 })
@@ -95,7 +95,7 @@ class Controller {
                 data: { errors }
             }
             if (errors) {
-                return res.send(response);
+                return res.status(422).send(response);
             }
             else {
                 const filterRequest = {
@@ -118,14 +118,14 @@ class Controller {
                         console.log(error);
                         throw error;
                     }
-                    // console.log('GET result ->' + result);
+                     console.log('GET result ->' + result);
                 });
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
                     data: token
                 }
-                res.send(response);
+                res.res.status(200).send(response);
             }
         }
         catch (error) {
@@ -148,12 +148,12 @@ class Controller {
             const errors = req.validationErrors();
             let response = {
                 success: false,
-                status: 400,
+                status: 404,
                 message: "Invalid Input",
                 data: { errors }
             }
             if (errors) {
-                return res.send(response);
+                return res.status(404).send(response);
             }
             else {
                 const filterRequest = {
@@ -164,9 +164,9 @@ class Controller {
                         response.status = 200,
                         response.message = "Password Forgot Sucessfully",
                         response.data = result
-                    res.send(response);
+                    res.status(200).send(response);
                 }).catch((err) => {
-                    res.send(err);
+                    res.status(400).send(err);
                 })
             }
         } catch (error) {
@@ -192,7 +192,7 @@ class Controller {
                 data: { errors }
             }
             if (errors) {
-                return res.send(response);
+                return res.status(422).send(response);
             }
             else {
                 const filterRequest = {
@@ -219,25 +219,26 @@ class Controller {
     * @param :  res
     * @returns : res.send(result)
     */
-    upload(req, res) {
-        const fileUpload = uploadService.single('image')
+   async upload(req, res) {
+        const fileUpload = await uploadService.single('image')
         const responseResult = {
             success: false,
             message: "Error while uploading the image..",
             data: {}
         };
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject)  => {
             fileUpload(req, res, (err) => {
                 try {
                     if (err) {
                         responseResult.message = err;
-                        reject(res.status(404).send(responseResult));
+                        reject(res.send(responseResult));
                     }
                     else {
                         responseResult.success = true;
                         responseResult.message = "Image uploaded successfully.."
-                        //  responseResult.data = req.file.location;
-                        resolve(res.status(200).send(responseResult));
+                        responseResult.data = req.file.location;
+                        console.log("controller",req.file.metadata.fieldName);
+                        resolve(res.send(responseResult));
                     }
                 }
                 catch (err) {

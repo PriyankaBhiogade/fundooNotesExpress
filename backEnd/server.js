@@ -21,11 +21,11 @@ const client = redis.createClient();
 /**
 * @description :redis connection
 */
-client.on('connect', function () {
+client.on('connect',  () => {
     console.log(`Redis connected successfully`);
 });
 
-client.on('error', function (err) {
+client.on('error', (err) => {
     console.log(`Something went wrong ${err}`);
 });
 /**
@@ -51,7 +51,7 @@ app.use((error, req, res, next) => {
 * @description : MongoDb Connection
 */
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url, {
+mongoose.connect(dbConfig.url , {
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
 
 }).then(() => {
@@ -68,3 +68,4 @@ app.listen(dbConfig.port, () => {
     console.log(`Server is listening on port ${dbConfig.port}`);
 })
 
+module.exports =  app 

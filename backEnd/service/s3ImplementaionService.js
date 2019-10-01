@@ -20,17 +20,35 @@ const s3 = new aws.S3({
 const multerS3Config = multer({
   storage: multerS3({
     s3: s3,
-    bucket: process.env.bucket,
+     bucket: process.env.bucket,
+     acl: 'public-read',
     metadata: (req, file, cb) => {
-      cb(null, {fieldName: file.fieldname});
+      console.log("file",file);
+      cb(null,{ fieldName: file.originalname });
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString(),".png");
+      console.log("data", file);
+      cb(null, `img_${Date.now().toString()}.png`);
     }
   })
 })
 
 module.exports = multerS3Config;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

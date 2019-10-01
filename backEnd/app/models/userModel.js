@@ -134,11 +134,9 @@ class Model {
         try {
             return new Promise((resolve, reject) => {
                 if (findData.email == body.email) {
-                    console.log("forgot Password Sucessfully");
                     resolve({});
                 }
                 else {
-                    console.log("Invalid email");
                     resolve({ 'success': false, 'status': 400, 'message': 'Invalid Password' });
                 }
             }).catch((error) => {

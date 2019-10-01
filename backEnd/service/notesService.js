@@ -24,7 +24,7 @@ class NotesService {
         }
     }
     /**
-     * @description :getAllNotes service.
+     * @description : getAllNotes service.
      * @param :  req
      * @returns : data
      */
@@ -36,7 +36,7 @@ class NotesService {
         }
     }
     /**
-     * @description :getAllNotesById service.
+     * @description : getAllNotesById service.
      * @param :  req
      * @returns : data
      */
@@ -48,7 +48,7 @@ class NotesService {
         }
     }
     /**
-     * @description :deleteNotes service.
+     * @description : deleteNotes service.
      * @param :  req
      * @returns : data
      */

@@ -1,5 +1,11 @@
 
 {
+    "registerEmpty": {
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "password": ""
+    },
     "register": {
         "firstName": "priyanka",
         "lastName": "bhiogade",
