@@ -11,7 +11,8 @@ const client = redis.createClient();
 
 const checkToken = (req, res, next) => {
     let token = req.headers['token'];
-    // client.get(token,(err,reply) => {
+    //  client.get(token,(err,reply) => {
+
     if (token) {
         jwt.verify(token, process.env.secretekey, (err, decoded) => {
             if (err) {
@@ -22,7 +23,6 @@ const checkToken = (req, res, next) => {
             }
             else {
                 req.decoded = decoded;
-console.log("in verify token",req.decoded)
                 next();
             }
         });

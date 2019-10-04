@@ -35,11 +35,16 @@ const userSchema = new schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    isVerified:
+    {
+        type: Boolean,
+        default: false
+    },
 },
-     {
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
 
 
@@ -115,7 +120,7 @@ class Model {
                         resolve({});
                     }
                     else {
-                        resolve({ 'success': false, 'status': 400, 'message': 'Invalid Password' });
+                        resolve({ 'success': false, 'message': 'Invalid Password' });
                     }
                 }).catch((error) => {
                     reject(error);
@@ -153,16 +158,14 @@ class Model {
      * @param :  callback
      * @returns : promise
      */
-    resetPassword(body, callback, next) {
+    update(req, body, callback, next) {
         try {
-            let newPassword = bcrypt.hashSync(body.password, saltRounds)
-            userModel.updateOne({ _id: body.id }, { $set: { password: newPassword } }, (err, result) => {
+            userModel.updateOne({ _id: req.decoded.userId }, { $set: { body } }, (err, result) => {
                 if (err) {
                     console.log("Error", err)
                     callback(err);
                 }
                 else {
-
                     return callback(null, result)
                 }
             })

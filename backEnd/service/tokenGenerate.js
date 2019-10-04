@@ -1,0 +1,20 @@
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+module.exports = {
+    
+    /**
+     * @description : Generate token
+     * @param {string} 
+     * payload : to generate the token using payload
+     */
+    GenerateToken(payload) {
+        const token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: '1d' }) //expires in one day
+        const obj = {
+            success: true,
+            message: 'Token Generated ',
+            token: token
+        }
+        return obj;
+    }
+}

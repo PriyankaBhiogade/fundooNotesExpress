@@ -1,7 +1,10 @@
 const model = require('../app/models/userModel');
 let sendmailer = require('../service/sendMailService');
 let jwt = require('jsonwebtoken');
-
+const redis = require('redis');
+const client = redis.createClient();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 /**
  * Purpose      :   Sevices is derived from controller, and is attached to an 
                     instance of the models.
@@ -51,7 +54,6 @@ class Service {
             if (findData.data.length == 0) {
                 result = {
                     success: false,
-                    status: 404,
                     message: "Email is not found"
                 }
                 return (result);
@@ -59,7 +61,8 @@ class Service {
             else {
                 result = await model.loginUser(req, findData.data[0]);
                 const response = {
-                    'userId': findData.data[0]._id
+                    'userId': findData.data[0]._id,
+                    'email':findData.data[0].email
                 }
                 return (response);
             }
@@ -68,7 +71,6 @@ class Service {
             next(error)
         }
     }
-
     /**
      * @description : forgotPasswordUser service.
      * @param :  req
@@ -92,10 +94,10 @@ class Service {
                     'email': findData.data[0].email
                 }
                 result = await model.forgotPasswordUser(req, findData.data[0]);
-                let token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: "24hr" });
-                const url = `${process.env.resetPasswordUrl}${token}`;
-                sendmailer.sendMail(url);
-                return (url);
+                // let token = jwt.sign({ payload }, process.env.secretekey, { expiresIn: "24hr" });
+                // const url = `${process.env.resetPasswordUrl}${token}`;
+                // sendmailer.sendMail(url);
+                return (result);
             }
         }
         catch (error) {
@@ -108,14 +110,18 @@ class Service {
      * @param :  callback
      * @returns : callback(result) 
      */
-    async resetPassword(req, callback) {
+    async resetPassword(req, data, callback) {
         try {
             const responseResult = {
                 success: false,
-                message: "Invalid Password ",
+                message: "Invalid Password",
                 result: {}
             };
-            await model.resetPassword(req, (err, data) => {
+            let newPassword = bcrypt.hashSync(data.password, saltRounds);
+            newPassword = {
+                password: newPassword
+            }
+            await model.update(req, newPassword, (err, data) => {
                 if (err) {
                     responseResult.result = err;
                     callback(responseResult);

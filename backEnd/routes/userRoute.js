@@ -1,6 +1,7 @@
 
 const userContoller = require('../controllers/userController');
 const notesController = require('../controllers/notesController');
+const labelController = require('../controllers/labelsController');
 const auth = require('../service/tokenVerifyService');
 const express = require('express');
 
@@ -22,7 +23,6 @@ try {
     router.post('/forgotPassword', userContoller.forgotPassword);
     router.post('/reset', auth.checkToken, userContoller.resetPassword);
     router.post('/upload', userContoller.upload);
-
     /**
     * @description :Notes routes
     */
@@ -30,7 +30,22 @@ try {
     router.get('/getAllNotes', auth.checkToken, notesController.getAllNotes);
     router.post('/updateNotes', auth.checkToken, notesController.updateNotes);
     router.post('/deleteNotes', auth.checkToken, notesController.deleteNotes);
+    router.post('/isTrash', auth.checkToken, notesController.isTrash);
+    router.post('/isArchive', auth.checkToken, notesController.isArchive);
+    router.post('/reminder', auth.checkToken, notesController.reminder);
+    router.post('/color', auth.checkToken, notesController.color);
+    router.post('/search', auth.checkToken, notesController.search);
+    router.post('/addLabel', auth.checkToken, notesController.addLabel);
+    router.post('/deleteLabel', auth.checkToken, notesController.deleteLabel);
 
+
+    /**
+    * @description :Label routes
+    */
+    router.post('/createLabel', auth.checkToken, labelController.createLabel);
+    router.get('/getAllLabel', auth.checkToken, labelController.getAllLabel);
+    router.post('/updateLabel', auth.checkToken, labelController.updateLabel);
+    router.post('/deleteLabel', auth.checkToken, labelController.deleteLabel);
 
 
 }

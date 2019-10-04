@@ -1,34 +1,130 @@
-
 {
-    "registerEmpty": {
-        "firstName": "",
-        "lastName": "",
-        "email": "",
-        "password": ""
-    },
-    "register": {
-        "firstName": "priyanka",
-        "lastName": "bhiogade",
-        "email": "pbhiogade1111@gmail.com",
-        "password": "Piyu@54321"
-    },
-    "login": {
-        "email": "pbhiogade1111@gmail.com",
-        "password": "Piyu@54321"
-    },
-    "resetPassword":{
-        "password": "Piyu@5432112"
-    },
-    "forgotPassword":{
-        "email": "pbhiogade1111@gmail.com"
-    },
-    "token":{
-        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNWQ4YjU2NTYyNjIxODM0YzVhM2EyZTY3IiwiZW1haWwiOiJwYmhpb2dhZGUxMTExQGdtYWlsLmNvbSJ9LCJpYXQiOjE1Njk0NzYzMDIsImV4cCI6MTU2OTU2MjcwMn0.S56pwVWIUKZleoGQHzTnKgRDusWBz_mI5Gmp-ie54r4"
-    },
-    "uploadImage":{
-        "image":"/home/user/Downloads/img_1560320616843.png"
+    "register": [
+        {
+            "register_Empty": {
+                "firstName": "",
+                "lastName": "",
+                "email": "",
+                "password": ""
+            },
+            "register_FirstName": {
+                "firstName": "",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            },
+            "register_LastName": {
+                "firstName": "priyanka",
+                "lastName": "",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            },
+            "register_Email": {
+                "firstName": "priyanka",
+                "lastName": "bhiogade",
+                "email": "",
+                "password": "Piyu@54321"
+            },
+            "register_Password": {
+                "firstName": "priyanka",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1111@gmail.com",
+                "password": ""
+            },
+            "register_MinLength_Password": {
+                "firstName": "priyanka",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "123"
+            },
+            "register_Invalid_Email": {
+                "firstName": "priyanka",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1gmail.com",
+                "password": "Piyu@54321"
+            },
+            "register_Invalid_FirstName": {
+                "firstName": "1253",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            },
+            "register_Invalid_LastName": {
+                "firstName": "priyanka",
+                "lastName": "15256",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            },
+            "register_AllFields": {
+                "firstName": "priyanka",
+                "lastName": "bhiogade",
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            }
+        }
+    ],
+    "login": [
+        {
+            "login_Empty": {
+                "email": "",
+                "password": ""
+            },
+            "login_Email": {
+                "email": "",
+                "password": "Piyu@54321"
+            },
+            "login_Password": {
+                "email": "pbhiogade1111@gmail.com",
+                "password": ""
+            },
+            "login_Invalid_Email": {
+                "email": "pbhiogadegmail.com",
+                "password": "Piyu@54321"
+            },
+            "login_MinLength_Password": {
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piu"
+            },
+            "login_AllFields": {
+                "email": "pbhiogade1111@gmail.com",
+                "password": "Piyu@54321"
+            }
+        }
+    ],
+    "resetPassword": [
+        {
+            "resetPassword_Empty": {
+                "password": ""
+            },
+            "resetPassword_MinLength_Password": {
+                "password": "Piy"
+            },
+            "resetPassword_AllFields": {
+                "password": "Piyu@5432112"
+            },
+            "token_Empty": {
+                "token": ""
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNWQ4YjU2NTYyNjIxODM0YzVhM2EyZTY3IiwiZW1haWwiOiJwYmhpb2dhZGUxMTExQGdtYWlsLmNvbSJ9LCJpYXQiOjE1Njk0NzYzMDIsImV4cCI6MTU2OTU2MjcwMn0.S56pwVWIUKZleoGQHzTnKgRDusWBz_mI5Gmp-ie54r4"
+            }
+        }
+    ],
+    "forgotPassword": [
+        {
+            "forgotPassword_Empty": {
+                "email": ""
+            },
+            "forgotPassword_Invalid_Email": {
+                "email": "pbhiogadegmail.com"
+            },
+            "forgotPassword_AllFields": {
+                "email": "pbhiogade1111@gmail.com"
+            }
+        }
+    ],
+   
+    "uploadImage": {
+        "image": "/home/user/Downloads/img_1560320616843.png"
     }
-    
-    
-    
 }

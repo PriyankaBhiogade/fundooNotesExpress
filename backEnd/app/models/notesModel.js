@@ -9,7 +9,6 @@ const schema = mongoose.Schema;
  * @since       :   28-9-2019
  **/
 
-
 /** 
  * @discription : Create notes schema in database
  */
@@ -34,11 +33,16 @@ const notesSchema = new schema({
         default: false
     },
     reminder: {
-        type: Date
+        type: Date,
+        default: null
     },
     color: {
         type: String
-    }
+    },
+    label: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "labels"
+    }]
 },
     {
         timestamps: true
@@ -61,7 +65,8 @@ class NotesModel {
                     'isArchive': (body.isArchive == false) ? false : body.isArchive,
                     'reminder': (body.reminder == null) ? "" : body.reminder,
                     'color': (body.color == null) ? "" : body.color,
-                    'userId': body.userId
+                    'userId': body.userId,
+                    'labelId': body.labelId
                 })
                 let response = {
                     successs: false,
@@ -90,7 +95,7 @@ class NotesModel {
    * @description : getAllNotes is a function to get all notes ..
    * @returns : promise
    */
-    getAllNotes(body, next) {
+    getAllNotes(body, field, next) {
         try {
             return new Promise((resolve, reject) => {
                 let response = {
@@ -99,14 +104,14 @@ class NotesModel {
                     messege: "All Notes not display",
                     data: {}
                 }
-                notesModel.find({ userId: body.userId }).then((data) => {
+                notesModel.find(field).then((data) => {
                     response.successs = true,
                         response.status = 200,
                         response.messege = "All Notes display Sucessfully",
                         response.data = data
                     resolve(response);
                 }).catch((err) => {
-                    response.data = error
+                    response.data = err
                     reject(response);
                 })
             })
@@ -121,8 +126,10 @@ class NotesModel {
    * @param : request
    * @returns : promise
    */
-    updateNotes(body, next) {
+    updateNotes(id, filterData, next) {
         try {
+            console.log(" model ----%%%%%", id, filterData);
+
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
@@ -130,20 +137,21 @@ class NotesModel {
                     messege: "Note not update ",
                     data: {}
                 }
-                notesModel.updateOne({ _id: body.id }, { title: body.title, description: body.description })
-                    .then((data) => {
-                        response.successs = true,
-                            response.status = 200,
-                            response.messege = `Note update Sucessfully`,
-                            response.data = data
-                        resolve(response);
-                    }).catch((err) => {
-                        response.data = err
-                        reject(response);
-                    })
+                notesModel.updateOne(id, filterData)
+                .populate('labels')
+                .then((data) => {
+                    response.successs = true,
+                        response.status = 200,
+                        response.messege = `Note update Sucessfully`,
+                        response.data = data
+                    resolve(response);
+                }).catch((err) => {
+                    response.data = err
+                    reject(response);
+                })
             })
         } catch (err) {
-            next(err);
+            throw (err);
         }
     }
     /**
@@ -173,6 +181,40 @@ class NotesModel {
                 })
             })
 
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    /**
+    * @description : searchNotes is a function for search the notes by title,description,color,reminder ..
+    * @param : request
+    * @returns : promise
+    */
+    search(field, next) {
+        try {
+            return new Promise((resolve, reject) => {
+                let response = {
+                    successs: false,
+                    status: 500,
+                    messege: "All Notes not display",
+                    data: {}
+                }
+                console.log("in model ", field.search);
+                const data = field.search;
+                // {reminder:  Date.parse(pattern).toString()}
+                const pattern = new RegExp('.*' + field.search + '.*', "i");
+                notesModel.find({ $or: [{ title: pattern }, { description: pattern }, { color: pattern },] }).then((data) => {
+                    response.successs = true,
+                        response.status = 200,
+                        response.messege = "All Notes display Sucessfully",
+                        response.data = data
+                    resolve(response);
+                }).catch((err) => {
+                    response.data = err
+                    reject(response);
+                })
+            })
         } catch (err) {
             next(err);
         }

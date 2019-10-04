@@ -1,8 +1,11 @@
 const service = require('../service/userService');
-// const uploadService = require('../service/s3ImplementaionService');
+const uploadService = require('../service/s3ImplementaionService');
 let jwt = require('jsonwebtoken');
+const token = require('../service/tokenGenerate');
 const redis = require('redis');
 const client = redis.createClient();
+let sendmailer = require('../service/sendMailService');
+
 require('dotenv').config()
 
 /**
@@ -21,12 +24,11 @@ class Controller {
     * @param :  res
     * @returns : res.send(result)
     */
-     registerUser(req, res, next) {
+    registerUser(req, res, next) {
         try {
             /*
             * @description :validation using expressValidator
             */
-
             req.checkBody('firstName').isAlpha()
                 .withMessage('No Special characters or number ..Invalid FirstName! ')
                 .notEmpty({ message: 'FirstName is required' })
@@ -61,7 +63,14 @@ class Controller {
                     "email": req.body.email,
                     "password": req.body.password
                 }
-                 service.registerUser(filterRequest).then((result) => {
+                service.registerUser(filterRequest).then((result) => {
+                    const payload = {
+                        user_id: response.result._id,
+                        email: response.result.email
+                    }
+                    const tokenGenerate = token.GenerateToken(payload)
+                    const url = `http://localhost:3000/register/isVerified/${tokenGenerate.token}`;
+                    sendmailer.sendMail(url, req.body.email);
                     res.status(200).send(result);
                 }).catch((err) => {
                     res.send(err);
@@ -118,14 +127,14 @@ class Controller {
                         console.log(error);
                         throw error;
                     }
-                     console.log('GET result ->' + result);
+                    console.log('GET result  ->' + result);
                 });
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
                     data: token
                 }
-                res.res.status(200).send(response);
+                res.status(200).send(response);
             }
         }
         catch (error) {
@@ -140,7 +149,7 @@ class Controller {
     * @returns : res.send(result)
     */
 
-    async forgotPassword(req, res, next) {
+    forgotPassword(req, res, next) {
         try {
             req.check('email').isEmail()
                 .withMessage('Invalid Email!')
@@ -148,23 +157,29 @@ class Controller {
             const errors = req.validationErrors();
             let response = {
                 success: false,
-                status: 404,
                 message: "Invalid Input",
                 data: { errors }
             }
             if (errors) {
-                return res.status(404).send(response);
+                return res.status(422).send(response);
             }
             else {
                 const filterRequest = {
                     "email": req.body.email
                 }
-                await service.forgotPasswordUser(filterRequest).then((result) => {
-                    response.success = true,
-                        response.status = 200,
+                service.forgotPasswordUser(filterRequest).then((result) => {
+                    client.get('token', (error, token) => {
+                        if (error) {
+                            console.log(error);
+                            throw error;
+                        }
+                        const url = `${process.env.resetPasswordUrl}${token}`;
+                        sendmailer.sendMail(url);
+                        response.success = true,
                         response.message = "Password Forgot Sucessfully",
-                        response.data = result
-                    res.status(200).send(response);
+                        response.data = url
+                        res.status(200).send(response);
+                    })
                 }).catch((err) => {
                     res.status(400).send(err);
                 })
@@ -184,6 +199,7 @@ class Controller {
         try {
             req.check('password').isLength({ min: 5 })
                 .withMessage('Minimun 5 char or number')
+                .notEmpty({ message: 'Password is required' })
 
             const errors = req.validationErrors();
             let response = {
@@ -192,15 +208,16 @@ class Controller {
                 data: { errors }
             }
             if (errors) {
-                return res.status(422).send(response);
+                res.status(422).send(response);
             }
             else {
                 const filterRequest = {
                     "password": req.body.password
                 }
-                await service.resetPassword(filterRequest, (err, data) => {
+                await service.resetPassword(req, filterRequest, (err, data) => {
+
                     if (err) {
-                        res.status(400).send(data);
+                        // res.status(400).send(data);
                     }
                     else {
                         res.status(200).send(data);
@@ -219,14 +236,14 @@ class Controller {
     * @param :  res
     * @returns : res.send(result)
     */
-   async upload(req, res) {
+    async upload(req, res) {
         const fileUpload = await uploadService.single('image')
         const responseResult = {
             success: false,
             message: "Error while uploading the image..",
             data: {}
         };
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             fileUpload(req, res, (err) => {
                 try {
                     if (err) {
@@ -237,7 +254,7 @@ class Controller {
                         responseResult.success = true;
                         responseResult.message = "Image uploaded successfully.."
                         responseResult.data = req.file.location;
-                        console.log("controller",req.file.metadata.fieldName);
+                        console.log("controller", req.file.metadata.fieldName);
                         resolve(res.send(responseResult));
                     }
                 }

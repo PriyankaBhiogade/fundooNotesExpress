@@ -10,27 +10,38 @@ const notesService = require('../service/notesService');
 class NotesController {
     constructor() { }
     /**
-   * @description :createNotes controller .
+   * @description :createNotes controller.
    * @param :  req
    * @param :  res
    * @returns : res.send(result)
    */
-    async createNotes(req, res, next) {
+    createNotes(req, res, next) {
         try {
+            if (typeof req.body.title === 'undefined') {
+                next(new Error('Title is undefined'));
+            }
             const filterRequest = {
                 "userId": req.decoded.userId,
                 "title": req.body.title,
                 "description": req.body.description
             }
-            console.log("userid", filterRequest.userId);
-
-            await notesService.createNotes(filterRequest).then((data) => {
-                res.send(data);
+            notesService.createNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
             }).catch((err) => {
-                res.send(err)
+                res.status(400).send(err)
             });
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
         }
     }
 
@@ -40,19 +51,28 @@ class NotesController {
    * @param :  res
    * @returns : res.send(result)
    */
-    async getAllNotes(req, res, next) {
+    getAllNotes(req, res, next) {
         try {
             const filterRequest = {
                 "userId": req.decoded.userId
             }
-            await notesService.getAllNotes(filterRequest).then((data) => {
-                res.send(data);
+            notesService.getAllNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
             }).catch((err) => {
-                res.send(err);
+                res.status(400).send(err);
             })
-
-        } catch (err) {
-            next(err)
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
         }
     }
     /**
@@ -61,23 +81,41 @@ class NotesController {
      * @param :  res
      * @returns : res.send(result)
      */
-    async updateNotes(req, res, next) {
+    updateNotes(req, res, next) {
         try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
+            if (typeof req.body.title === 'undefined') {
+                next(new Error('Title is undefined'));
+            }
+            if (typeof req.body.description === 'undefined') {
+                next(new Error('Description is undefined'));
+            }
             const filterRequest = {
                 'userId': req.decoded.userId,
-                'id': req.body.id,
+                'id': req.body.noteId,
                 'title': req.body.title,
                 'description': req.body.description
             }
-
-            await notesService.updateNotes(filterRequest).then((data) => {
-                res.send(data);
+            notesService.updateNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
             }).catch((err) => {
-                res.send(err);
+                res.status(400).send(err);
             })
 
-        } catch (err) {
-            next(err)
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
         }
     }
     /**
@@ -86,23 +124,317 @@ class NotesController {
  * @param :  res
  * @returns : res.send(result)
  */
-    async deleteNotes(req, res, next) {
+    deleteNotes(req, res, next) {
         try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
             const filterRequest = {
                 'userId': req.decoded.userId,
-                'id': req.body.id
+                'id': req.body.noteId
             }
-
-            await notesService.deleteNotes(filterRequest).then((data) => {
-                res.send(data);
+            notesService.deleteNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
             }).catch((err) => {
-                res.send(err);
+                res.status(400).send(err);
             })
 
-        } catch (err) {
-            next(err)
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+    /**
+    * @description :trash controller .
+    * @param :  req
+    * @param :  res
+    * @returns : res.send(result)
+    */
+
+    isTrash(req, res, next) {
+        try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
+            if (typeof req.body.isTrash === 'undefined') {
+
+                next(new Error('isTrash is undefined'));
+            }
+            const filterRequest = {
+                'userId': req.decoded.userId,
+                'id': req.body.noteId,
+                'isTrash': req.body.isTrash
+            }
+            if (filterRequest.id != null && filterRequest.isTrash != null) {
+                next(new Error("Id and isTrash is not null"));
+            } else {
+                notesService.isTrash(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err)
+                })
+            }
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+    /**
+    * @description :isArchive controller .
+    * @param :  req
+    * @param :  res
+    * @returns : res.send(result)
+    */
+    isArchive(req, res, next) {
+        try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
+            if (typeof req.body.isArchive === 'undefined') {
+
+                next(new Error('isArchive is undefined'));
+            }
+            const filterRequest = {
+                'userId': req.decoded.userId,
+                'id': req.body.noteId,
+                'isArchive': req.body.isArchive
+            }
+            if (filterRequest.id != null && filterRequest.isArchive != null) {
+                next(new Error("Id and isArchive is not null"));
+            } else {
+                notesService.isArchive(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err)
+                })
+            }
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
         }
     }
 
+    /**
+      * @description :reminder controller .
+      * @param :  req
+      * @param :  res
+      * @returns : res.send(result)
+      */
+    reminder(req, res, next) {
+        try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
+            if (typeof req.body.reminder === 'undefined') {
+                next(new Error('Reminder is undefined'));
+            }
+            const filterRequest = {
+                'userId': req.decoded.userId,
+                'id': req.body.noteId,
+                'reminder': req.body.reminder
+            }
+            if (filterRequest.id != null && filterRequest.reminder != null) {
+                next(new Error("Id and reminder is not null"));
+            } else {
+                notesService.reminder(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err)
+                })
+            }
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+
+    /**
+      * @description :color controller .
+      * @param :  req
+      * @param :  res
+      * @returns : res.send(result)
+      */
+    color(req, res, next) {
+        try {
+            if (typeof req.body.noteId === 'undefined') {
+                next(new Error('ID is missing'));
+            }
+            if (typeof req.body.color === 'undefined') {
+
+                next(new Error('Color is undefined'));
+            }
+            const filterRequest = {
+                'userId': req.decoded.userId,
+                'id': req.body.noteId,
+                'color': req.body.color
+            }
+            console.log("red", filterRequest);
+
+            // if (req.body.noteId != null && req.body.color != null) {
+            //     next(new Error("Id and color is not null"));
+            // } else {
+            notesService.color(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err)
+            })
+            // }
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+
+    /**
+      * @description :search controller .
+      * @param :  req
+      * @param :  res
+      * @returns : res.send(result)
+      */
+
+    search(req, res, next) {
+        try {
+            const filterRequest = {
+                'userId': req.decoded.userId,
+                'search': req.body.search
+            }
+            notesService.search(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err)
+            })
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+    /**
+     * @description :addLabel controller .
+     * @param :  req
+     * @param :  res
+     * @returns : res.send(result)
+     */
+    addLabel(req, res, next) {
+        try {
+            if (typeof req.body.labelId === 'undefined') {
+                next(new Error('labelId is undefined'));
+            }
+            const filterRequest = {
+                "userId": req.decoded.userId,
+                "noteId": req.body.noteId,
+                "labelId": req.body.labelId,
+            }
+            console.log("in contro", filterRequest);
+
+            notesService.addLabel(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err)
+            });
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+      /**
+     * @description :deleteLabel controller .
+     * @param :  req
+     * @param :  res
+     * @returns : res.send(result)
+     */
+    deleteLabel(req, res, next) {
+        try {
+            if (typeof req.body.labelId === 'undefined') {
+                next(new Error('labelId is undefined'));
+            }
+            const filterRequest = {
+                "userId": req.decoded.userId,
+                "noteId": req.body.noteId,
+                "labelId": req.body.labelId,
+            }
+            console.log("in contro", filterRequest);
+
+            notesService.deleteLabel(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err)
+            });
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
 }
 module.exports = new NotesController();
