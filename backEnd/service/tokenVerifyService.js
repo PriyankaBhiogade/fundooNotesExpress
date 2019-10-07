@@ -14,6 +14,8 @@ const checkToken = (req, res, next) => {
     //  client.get(token,(err,reply) => {
 
     if (token) {
+        console.log("token",token);
+        
         jwt.verify(token, process.env.secretekey, (err, decoded) => {
             if (err) {
                 return res.send({
@@ -22,6 +24,8 @@ const checkToken = (req, res, next) => {
                 });
             }
             else {
+                console.log("data",  decoded);
+                
                 req.decoded = decoded;
                 next();
             }

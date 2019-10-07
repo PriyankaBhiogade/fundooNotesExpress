@@ -1,10 +1,9 @@
 const service = require('../service/userService');
-const uploadService = require('../service/s3ImplementaionService');
+// const uploadService = require('../service/s3ImplementaionService');
 let jwt = require('jsonwebtoken');
 const token = require('../service/tokenGenerate');
-const redis = require('redis');
-const client = redis.createClient();
 let sendmailer = require('../service/sendMailService');
+let cacheingService = require('../service/cacheingService');
 
 require('dotenv').config()
 
@@ -121,14 +120,16 @@ class Controller {
                 /*
                 * token set and get using redis 
                 */
-                client.set('token', token, redis.print);
-                client.get('token', (error, result) => {
-                    if (error) {
-                        console.log(error);
-                        throw error;
-                    }
-                    console.log('GET result  ->' + result);
-                });
+                
+
+                // client.set('token', token, redis.print);
+                // client.get('token', (error, result) => {
+                //     if (error) {
+                //         console.log(error);
+                //         throw error;
+                //     }
+                //     console.log('GET result  ->' + result);
+                // });
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
@@ -176,8 +177,8 @@ class Controller {
                         const url = `${process.env.resetPasswordUrl}${token}`;
                         sendmailer.sendMail(url);
                         response.success = true,
-                        response.message = "Password Forgot Sucessfully",
-                        response.data = url
+                            response.message = "Password Forgot Sucessfully",
+                            response.data = url
                         res.status(200).send(response);
                     })
                 }).catch((err) => {

@@ -17,20 +17,31 @@ class NotesController {
    */
     createNotes(req, res, next) {
         try {
-            if (typeof req.body.title === 'undefined') {
-                next(new Error('Title is undefined'));
+            req.checkBody('title', 'title is required').notEmpty()
+            const error = req.validationErrors();
+            let response = {
+                success: false,
+                status: 404,
+                message: "Invalid Input",
+                data: { error}
             }
-            const filterRequest = {
-                "userId": req.decoded.userId,
-                "title": req.body.title,
-                "description": req.body.description
+            if (error) {
+                return res.status(404).send(response);
             }
-            notesService.createNotes(filterRequest).then((data) => {
-                res.status(200).send(data);
-            }).catch((err) => {
-                res.status(400).send(err)
-            });
-        } catch (e) {
+            else {
+                const filterRequest = {
+                    "userId": req.decoded.userId,
+                    "title": req.body.title,
+                    "description": req.body.description
+                }
+                notesService.createNotes(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err)
+                });
+            }
+        } 
+        catch (e) {
             console.error('Error: ', e);
             if (e instanceof AssertionError
                 || e instanceof RangeError
@@ -83,15 +94,23 @@ class NotesController {
      */
     updateNotes(req, res, next) {
         try {
-            if (typeof req.body.noteId === 'undefined') {
-                next(new Error('ID is missing'));
+            req.checkBody('noteId')
+            .notEmpty({ message: 'FirstName is required' })
+
+            req.checkBody('title')
+            .notEmpty({ message: 'title is required' })
+
+            const errors = req.validationErrors();
+            let response = {
+                success: false,
+                status: 422,
+                message: "Invalid Input",
+                data: { errors }
             }
-            if (typeof req.body.title === 'undefined') {
-                next(new Error('Title is undefined'));
+            if (errors) {
+                return res.status(422).send(response);
             }
-            if (typeof req.body.description === 'undefined') {
-                next(new Error('Description is undefined'));
-            }
+            else{
             const filterRequest = {
                 'userId': req.decoded.userId,
                 'id': req.body.noteId,
@@ -104,7 +123,8 @@ class NotesController {
                 res.status(400).send(err);
             })
 
-        } catch (e) {
+        }
+     } catch (e) {
             console.error('Error: ', e);
             if (e instanceof AssertionError
                 || e instanceof RangeError
@@ -399,12 +419,12 @@ class NotesController {
             }
         }
     }
-      /**
-     * @description :deleteLabel controller .
-     * @param :  req
-     * @param :  res
-     * @returns : res.send(result)
-     */
+    /**
+   * @description :deleteLabel controller .
+   * @param :  req
+   * @param :  res
+   * @returns : res.send(result)
+   */
     deleteLabel(req, res, next) {
         try {
             if (typeof req.body.labelId === 'undefined') {

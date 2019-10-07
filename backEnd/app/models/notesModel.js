@@ -41,7 +41,7 @@ const notesSchema = new schema({
     },
     label: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "labels"
+        ref: 'labels'
     }]
 },
     {
@@ -59,12 +59,12 @@ class NotesModel {
         try {
             return new Promise((resolve, reject) => {
                 let newNotes = new notesModel({
-                    'title': (body.title == null) ? "" : body.title,
-                    'description': (body.description == null) ? "" : body.description,
-                    'isTrash': (body.isTrash == false) ? false : body.isTrash,
-                    'isArchive': (body.isArchive == false) ? false : body.isArchive,
-                    'reminder': (body.reminder == null) ? "" : body.reminder,
-                    'color': (body.color == null) ? "" : body.color,
+                    'title': body.title,
+                    'description': body.description,
+                    'isTrash': body.isTrash,
+                    'isArchive': body.isArchive,
+                    'reminder': body.reminder,
+                    'color': body.color,
                     'userId': body.userId,
                     'labelId': body.labelId
                 })
@@ -104,16 +104,17 @@ class NotesModel {
                     messege: "All Notes not display",
                     data: {}
                 }
-                notesModel.find(field).then((data) => {
-                    response.successs = true,
-                        response.status = 200,
-                        response.messege = "All Notes display Sucessfully",
-                        response.data = data
-                    resolve(response);
-                }).catch((err) => {
-                    response.data = err
-                    reject(response);
-                })
+                notesModel.find(field).populate('label')
+                    .then((data) => {
+                        response.successs = true,
+                            response.status = 200,
+                            response.messege = "All Notes display Sucessfully",
+                            response.data = data
+                        resolve(response);
+                    }).catch((err) => {
+                        response.data = err
+                        reject(response);
+                    })
             })
 
         } catch (err) {
@@ -138,17 +139,16 @@ class NotesModel {
                     data: {}
                 }
                 notesModel.updateOne(id, filterData)
-                .populate('labels')
-                .then((data) => {
-                    response.successs = true,
-                        response.status = 200,
-                        response.messege = `Note update Sucessfully`,
-                        response.data = data
-                    resolve(response);
-                }).catch((err) => {
-                    response.data = err
-                    reject(response);
-                })
+                    .then((data) => {
+                        response.successs = true,
+                            response.status = 200,
+                            response.messege = `Note update Sucessfully`,
+                            response.data = data
+                        resolve(response);
+                    }).catch((err) => {
+                        response.data = err
+                        reject(response);
+                    })
             })
         } catch (err) {
             throw (err);
