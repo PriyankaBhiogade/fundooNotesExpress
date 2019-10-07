@@ -120,7 +120,7 @@ class Controller {
                 /*
                 * token set and get using redis 
                 */
-                
+               cacheingService.cacheingService(token)
 
                 // client.set('token', token, redis.print);
                 // client.get('token', (error, result) => {

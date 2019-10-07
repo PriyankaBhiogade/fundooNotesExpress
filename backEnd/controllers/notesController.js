@@ -21,12 +21,12 @@ class NotesController {
             const error = req.validationErrors();
             let response = {
                 success: false,
-                status: 404,
+                status: 422,
                 message: "Invalid Input",
                 data: { error}
             }
             if (error) {
-                return res.status(404).send(response);
+                return res.status(422).send(response);
             }
             else {
                 const filterRequest = {
