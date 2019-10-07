@@ -188,8 +188,7 @@ class NotesService {
      * @param :  req
      * @returns : updateData
      */
-    deleteLabel(req,next)
-    {
+    deleteLabel(req,next){
         try {
             console.log("in ser",req)
             const id = { _id: req.noteId }
@@ -202,6 +201,15 @@ class NotesService {
             next (err);
         }
     }
+
+    getAllReminderNotes(req,next){
+     try {
+         let field = { isTrash: false, isArchive: false }
+        return await notesModel.getAllNotes(req);
+    } catch (err) {
+        next(err);
+    }
+}
 }
 module.exports = new NotesService();
 

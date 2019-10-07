@@ -37,6 +37,10 @@ try {
     router.post('/search', auth.checkToken, notesController.search);
     router.post('/addLabel', auth.checkToken, notesController.addLabel);
     router.post('/deleteLabel', auth.checkToken, notesController.deleteLabel);
+    router.post('/getAllReminderNotes', auth.checkToken, notesController.getAllReminderNotes);
+    router.post('/getAllIsTrashNotes', auth.checkToken, notesController.getAllIsTrashNotes);
+    router.post('/getAllIsArchiveNotes', auth.checkToken, notesController.getAllIsArchiveNotes);
+    router.post('/getAllLabelNotes', auth.checkToken, notesController.getAllLabelNotes);
 
 
     /**
