@@ -120,16 +120,8 @@ class Controller {
                 /*
                 * token set and get using redis 
                 */
-               cacheingService.cacheingService(token)
+                 cacheingService.cacheingService(token)
 
-                // client.set('token', token, redis.print);
-                // client.get('token', (error, result) => {
-                //     if (error) {
-                //         console.log(error);
-                //         throw error;
-                //     }
-                //     console.log('GET result  ->' + result);
-                // });
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
