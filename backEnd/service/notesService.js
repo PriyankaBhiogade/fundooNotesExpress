@@ -171,45 +171,61 @@ class NotesService {
      */
     addLabel(req, next) {
         try {
-            console.log("in ser",req)
+            console.log("in ser", req)
             const id = { _id: req.noteId }
-            let filterData = { $push : {label : req.labelId}}
-            console.log("inservvvvv",filterData);
-            
-            return notesModel.updateNotes(id,filterData);
+            let filterData = { $push: { label: req.labelId } }
+            console.log("inservvvvv", filterData);
+
+            return notesModel.updateNotes(id, filterData);
         }
         catch (err) {
-            next (err);
+            next(err);
         }
     }
 
-     /**
-     * @description : deleteLabel service.
-     * @param :  req
-     * @returns : updateData
-     */
-    deleteLabel(req,next){
+    /**
+    * @description : deleteLabel service.
+    * @param :  req
+    * @returns : updateData
+    */
+    deleteLabel(req, next) {
         try {
-            console.log("in ser",req)
+            console.log("in ser", req)
             const id = { _id: req.noteId }
-            let filterData = { $pull : {label : req.labelId}}
-            console.log("inservvvvv",filterData);
-            
-            return notesModel.updateNotes(id,filterData);
+            let filterData = { $pull: { label: req.labelId } }
+            console.log("inservvvvv", filterData);
+
+            return notesModel.updateNotes(id, filterData);
         }
         catch (err) {
-            next (err);
+            next(err);
         }
     }
 
-    getAllReminderNotes(req,next){
-     try {
-         let field = { isTrash: false, isArchive: false }
-        return await notesModel.getAllNotes(req);
-    } catch (err) {
-        next(err);
+    async getAllReminderNotes(req, next) {
+        try {
+            let field = { reminder: !null }
+            return await notesModel.getAllNotes(req, field);
+        } catch (err) {
+            next(err);
+        }
     }
-}
+    async getAllIsTrashNotes(req, next) {
+        try {
+            let field = { isTrash: true }
+            return await notesModel.getAllNotes(req, field);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async getAllIsArchiveNotes(req, next) {
+        try {
+            let field = { isArchive: true }
+            return await notesModel.getAllNotes(req, field);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 module.exports = new NotesService();
 

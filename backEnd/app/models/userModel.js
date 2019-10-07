@@ -36,6 +36,9 @@ const userSchema = new schema({
         type: String,
         required: true
     },
+    profilePic: {
+        type: String
+    },
     isVerified:
     {
         type: Boolean,

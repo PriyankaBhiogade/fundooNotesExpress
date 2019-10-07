@@ -487,5 +487,67 @@ class NotesController {
         }
     }
 }
+
+  /**
+   * @description :getAllIsTrashNotes controller .
+   * @param :  req
+   * @param :  res
+   * @returns : res.send(result)
+   */
+  getAllIsTrashNotes(req, res, next) {
+    try {
+        const filterRequest = {
+            "userId": req.decoded.userId
+        }
+        notesService.getAllIsTrashNotes(filterRequest).then((data) => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send(err);
+        })
+    } catch (e) {
+        console.error('Error: ', e);
+        if (e instanceof AssertionError
+            || e instanceof RangeError
+            || e instanceof ReferenceError
+            || e instanceof SyntaxError
+            || e instanceof SystemError
+            || e instanceof TypeError) {
+            next('Something bad happened!');
+        } else {
+            next(e.message);
+        }
+    }
+}
+
+  /**
+   * @description :getAllIsArchiveNotes controller .
+   * @param :  req
+   * @param :  res
+   * @returns : res.send(result)
+   */
+  getAllIsArchiveNotes(req, res, next) {
+    try {
+        const filterRequest = {
+            "userId": req.decoded.userId
+        }
+        notesService.getAllIsArchiveNotes(filterRequest).then((data) => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send(err);
+        })
+    } catch (e) {
+        console.error('Error: ', e);
+        if (e instanceof AssertionError
+            || e instanceof RangeError
+            || e instanceof ReferenceError
+            || e instanceof SyntaxError
+            || e instanceof SystemError
+            || e instanceof TypeError) {
+            next('Something bad happened!');
+        } else {
+            next(e.message);
+        }
+    }
+}
 }
 module.exports = new NotesController();
