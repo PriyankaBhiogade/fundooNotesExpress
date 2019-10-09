@@ -1,0 +1,42 @@
+{
+    "createLabel": [{
+            "createLabel_Empty": {
+                "labelName": ""
+               
+            },
+            "createLabel_AllFields": {
+                "labelName": "aaa"
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+            }
+        }],
+    "updateLabel": [
+        {
+            "updateLabel_Empty": {
+                "labelName": ""
+
+            },
+            "updateLabel_AllFields": {
+                "labelName": "aaa"
+               
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+            }
+        }
+    ],
+    "deleteLabel": [
+        {
+            "updateLabelId_Empty": {
+                "labelId": ""
+            },
+            "updateLabel_Id": {
+                "labelId": "5d9d751e55636a2f4c166cb5"
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+            }
+        }
+    ]
+}

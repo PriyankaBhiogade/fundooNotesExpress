@@ -4,6 +4,8 @@ let jwt = require('jsonwebtoken');
 const token = require('../service/tokenGenerate');
 let sendmailer = require('../service/sendMailService');
 let cacheingService = require('../service/cacheingService');
+const redis = require('redis');
+const client = redis.createClient();
 
 require('dotenv').config()
 
@@ -24,6 +26,7 @@ class Controller {
     * @returns : res.send(result)
     */
     registerUser(req, res, next) {
+     
         try {
             /*
             * @description :validation using expressValidator
@@ -63,12 +66,15 @@ class Controller {
                     "password": req.body.password
                 }
                 service.registerUser(filterRequest).then((result) => {
+               console.log("result cpntro",result.data._id);
+
                     const payload = {
-                        user_id: response.result._id,
-                        email: response.result.email
+                        id:result.data._id
                     }
+                    console.log("payload",payload);
+                    
                     const tokenGenerate = token.GenerateToken(payload)
-                    const url = `http://localhost:3000/register/isVerified/${tokenGenerate.token}`;
+                    const url = `http://localhost:3000/register/isVerified:token/${tokenGenerate.token}`;
                     sendmailer.sendMail(url, req.body.email);
                     res.status(200).send(result);
                 }).catch((err) => {
@@ -78,6 +84,34 @@ class Controller {
         }
         catch (error) {
             next(error)
+        }
+    }
+
+     /**
+    * @description :isVerified register user .
+    * @param :  req
+    * @param :  res
+    * @returns : res.send(result)
+    */
+    isVerified(req, res, next) {
+        try {
+            const responseResult = {
+                success: false,
+                message: "user Not verify..",
+                data: {}
+            };
+            service.isVerified(req).then((data) => {
+                responseResult.success = true,
+                    responseResult.message = "User verified successfully",
+                    responseResult.data = data
+                res.status(200).send(responseResult)
+            }).catch((err) => {
+                responseResult.data = err
+                res.status(400).send(responseResult)
+            })
+        }
+        catch (err) {
+            next(err);
         }
     }
 
@@ -120,7 +154,7 @@ class Controller {
                 /*
                 * token set and get using redis 
                 */
-                 cacheingService.cacheingService(token)
+                cacheingService.cacheingService(token)
 
                 let response = {
                     success: true,

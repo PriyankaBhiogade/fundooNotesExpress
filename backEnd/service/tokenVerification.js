@@ -10,12 +10,8 @@ const client = redis.createClient();
  **/
 
 const checkToken = (req, res, next) => {
-    let token = req.headers['token'];
-    //  client.get(token,(err,reply) => {
-
+    let token = req.headers['token'];    
     if (token) {
-        console.log("token",token);
-        
         jwt.verify(token, process.env.secretekey, (err, decoded) => {
             if (err) {
                 return res.send({
@@ -38,7 +34,6 @@ const checkToken = (req, res, next) => {
             message: 'No token provided.'
         });
     }
-    // })
 }
 module.exports = {
     checkToken

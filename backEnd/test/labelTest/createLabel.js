@@ -9,25 +9,25 @@ const fs = require('fs');
 const data = '../notesTest/data.json';
 const jsonData = fs.readFileSync(data);
 const jsonAddressData = JSON.parse(jsonData);
-describe('Negative test case for createNotes API ', () => {
-    it('If title field is empty status(200)', (done) => {
+describe('Negative test case for createLabel API ', () => {
+    it('If label field is empty status(422)', (done) => {
         chai.request(app)
-            .post('/createNotes')
-            .set('token',jsonAddressData.createNotes[0].token) 
-            .send(jsonAddressData.createNotes[0].createNotes_Empty)
+            .post('/createLabel')
+            .set('token',jsonAddressData.createLabel[0].token) 
+            .send(jsonAddressData.createLabel[0].createLabel_Empty)
             .end((err, res) => {
                 if (err) { return done(err); }
-                res.should.have.status(200);
+                res.should.have.status(422);
                 done();
             });
     })
 })
-    describe('Positive test case for createNotes API ', () => {
-        it('should return true if create Notes sucessfully status(200)', (done) => {
+    describe('Positive test case for createLabel API ', () => {
+        it('should return true if createLabel sucessfully status(200)', (done) => {
             chai.request(app)
-                .post('/createNotes')
-                .set('token',jsonAddressData.createNotes[0].token) 
-                .send(jsonAddressData.createNotes[0].createNotes_AllFields)
+                .post('/createLabel')
+                .set('token',jsonAddressData.createLabel[0].token) 
+                .send(jsonAddressData.createLabel[0].createLabel_AllFields)
                 .end((err, Res) => {
                     if (err) { return done(err); }
                   Res.should.have.status(200);

@@ -1,6 +1,6 @@
 {
-    "createNotes": [{
-        
+    "createNotes": [
+        {
             "createNotes_Empty": {
                 "title": "",
                 "description": ""
@@ -9,25 +9,81 @@
                 "title": "aaa",
                 "description": "bbb"
             },
-            "token":{
-                "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDhhMDk5NWQzZTdjODBhYWYyMWQ4YWMiLCJlbWFpbCI6InByaXlhbmthQGdtYWlsLmNvbSIsImlhdCI6MTU3MDQzNzYxOSwiZXhwIjoxNTcwNTI0MDE5fQ.Vgm0T9XEL_DntRTtEcGmBV8Cv9SJdA3j-EFNQeyRn8E"
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
             }
-        
-    }],
-
-    "updateNotes": [{
-        
-        "updateNotes_Empty": {
-            "title": "",
-            "description": ""
-        },
-        "updateNotes_AllFields": {
-            "title": "aaa",
-            "description": "bbb"
-        },
-        "token":{
-            "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDhhMDk5NWQzZTdjODBhYWYyMWQ4YWMiLCJlbWFpbCI6InByaXlhbmthQGdtYWlsLmNvbSIsImlhdCI6MTU3MDQzNzYxOSwiZXhwIjoxNTcwNTI0MDE5fQ.Vgm0T9XEL_DntRTtEcGmBV8Cv9SJdA3j-EFNQeyRn8E"
         }
-    
-}]
+    ],
+    "updateNotes": [
+        {
+            "updateNotes_Empty": {
+                "title": "",
+                "description": ""
+            },
+            "updateNotes_AllFields": {
+                "title": "aaa",
+                "description": "bbb"
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+            }
+        }
+    ],
+    "deleteNotes": [
+        {
+            "deleteNotesId_Empty": {
+                "noteId": ""
+            },
+            "deleteNotes_Id": {
+                "noteId": "5d9d751e55636a2f4c166cb5"
+            },
+            "token": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+            }
+        }
+    ],
+    "isArchive" :[{
+        "isArchive": {
+            "noteId": "5d9d751e55636a2f4c166cb54",
+            "isArchive": "true"
+        },
+        "token": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+        }
+    }],
+    "isTrash" :[{
+        "isTrash": {
+            "noteId": "5d9d751e55636a2f4c166cb54",
+            "isTrash": "true"
+        },
+        "token": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+        }
+    }],
+    "reminder" :[{
+        "reminder": {
+            "noteId": "5d9d751e55636a2f4c166cb54",
+            "reminder": "2012-12-12"
+        },
+        "token": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+        }
+    }],
+    "color" :[{
+        "color": {
+            "noteId": "5d9d751e55636a2f4c166cb54",
+            "color": "Red"
+        },
+        "token": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+        }
+    }],
+    "search" :[{
+        "search": {
+            "search": "red"
+        },
+        "token": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDlkNmZiNzZkYzVlOTJiM2QzNDI0MjYiLCJlbWFpbCI6InBiaGlvZ2FkZTExMTFAZ21haWwuY29tIiwiaWF0IjoxNTcwNTk4OTAxLCJleHAiOjE1NzA2ODUzMDF9.PekjjkV12QJbWrSqANGn6I27UClrJuPtGnyjF-3CBG0"
+        }
+    }]
 }

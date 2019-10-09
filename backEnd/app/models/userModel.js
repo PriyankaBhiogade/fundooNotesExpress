@@ -99,7 +99,7 @@ class Model {
                 newRegister.save().then((data) => {
                     response.success,
                         response.status,
-                        response.data = { data }
+                        response.data = data
                     resolve(response);
                 }).catch((error) => {
                     reject(error);

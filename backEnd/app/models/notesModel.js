@@ -59,13 +59,13 @@ class NotesModel {
         try {
             return new Promise((resolve, reject) => {
                 let newNotes = new notesModel({
+                    'userId': body.userId,
                     'title': body.title,
                     'description': body.description,
                     'isTrash': body.isTrash,
                     'isArchive': body.isArchive,
                     'reminder': body.reminder,
                     'color': body.color,
-                    'userId': body.userId,
                     'labelId': body.labelId
                 })
                 let response = {
@@ -79,6 +79,8 @@ class NotesModel {
                         response.status = 200,
                         response.messege = "Notes created Sucessfully",
                         response.data = data
+                        console.log("model",data);
+                        
                     resolve(response);
                 }).catch((error) => {
                     response.data = error
@@ -95,7 +97,7 @@ class NotesModel {
    * @description : getAllNotes is a function to get all notes ..
    * @returns : promise
    */
-    getAllNotes(body, field, next) {
+    getAllNotes(field, next) { 
         try {
             return new Promise((resolve, reject) => {
                 let response = {
@@ -104,8 +106,10 @@ class NotesModel {
                     messege: "All Notes not display",
                     data: {}
                 }
-                notesModel.find(field).populate('label')
+                notesModel.find(field)
                     .then((data) => {
+                        console.log("dtaa",data);
+                        
                         response.successs = true,
                             response.status = 200,
                             response.messege = "All Notes display Sucessfully",
@@ -130,7 +134,6 @@ class NotesModel {
     updateNotes(id, filterData, next) {
         try {
             console.log(" model ----%%%%%", id, filterData);
-
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
@@ -138,8 +141,10 @@ class NotesModel {
                     messege: "Note not update ",
                     data: {}
                 }
-                notesModel.updateOne(id, filterData)
+                notesModel.updateOne(id,filterData)
                     .then((data) => {
+                        console.log("dataaaaa",data);
+                        
                         response.successs = true,
                             response.status = 200,
                             response.messege = `Note update Sucessfully`,

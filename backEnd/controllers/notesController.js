@@ -1,4 +1,6 @@
 const notesService = require('../service/notesService');
+let cacheingService = require('../service/cacheingService');
+
 /**
  * Purpose      :   Controller is derived from routes, and is attached to an instance of the services.
  * @file        :   notesControllers.js
@@ -17,30 +19,32 @@ class NotesController {
    */
     createNotes(req, res, next) {
         try {
-            req.checkBody('title', 'title is required').notEmpty()
-            const error = req.validationErrors();
-            let response = {
-                success: false,
-                status: 422,
-                message: "Invalid Input",
-                data: { error}
+            // req.checkBody('title').notEmpty({ message: 'Title is required'})
+            // const error = req.validationErrors();
+            // let response = {
+            //     success: false,
+            //     status: 422,
+            //     message: "Invalid Input",
+            //     data: { error}
+            // }
+            // if (error) {
+            //     return res.status(422).send(response);
+            // }
+            // else {
+            const filterRequest = {
+                "userId": req.decoded.userId,
+                "title": req.body.title,
+                "description": req.body.description
             }
-            if (error) {
-                return res.status(422).send(response);
-            }
-            else {
-                const filterRequest = {
-                    "userId": req.decoded.userId,
-                    "title": req.body.title,
-                    "description": req.body.description
-                }
-                notesService.createNotes(filterRequest).then((data) => {
-                    res.status(200).send(data);
-                }).catch((err) => {
-                    res.status(400).send(err)
-                });
-            }
-        } 
+            notesService.createNotes(filterRequest).then((data) => {
+                // cacheingService.cacheingService(data)
+               
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err)
+            });
+        }
+        // } 
         catch (e) {
             console.error('Error: ', e);
             if (e instanceof AssertionError
@@ -95,10 +99,10 @@ class NotesController {
     updateNotes(req, res, next) {
         try {
             req.checkBody('noteId')
-            .notEmpty({ message: 'FirstName is required' })
+                .notEmpty({ message: 'FirstName is required' })
 
             req.checkBody('title')
-            .notEmpty({ message: 'title is required' })
+                .notEmpty({ message: 'title is required' })
 
             const errors = req.validationErrors();
             let response = {
@@ -110,21 +114,21 @@ class NotesController {
             if (errors) {
                 return res.status(422).send(response);
             }
-            else{
-            const filterRequest = {
-                'userId': req.decoded.userId,
-                'id': req.body.noteId,
-                'title': req.body.title,
-                'description': req.body.description
-            }
-            notesService.updateNotes(filterRequest).then((data) => {
-                res.status(200).send(data);
-            }).catch((err) => {
-                res.status(400).send(err);
-            })
+            else {
+                const filterRequest = {
+                    'userId': req.decoded.userId,
+                    'id': req.body.noteId,
+                    'title': req.body.title,
+                    'description': req.body.description
+                }
+                notesService.updateNotes(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err);
+                })
 
-        }
-     } catch (e) {
+            }
+        } catch (e) {
             console.error('Error: ', e);
             if (e instanceof AssertionError
                 || e instanceof RangeError
@@ -194,7 +198,7 @@ class NotesController {
                 'id': req.body.noteId,
                 'isTrash': req.body.isTrash
             }
-            if (filterRequest.id != null && filterRequest.isTrash != null) {
+            if (filterRequest.id == null && filterRequest.isTrash == null) {
                 next(new Error("Id and isTrash is not null"));
             } else {
                 notesService.isTrash(filterRequest).then((data) => {
@@ -237,7 +241,7 @@ class NotesController {
                 'id': req.body.noteId,
                 'isArchive': req.body.isArchive
             }
-            if (filterRequest.id != null && filterRequest.isArchive != null) {
+            if (filterRequest.id == null && filterRequest.isArchive == null) {
                 next(new Error("Id and isArchive is not null"));
             } else {
                 notesService.isArchive(filterRequest).then((data) => {
@@ -280,7 +284,7 @@ class NotesController {
                 'id': req.body.noteId,
                 'reminder': req.body.reminder
             }
-            if (filterRequest.id != null && filterRequest.reminder != null) {
+            if (filterRequest.id == null && filterRequest.reminder == null) {
                 next(new Error("Id and reminder is not null"));
             } else {
                 notesService.reminder(filterRequest).then((data) => {
@@ -456,98 +460,132 @@ class NotesController {
             }
         }
     }
-   
+
     /**
    * @description :getAllReminderNotes controller .
    * @param :  req
    * @param :  res
    * @returns : res.send(result)
    */
-  getAllReminderNotes(req, res, next) {
-    try {
-        const filterRequest = {
-            "userId": req.decoded.userId
-        }
-        notesService.getAllReminderNotes(filterRequest).then((data) => {
-            res.status(200).send(data);
-        }).catch((err) => {
-            res.status(400).send(err);
-        })
-    } catch (e) {
-        console.error('Error: ', e);
-        if (e instanceof AssertionError
-            || e instanceof RangeError
-            || e instanceof ReferenceError
-            || e instanceof SyntaxError
-            || e instanceof SystemError
-            || e instanceof TypeError) {
-            next('Something bad happened!');
-        } else {
-            next(e.message);
-        }
-    }
-}
+    getAllReminderNotes(req, res, next) {
+        console.log("get data", req.body);
 
-  /**
-   * @description :getAllIsTrashNotes controller .
-   * @param :  req
-   * @param :  res
-   * @returns : res.send(result)
-   */
-  getAllIsTrashNotes(req, res, next) {
-    try {
-        const filterRequest = {
-            "userId": req.decoded.userId
-        }
-        notesService.getAllIsTrashNotes(filterRequest).then((data) => {
-            res.status(200).send(data);
-        }).catch((err) => {
-            res.status(400).send(err);
-        })
-    } catch (e) {
-        console.error('Error: ', e);
-        if (e instanceof AssertionError
-            || e instanceof RangeError
-            || e instanceof ReferenceError
-            || e instanceof SyntaxError
-            || e instanceof SystemError
-            || e instanceof TypeError) {
-            next('Something bad happened!');
-        } else {
-            next(e.message);
-        }
-    }
-}
+        try {
+            const filterRequest = {
+                "userId": req.decoded.userId
+            }
+            console.log("userId", filterRequest);
 
-  /**
-   * @description :getAllIsArchiveNotes controller .
-   * @param :  req
-   * @param :  res
-   * @returns : res.send(result)
-   */
-  getAllIsArchiveNotes(req, res, next) {
-    try {
-        const filterRequest = {
-            "userId": req.decoded.userId
-        }
-        notesService.getAllIsArchiveNotes(filterRequest).then((data) => {
-            res.status(200).send(data);
-        }).catch((err) => {
-            res.status(400).send(err);
-        })
-    } catch (e) {
-        console.error('Error: ', e);
-        if (e instanceof AssertionError
-            || e instanceof RangeError
-            || e instanceof ReferenceError
-            || e instanceof SyntaxError
-            || e instanceof SystemError
-            || e instanceof TypeError) {
-            next('Something bad happened!');
-        } else {
-            next(e.message);
+            notesService.getAllReminderNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err);
+            })
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
         }
     }
-}
+
+    /**
+     * @description :getAllIsTrashNotes controller .
+     * @param :  req
+     * @param :  res
+     * @returns : res.send(result)
+     */
+    getAllIsTrashNotes(req, res, next) {
+        try {
+            const filterRequest = {
+                "userId": req.decoded.userId
+            }
+            notesService.getAllIsTrashNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err);
+            })
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+
+    /**
+     * @description :getAllIsArchiveNotes controller .
+     * @param :  req
+     * @param :  res
+     * @returns : res.send(result)
+     */
+    getAllIsArchiveNotes(req, res, next) {
+        try {
+            const filterRequest = {
+                "userId": req.decoded.userId
+            }
+            notesService.getAllIsArchiveNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err);
+            })
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
+    /**
+     * @description :getAllIsArchiveNotes controller .
+     * @param :  req
+     * @param :  res
+     * @returns : res.send(result)
+     */
+    getAllLabelNotes(req, res, next) {
+        try {
+            const filterRequest = {
+                "userId": req.decoded.userId
+            }
+            notesService.getAllLabelNotes(filterRequest).then((data) => {
+                res.status(200).send(data);
+            }).catch((err) => {
+                res.status(400).send(err);
+            })
+        } catch (e) {
+            console.error('Error: ', e);
+            if (e instanceof AssertionError
+                || e instanceof RangeError
+                || e instanceof ReferenceError
+                || e instanceof SyntaxError
+                || e instanceof SystemError
+                || e instanceof TypeError) {
+                next('Something bad happened!');
+            } else {
+                next(e.message);
+            }
+        }
+    }
 }
 module.exports = new NotesController();

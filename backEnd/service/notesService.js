@@ -15,9 +15,12 @@ class NotesService {
      * @param :  req
      * @returns : data
      */
-    createNotes(req, next) {
+   async createNotes(req, next) {
         try {
-            return notesModel.createNotes(req);
+            const result = await notesModel.createNotes(req)
+            console.log('result',result);
+            
+            return result;
         }
         catch (err) {
             next(err);
@@ -30,8 +33,10 @@ class NotesService {
      */
     async getAllNotes(req, next) {
         try {
-            // let field = { isTrash: false, isArchive: false }
-            return await notesModel.getAllNotes(req);
+             let field = { isTrash: false, isArchive: false }
+            console.log("req",req);
+            
+            return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);
         }
@@ -75,7 +80,7 @@ class NotesService {
     async isTrash(req, next) {
         try {
             const id = { _id: req.id }
-            const getData = await notesModel.getAllNotes(req, id);
+            const getData = await notesModel.getAllNotes(id);
             let requestData;
             if (getData.data[0].isTrash === false) {
                 requestData = { isTrash: true }
@@ -83,7 +88,7 @@ class NotesService {
             else if (getData.data[0].isTrash === true) {
                 requestData = { isTrash: false }
             }
-            const updateData = await notesModel.updateNotes(id, requestData)
+            const updateData = await notesModel.updateNotes(id,requestData)
             return updateData;
         } catch (error) {
             next(error)
@@ -97,7 +102,9 @@ class NotesService {
     async isArchive(req, next) {
         try {
             const id = { _id: req.id }
-            const getData = await notesModel.getAllNotes(req, id);
+            const getData = await notesModel.getAllNotes(id);
+            console.log("dataa",getData);
+            
             let requestData;
             if (getData.data[0].isArchive === false) {
                 requestData = { isArchive: true }
@@ -105,7 +112,12 @@ class NotesService {
             else if (getData.data[0].isArchive === true) {
                 requestData = { isArchive: false }
             }
-            const updateData = await notesModel.updateNotes(id, requestData)
+            console.log("requestData",requestData);
+            console.log("id",id );
+
+            const updateData = await notesModel.updateNotes(id,requestData)
+            console.log("updateData",updateData);
+            
             return updateData;
         } catch (error) {
             next(error)
@@ -114,7 +126,7 @@ class NotesService {
     /**
     * @description : reminder service.
     * @param :  req
-    * @returns : updateData
+    * @returns : updateData 
     */
     async reminder(req, next) {
         try {
@@ -204,16 +216,23 @@ class NotesService {
 
     async getAllReminderNotes(req, next) {
         try {
-            let field = { reminder: !null }
-            return await notesModel.getAllNotes(req, field);
+            let field = { reminder: {$ne : null}}
+            console.log("req",req);
+            console.log("field",field);
+            const result = await notesModel.getAllNotes(field);
+             console.log("result",result);
+            
+            return result;
         } catch (err) {
             next(err);
         }
     }
     async getAllIsTrashNotes(req, next) {
-        try {
-            let field = { isTrash: true }
-            return await notesModel.getAllNotes(req, field);
+        try {       
+            let field = { isTrash: true  }
+            console.log("field",field);
+            
+            return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);
         }
@@ -221,7 +240,15 @@ class NotesService {
     async getAllIsArchiveNotes(req, next) {
         try {
             let field = { isArchive: true }
-            return await notesModel.getAllNotes(req, field);
+            return await notesModel.getAllNotes(field);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async getAllLabelNotes(req, next) {
+        try {
+            let field = { label : {$ne : []}}
+            return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);
         }
