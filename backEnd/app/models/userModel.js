@@ -83,7 +83,7 @@ class Model {
      * @param :  body
      * @returns : promise
      */
-    registerUser(body, next) {
+    createUser(body, next) {
         try {
             return new Promise((resolve, reject) => {
                 let newRegister = new userModel({
@@ -161,19 +161,22 @@ class Model {
      * @param :  callback
      * @returns : promise
      */
-    update(req, body, callback, next) {
+    update(req, body, callback) {
         try {
-            userModel.updateOne({ _id: req.decoded.userId }, { $set: { body } }, (err, result) => {
+            console.log("req",req.decoded.payload.id);
+            console.log("data",body);
+            
+            userModel.updateOne({ _id: req.decoded.payload.id }, { $set:body}, (err, result) => {
                 if (err) {
                     console.log("Error", err)
                     callback(err);
                 }
                 else {
-                    return callback(null, result)
+                    callback (null, result);
                 }
             })
         } catch (error) {
-            next(error);
+            return(error);
         }
     }
 }

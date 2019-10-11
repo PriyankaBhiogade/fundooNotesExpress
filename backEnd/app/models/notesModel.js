@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+const redis = require('redis');
+const client = redis.createClient();
 /**
  * Purpose      :   Notesmodel is derived from services, and deaclared all schema to stord data into database 
                     and return promise to services.
@@ -75,12 +77,14 @@ class NotesModel {
                     data: {}
                 }
                 newNotes.save().then((data) => {
+                    console.log("dataaaa", data);
+
                     response.successs = true,
                         response.status = 200,
                         response.messege = "Notes created Sucessfully",
                         response.data = data
-                        console.log("model",data);
-                        
+                    console.log("model", data);
+
                     resolve(response);
                 }).catch((error) => {
                     response.data = error
@@ -97,7 +101,7 @@ class NotesModel {
    * @description : getAllNotes is a function to get all notes ..
    * @returns : promise
    */
-    getAllNotes(field, next) { 
+    getAllNotes(field, next) {
         try {
             return new Promise((resolve, reject) => {
                 let response = {
@@ -106,19 +110,27 @@ class NotesModel {
                     messege: "All Notes not display",
                     data: {}
                 }
-                notesModel.find(field)
-                    .then((data) => {
-                        console.log("dtaa",data);
-                        
-                        response.successs = true,
-                            response.status = 200,
-                            response.messege = "All Notes display Sucessfully",
-                            response.data = data
-                        resolve(response);
-                    }).catch((err) => {
-                        response.data = err
-                        reject(response);
-                    })
+                // client.get("notesData", (error, result) => {
+                //     if (error) {
+                //         console.log(error);
+                //     }
+                // resolve(result);
+                // console.log('GET all notes result  ->' + result.length);
+                // });
+
+                notesModel.find(field).then((data) => {
+                    // console.log("get all notes",data);
+
+                    response.successs = true,
+                        response.status = 200,
+                        response.messege = "All Notes display Sucessfully",
+                        response.data = data
+                    // client.set("notesData".data, response.toString(), redis.print)
+                    resolve(response);
+                }).catch((err) => {
+                    response.data = err
+                    reject(response);
+                })
             })
 
         } catch (err) {
@@ -141,10 +153,10 @@ class NotesModel {
                     messege: "Note not update ",
                     data: {}
                 }
-                notesModel.updateOne(id,filterData)
+                notesModel.updateOne(id, filterData)
                     .then((data) => {
-                        console.log("dataaaaa",data);
-                        
+                        console.log("dataaaaa", data);
+
                         response.successs = true,
                             response.status = 200,
                             response.messege = `Note update Sucessfully`,
@@ -159,6 +171,7 @@ class NotesModel {
             throw (err);
         }
     }
+   
     /**
    * @description : deleteNotes is a function for delete the notes by id ..
    * @param : request
@@ -224,5 +237,7 @@ class NotesModel {
             next(err);
         }
     }
+
+
 }
 module.exports = new NotesModel();

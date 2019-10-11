@@ -15,7 +15,6 @@ const dbConfig = require('./config/dbConfig.js');
 const mongoose = require('mongoose');
 const routes = require('./routes/userRoute');
 const expressValidator = require('express-validator');
-
 const redis = require('redis');
 const client = redis.createClient();
 /**
@@ -66,6 +65,19 @@ app.get('/', (req, res) => {
 });
 app.listen(dbConfig.port, () => {
     console.log(`Server is listening on port ${dbConfig.port}`);
-})
+});
+/**
+* @description : Schedule Task
+*/
+ require('./service/notificationService');
+// service.cronService();
+
+
+// const task = cron.schedule('* * * * *', () =>  {
+//     console.log(' Its running ....');
+//       controller.reminder;
+//   });
+   
+//   task.start();
 
 module.exports =  app 

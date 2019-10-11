@@ -1,5 +1,5 @@
 const notesModel = require('../app/models/notesModel');
-
+var dateFormat = require('dateformat');
 /**
  * Purpose      :   Sevices is derived from controller, and is attached to an 
                     instance of the models.
@@ -10,16 +10,19 @@ const notesModel = require('../app/models/notesModel');
  **/
 class NotesService {
     constructor() { }
+
     /**
      * @description :createNotes service.
      * @param :  req
      * @returns : data
      */
-   async createNotes(req, next) {
+    async createNotes(req, next) {
         try {
+            console.log("datsds", req);
+
             const result = await notesModel.createNotes(req)
-            console.log('result',result);
-            
+            console.log('result', result);
+
             return result;
         }
         catch (err) {
@@ -33,9 +36,9 @@ class NotesService {
      */
     async getAllNotes(req, next) {
         try {
-             let field = { isTrash: false, isArchive: false }
-            console.log("req",req);
-            
+            let field = { isTrash: false, isArchive: false }
+            console.log("req", req);
+
             return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);
@@ -88,7 +91,7 @@ class NotesService {
             else if (getData.data[0].isTrash === true) {
                 requestData = { isTrash: false }
             }
-            const updateData = await notesModel.updateNotes(id,requestData)
+            const updateData = await notesModel.updateNotes(id, requestData)
             return updateData;
         } catch (error) {
             next(error)
@@ -103,8 +106,8 @@ class NotesService {
         try {
             const id = { _id: req.id }
             const getData = await notesModel.getAllNotes(id);
-            console.log("dataa",getData);
-            
+            console.log("dataa", getData);
+
             let requestData;
             if (getData.data[0].isArchive === false) {
                 requestData = { isArchive: true }
@@ -112,12 +115,12 @@ class NotesService {
             else if (getData.data[0].isArchive === true) {
                 requestData = { isArchive: false }
             }
-            console.log("requestData",requestData);
-            console.log("id",id );
+            console.log("requestData", requestData);
+            console.log("id", id);
 
-            const updateData = await notesModel.updateNotes(id,requestData)
-            console.log("updateData",updateData);
-            
+            const updateData = await notesModel.updateNotes(id, requestData)
+            console.log("updateData", updateData);
+
             return updateData;
         } catch (error) {
             next(error)
@@ -131,7 +134,6 @@ class NotesService {
     async reminder(req, next) {
         try {
             const id = { _id: req.id }
-            console.log("req", req);
             const filterData = {
                 reminder: req.reminder,
             }
@@ -202,41 +204,78 @@ class NotesService {
     */
     deleteLabel(req, next) {
         try {
-            console.log("in ser", req)
             const id = { _id: req.noteId }
             let filterData = { $pull: { label: req.labelId } }
-            console.log("inservvvvv", filterData);
-
             return notesModel.updateNotes(id, filterData);
         }
         catch (err) {
             next(err);
         }
     }
-
+    /**
+    * @description : getAllReminderNotes service.
+    * @param :  req
+    * @returns : updateData
+    */
     async getAllReminderNotes(req, next) {
         try {
-            let field = { reminder: {$ne : null}}
-            console.log("req",req);
-            console.log("field",field);
+            let field = { reminder: { $ne: null } }
             const result = await notesModel.getAllNotes(field);
-             console.log("result",result);
-            
             return result;
         } catch (err) {
             next(err);
         }
     }
-    async getAllIsTrashNotes(req, next) {
-        try {       
-            let field = { isTrash: true  }
-            console.log("field",field);
+    /**
+   * @description : notificationService service.
+   * @param :  req
+   * @returns : updateData
+   */
+   async notificationService() {
+        let field = { reminder: { $ne: null } }
+       const result = await notesModel.getAllNotes(field);
+       const finalArray = result.data
+                const currentTime = new Date();
+                const reminder1 = finalArray.map((data) =>{
+                    // console.log("data",data.reminder);
+                    const setTime = data.reminder
+                    const time = Date.parse(currentTime);
+                    console.log("dataaaaaaTime",time);
+                    
+                    const reminder = Date.parse(setTime);
+                    console.log("reminder",reminder);
+
+                    if (time > reminder - 1000 || time < reminder + 1000 ) {
+                        console.log( "notset" )
+                    }
+                    else{
+                        console.log('"setTime" ,result')
+                    }
+                    
+                })
+                
             
+
+       
+    }
+    /**
+    * @description : getAllIsTrashNotes service.
+    * @param :  req
+    * @returns : updateData
+    */
+    async getAllIsTrashNotes(req, next) {
+        try {
+            let field = { isTrash: true }
             return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);
         }
     }
+    /**
+    * @description : getAllIsArchiveNotes service.
+    * @param :  req
+    * @returns : updateData
+    */
     async getAllIsArchiveNotes(req, next) {
         try {
             let field = { isArchive: true }
@@ -245,9 +284,14 @@ class NotesService {
             next(err);
         }
     }
+    /**
+    * @description : getAllLabelNotes service.
+    * @param :  req
+    * @returns : updateData
+    */
     async getAllLabelNotes(req, next) {
         try {
-            let field = { label : {$ne : []}}
+            let field = { label: { $ne: [] } }
             return await notesModel.getAllNotes(field);
         } catch (err) {
             next(err);

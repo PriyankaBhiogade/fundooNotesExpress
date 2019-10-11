@@ -13,7 +13,7 @@ const jsonAddressData = JSON.parse(jsonData);
 describe('Negative test case for deleteNotes API ', () => {
     it('If id is empty status(404)', (done) => {
         chai.request(app)
-            .post('/updateNotes')
+            .post('/deleteNotes')
             .set('token',jsonAddressData.createNotes[0].token) 
             .send(jsonAddressData.deleteNotes[0].deleteNotesId_Empty)
             .end((err, res) => {

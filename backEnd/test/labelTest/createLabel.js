@@ -6,9 +6,11 @@ chai.use(chaiHttp);
 
 
 const fs = require('fs');
-const data = '../notesTest/data.json';
+const data = '../labelTest/data.json';
 const jsonData = fs.readFileSync(data);
 const jsonAddressData = JSON.parse(jsonData);
+console.log("dtaa",jsonAddressData.createLabel[0].token);
+
 describe('Negative test case for createLabel API ', () => {
     it('If label field is empty status(422)', (done) => {
         chai.request(app)

@@ -26,7 +26,7 @@ class Service {
             let findData = await model.findEmail(req);
             let result;
             if (findData.data.length == 0) {
-                result = await model.registerUser(req) 
+                result = await model.createUser(req) 
                 return result;;
             }
             else {
@@ -48,11 +48,21 @@ class Service {
      * @returns : data
      */
    
-    async isVerified(req, next) {
+     isVerified(req, callback,next) {
         try {
             const data = {isVerified: true }
-                result = await model.update(req,data)
-                return result;
+            console.log("sevice",req.body,data);
+            
+               model.update(req,data ,(err,data) =>{
+                    console.log("service data111",data);
+                if(err){
+                    callback(err);
+                }
+               else {
+                   callback(null,data)
+               }
+                })
+                
         }
         catch (error) {
             next(error)

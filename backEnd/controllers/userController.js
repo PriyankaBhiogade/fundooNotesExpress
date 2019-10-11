@@ -74,7 +74,7 @@ class Controller {
                     console.log("payload",payload);
                     
                     const tokenGenerate = token.GenerateToken(payload)
-                    const url = `http://localhost:3000/register/isVerified:token/${tokenGenerate.token}`;
+                    const url = `http://localhost:3000/isVerified/${tokenGenerate.token}`;
                     sendmailer.sendMail(url, req.body.email);
                     res.status(200).send(result);
                 }).catch((err) => {
@@ -94,21 +94,31 @@ class Controller {
     * @returns : res.send(result)
     */
     isVerified(req, res, next) {
+        console.log("contro",req.decoded.payload.id );
+        
         try {
             const responseResult = {
                 success: false,
                 message: "user Not verify..",
                 data: {}
             };
-            service.isVerified(req).then((data) => {
+            
+             service.isVerified(req,(err,data) =>{
+                 if(err){
+                    responseResult.data = err
+                    res.status(400).send(responseResult)
+                 }
+                 else{
                 responseResult.success = true,
-                    responseResult.message = "User verified successfully",
-                    responseResult.data = data
-                res.status(200).send(responseResult)
-            }).catch((err) => {
-                responseResult.data = err
-                res.status(400).send(responseResult)
-            })
+                responseResult.message = "User verified successfully",
+                responseResult.data = data
+            res.status(200).send(responseResult)
+                 }
+             })
+                
+                 
+               
+           
         }
         catch (err) {
             next(err);
@@ -244,7 +254,7 @@ class Controller {
                 await service.resetPassword(req, filterRequest, (err, data) => {
 
                     if (err) {
-                        // res.status(400).send(data);
+                         res.status(400).send(data);
                     }
                     else {
                         res.status(200).send(data);

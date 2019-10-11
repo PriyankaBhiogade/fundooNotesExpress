@@ -36,9 +36,10 @@ class NotesController {
                 "title": req.body.title,
                 "description": req.body.description
             }
+            console.log("datatafasdas", req.body.description);
+            
             notesService.createNotes(filterRequest).then((data) => {
-                // cacheingService.cacheingService(data)
-               
+                //  cacheingService.cacheingService(data)
                 res.status(200).send(data);
             }).catch((err) => {
                 res.status(400).send(err)
@@ -71,6 +72,7 @@ class NotesController {
             const filterRequest = {
                 "userId": req.decoded.userId
             }
+
             notesService.getAllNotes(filterRequest).then((data) => {
                 res.status(200).send(data);
             }).catch((err) => {
@@ -273,12 +275,12 @@ class NotesController {
       */
     reminder(req, res, next) {
         try {
-            if (typeof req.body.noteId === 'undefined') {
-                next(new Error('ID is missing'));
-            }
-            if (typeof req.body.reminder === 'undefined') {
-                next(new Error('Reminder is undefined'));
-            }
+            // if (typeof req.body.noteId === 'undefined') {
+            //     next(new Error('ID is missing'));
+            // }
+            // if (typeof req.body.reminder === 'undefined') {
+            //     next(new Error('Reminder is undefined'));
+            // }
             const filterRequest = {
                 'userId': req.decoded.userId,
                 'id': req.body.noteId,
