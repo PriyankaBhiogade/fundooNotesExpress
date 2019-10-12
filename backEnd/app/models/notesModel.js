@@ -107,7 +107,7 @@ class NotesModel {
                     messege: "All Notes not display",
                     data: {}
                 }
-                client.get("notesData" + req.userId, (error, result) => {
+                client.get("notesData" + req.userId,(error, result) => {
                     const redisData = JSON.parse(result);
                     notesModel.find(field).then((data) => {
                             console.log("response.data.length",data.length);
