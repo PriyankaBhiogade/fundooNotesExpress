@@ -19,33 +19,32 @@ class NotesController {
    */
     createNotes(req, res, next) {
         try {
-            // req.checkBody('title').notEmpty({ message: 'Title is required'})
-            // const error = req.validationErrors();
-            // let response = {
-            //     success: false,
-            //     status: 422,
-            //     message: "Invalid Input",
-            //     data: { error}
-            // }
-            // if (error) {
-            //     return res.status(422).send(response);
-            // }
-            // else {
-            const filterRequest = {
-                "userId": req.decoded.userId,
-                "title": req.body.title,
-                "description": req.body.description
+            req.checkBody('title').notEmpty({ message: 'Title is required' })
+            const error = req.validationErrors();
+            let response = {
+                success: false,
+                status: 422,
+                message: "Invalid Input",
+                data: { error }
             }
-            console.log("datatafasdas", req.body.description);
-            
-            notesService.createNotes(filterRequest).then((data) => {
-                //  cacheingService.cacheingService(data)
-                res.status(200).send(data);
-            }).catch((err) => {
-                res.status(400).send(err)
-            });
+            if (error) {
+                return res.status(422).send(response);
+            }
+            else {
+                const filterRequest = {
+                    "userId": req.decoded.userId,
+                    "title": req.body.title,
+                    "description": req.body.description
+                }
+                console.log("datatafasdas", req.body.description);
+
+                notesService.createNotes(filterRequest).then((data) => {
+                    res.status(200).send(data);
+                }).catch((err) => {
+                    res.status(400).send(err)
+                });
+            }
         }
-        // } 
         catch (e) {
             console.error('Error: ', e);
             if (e instanceof AssertionError
@@ -72,7 +71,6 @@ class NotesController {
             const filterRequest = {
                 "userId": req.decoded.userId
             }
-
             notesService.getAllNotes(filterRequest).then((data) => {
                 res.status(200).send(data);
             }).catch((err) => {

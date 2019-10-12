@@ -35,8 +35,6 @@ class LabelModel {
      */
     createLabel(body, next) {
         try {
-            console.log("in model",body);
-
             return new Promise((resolve, reject) => {
                 let newLabel = new labelModel({
                     labelName: (body.labelName == null) ? "" : body.labelName,
@@ -154,7 +152,5 @@ deleteLabel(body, next) {
         next(err);
     }
 }
-
-
 }
 module.exports = new LabelModel();

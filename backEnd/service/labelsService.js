@@ -16,8 +16,6 @@ class LabelService {
      */
     createLabel(req, next) {
         try {
-            console.log("in serv",req);
-
             return labelModel.createLabel(req);
         }
         catch (err) {

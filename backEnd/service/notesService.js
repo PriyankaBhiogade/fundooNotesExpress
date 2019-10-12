@@ -39,7 +39,7 @@ class NotesService {
             let field = { isTrash: false, isArchive: false }
             console.log("req", req);
 
-            return await notesModel.getAllNotes(field);
+            return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
         }
@@ -232,31 +232,24 @@ class NotesService {
    * @returns : updateData
    */
    async notificationService() {
-        let field = { reminder: { $ne: null } }
-       const result = await notesModel.getAllNotes(field);
-       const finalArray = result.data
-                const currentTime = new Date();
-                const reminder1 = finalArray.map((data) =>{
-                    // console.log("data",data.reminder);
-                    const setTime = data.reminder
-                    const time = Date.parse(currentTime);
-                    console.log("dataaaaaaTime",time);
-                    
-                    const reminder = Date.parse(setTime);
-                    console.log("reminder",reminder);
-
-                    if (time > reminder - 1000 || time < reminder + 1000 ) {
-                        console.log( "notset" )
-                    }
-                    else{
-                        console.log('"setTime" ,result')
-                    }
-                    
-                })
-                
-            
-
-       
+        const field = { reminder: { $ne: null } }
+        const result = await notesModel.getAllNotes(field,field);
+        const finalArray = result.data
+        const currentTime = new Date();
+        console.log("current time before parse", currentTime);
+        finalArray.map((data) => {
+            const setReminderTime = data.reminder
+            const time = Date.parse(currentTime);
+            console.log("Current time ==>", time);
+            const reminder = Date.parse(setReminderTime);
+            console.log("Set time reminder", reminder -1000);
+            if (time > reminder - 1000 || time < reminder + 1000) {
+                console.log("send notification");
+            }
+            else {
+                console.log("not send");
+            }
+        })
     }
     /**
     * @description : getAllIsTrashNotes service.

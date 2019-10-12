@@ -77,14 +77,11 @@ class NotesModel {
                     data: {}
                 }
                 newNotes.save().then((data) => {
-                    console.log("dataaaa", data);
-
                     response.successs = true,
                         response.status = 200,
                         response.messege = "Notes created Sucessfully",
                         response.data = data
-                    console.log("model", data);
-
+                    client.set("notesData" + body.userId, JSON.stringify(response), redis.print)
                     resolve(response);
                 }).catch((error) => {
                     response.data = error
@@ -101,48 +98,54 @@ class NotesModel {
    * @description : getAllNotes is a function to get all notes ..
    * @returns : promise
    */
-    getAllNotes(field, next) {
+    getAllNotes(req, field, next) {
         try {
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
-                    status: 500,
+                    status: 404,
                     messege: "All Notes not display",
                     data: {}
                 }
-                // client.get("notesData", (error, result) => {
-                //     if (error) {
-                //         console.log(error);
-                //     }
-                // resolve(result);
-                // console.log('GET all notes result  ->' + result.length);
-                // });
-
-                notesModel.find(field).then((data) => {
-                    // console.log("get all notes",data);
-
-                    response.successs = true,
-                        response.status = 200,
-                        response.messege = "All Notes display Sucessfully",
-                        response.data = data
-                    // client.set("notesData".data, response.toString(), redis.print)
-                    resolve(response);
-                }).catch((err) => {
-                    response.data = err
-                    reject(response);
+                client.get("notesData" + req.userId, (error, result) => {
+                    const redisData = JSON.parse(result);
+                    notesModel.find(field).then((data) => {
+                            console.log("response.data.length",data.length);
+                            console.log("data1.data.length",redisData.length);
+                        if (data.length == redisData.length) {
+                            response.successs = true,
+                            response.status = 200,
+                            response.messege = "All Notes display Sucessfully from redis",
+                            response.data = redisData
+                            console.log('fetching data from cache-----');
+                            console.log('GET all notes ---->', response);
+                            resolve(response);
+                        }
+                        else {
+                            response.successs = true,
+                            response.status = 200,
+                            response.messege = "All Notes display Sucessfully from DB",
+                            response.data = data
+                            console.log('fetching data from api-----');
+                            client.set("notesData" + req.userId, JSON.stringify(data), redis.print)
+                            console.log("GET all notes ---->", data);
+                            resolve(response);
+                        }
+                    }).catch((err) => {
+                        response.data = err
+                        reject(response);
+                    })
                 })
             })
-
         } catch (err) {
             next(err);
         }
     }
-
     /**
-   * @description : updateNotes is a function for update notes by id ..
-   * @param : request
-   * @returns : promise
-   */
+    * @description : updateNotes is a function for update notes by id ..
+    * @param : request
+    * @returns : promise
+    */
     updateNotes(id, filterData, next) {
         try {
             console.log(" model ----%%%%%", id, filterData);
@@ -171,12 +174,12 @@ class NotesModel {
             throw (err);
         }
     }
-   
+
     /**
-   * @description : deleteNotes is a function for delete the notes by id ..
-   * @param : request
-   * @returns : promise
-   */
+    * @description : deleteNotes is a function for delete the notes by id ..
+    * @param : request
+    * @returns : promise
+    */
     deleteNotes(body, next) {
         try {
             return new Promise((resolve, reject) => {

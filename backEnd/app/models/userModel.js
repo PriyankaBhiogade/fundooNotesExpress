@@ -163,20 +163,20 @@ class Model {
      */
     update(req, body, callback) {
         try {
-            console.log("req",req.decoded.payload.id);
-            console.log("data",body);
-            
-            userModel.updateOne({ _id: req.decoded.payload.id }, { $set:body}, (err, result) => {
+            console.log("req", req.decoded.userId);
+            console.log("data", body);
+
+            userModel.updateOne({ _id: req.decoded.userId}, { $set: body }, (err, result) => {
                 if (err) {
                     console.log("Error", err)
                     callback(err);
                 }
                 else {
-                    callback (null, result);
+                    callback(null, result);
                 }
             })
         } catch (error) {
-            return(error);
+            return (error);
         }
     }
 }

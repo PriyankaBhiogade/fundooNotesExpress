@@ -12,27 +12,18 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const dbConfig = require('./config/dbConfig.js');
-const mongoose = require('mongoose');
 const routes = require('./routes/userRoute');
 const expressValidator = require('express-validator');
-const redis = require('redis');
-const client = redis.createClient();
 /**
-* @description :redis connection
+* @description :Redis connection
 */
-client.on('connect',  () => {
-    console.log(`Redis connected successfully`);
-});
-
-client.on('error', (err) => {
-    console.log(`Something went wrong ${err}`);
-});
+ require('./config/redisConnection');
 /**
 * @description :Express Validation
 */
 app.use(expressValidator());
 /**
-* @description : route path
+* @description : Route path
 */
 app.use('/', routes);
 /**
@@ -49,17 +40,10 @@ app.use((error, req, res, next) => {
 /**
 * @description : MongoDb Connection
 */
-mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url , {
-    useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
-
-}).then(() => {
-
-    console.log(`Successfully connected to the Database.....`);
-}).catch((err) => {
-    console.log(`Not connected to Database...${err}`);
-    process.exit();
-})
+require('./config/mongoConnection');
+/**
+* @description : Server connection port
+*/
 app.get('/', (req, res) => {
     res.json(`message : Welcome to FundooNotes application.`);
 });
@@ -67,17 +51,8 @@ app.listen(dbConfig.port, () => {
     console.log(`Server is listening on port ${dbConfig.port}`);
 });
 /**
-* @description : Schedule Task
+* @description : Reminder notification using cron Schedule Task
 */
  require('./service/notificationService');
-// service.cronService();
-
-
-// const task = cron.schedule('* * * * *', () =>  {
-//     console.log(' Its running ....');
-//       controller.reminder;
-//   });
-   
-//   task.start();
 
 module.exports =  app 

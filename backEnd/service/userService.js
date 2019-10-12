@@ -26,7 +26,7 @@ class Service {
             let findData = await model.findEmail(req);
             let result;
             if (findData.data.length == 0) {
-                result = await model.createUser(req) 
+                result = await model.createUser(req)
                 return result;;
             }
             else {
@@ -42,27 +42,27 @@ class Service {
         }
     }
 
- /**
-     * @description :registerUser service.
-     * @param :  req
-     * @returns : data
-     */
-   
-     isVerified(req, callback,next) {
+    /**
+        * @description :registerUser service.
+        * @param :  req
+        * @returns : data
+        */
+
+    isVerified(req, callback, next) {
         try {
-            const data = {isVerified: true }
-            console.log("sevice",req.body,data);
-            
-               model.update(req,data ,(err,data) =>{
-                    console.log("service data111",data);
-                if(err){
+            const data = { isVerified: true }
+            console.log("sevice", req.body, data);
+
+            model.update(req, data, (err, data) => {
+                console.log("service data111", data);
+                if (err) {
                     callback(err);
                 }
-               else {
-                   callback(null,data)
-               }
-                })
-                
+                else {
+                    callback(null, data)
+                }
+            })
+
         }
         catch (error) {
             next(error)
@@ -89,7 +89,7 @@ class Service {
                 result = await model.loginUser(req, findData.data[0]);
                 const response = {
                     'userId': findData.data[0]._id,
-                    'email':findData.data[0].email
+                    'email': findData.data[0].email
                 }
                 return (response);
             }
@@ -162,6 +162,19 @@ class Service {
             })
         }
         catch (error) {
+            throw (error)
+        }
+    }
+    /**
+     * @description :upload profile pic service.
+     * @param :  req
+     * @returns : result
+     */
+    async uploadProfilePic(req, url, next) {
+        try {
+            const result = await model.update(req, url);
+            return (result);
+        } catch (error) {
             throw (error)
         }
     }

@@ -1,12 +1,11 @@
 const service = require('../service/userService');
-// const uploadService = require('../service/s3ImplementaionService');
+const uploadService = require('../service/s3ImplementaionService');
 let jwt = require('jsonwebtoken');
 const token = require('../service/tokenGenerate');
 let sendmailer = require('../service/sendMailService');
 let cacheingService = require('../service/cacheingService');
 const redis = require('redis');
 const client = redis.createClient();
-
 require('dotenv').config()
 
 /**
@@ -26,7 +25,6 @@ class Controller {
     * @returns : res.send(result)
     */
     registerUser(req, res, next) {
-     
         try {
             /*
             * @description :validation using expressValidator
@@ -66,19 +64,15 @@ class Controller {
                     "password": req.body.password
                 }
                 service.registerUser(filterRequest).then((result) => {
-               console.log("result cpntro",result.data._id);
-
                     const payload = {
-                        id:result.data._id
+                        id: result.data._id
                     }
-                    console.log("payload",payload);
-                    
                     const tokenGenerate = token.GenerateToken(payload)
-                    const url = `http://localhost:3000/isVerified/${tokenGenerate.token}`;
+                    const url = process.env.isVerified / tokenGenerate.token;
                     sendmailer.sendMail(url, req.body.email);
                     res.status(200).send(result);
                 }).catch((err) => {
-                    res.send(err);
+                    res.status(204).send(err);
                 })
             }
         }
@@ -86,45 +80,36 @@ class Controller {
             next(error)
         }
     }
-
-     /**
-    * @description :isVerified register user .
-    * @param :  req
-    * @param :  res
-    * @returns : res.send(result)
-    */
+    /**
+   * @description :isVerified register user .
+   * @param :  req
+   * @param :  res
+   * @returns : res.send(result)
+   */
     isVerified(req, res, next) {
-        console.log("contro",req.decoded.payload.id );
-        
         try {
             const responseResult = {
                 success: false,
                 message: "user Not verify..",
                 data: {}
             };
-            
-             service.isVerified(req,(err,data) =>{
-                 if(err){
+            service.isVerified(req, (err, data) => {
+                if (err) {
                     responseResult.data = err
                     res.status(400).send(responseResult)
-                 }
-                 else{
-                responseResult.success = true,
-                responseResult.message = "User verified successfully",
-                responseResult.data = data
-            res.status(200).send(responseResult)
-                 }
-             })
-                
-                 
-               
-           
+                }
+                else {
+                    responseResult.success = true,
+                        responseResult.message = "User verified successfully",
+                        responseResult.data = data
+                    res.status(200).send(responseResult)
+                }
+            })
         }
         catch (err) {
             next(err);
         }
     }
-
     /**
     * @description :loginUser controller .
     * @param :  req
@@ -144,7 +129,7 @@ class Controller {
             let response = {
                 success: false,
                 message: "Invalid Input",
-                data: { errors }
+                data: errors
             }
             if (errors) {
                 return res.status(422).send(response);
@@ -155,7 +140,6 @@ class Controller {
                     "password": req.body.password
                 }
                 let result = await service.loginUser(filterRequest);
-
                 let payload = result
                 /*
                 * token genrated
@@ -165,7 +149,6 @@ class Controller {
                 * token set and get using redis 
                 */
                 cacheingService.cacheingService(token)
-
                 let response = {
                     success: true,
                     'message': 'Login Sucessfully',
@@ -178,14 +161,12 @@ class Controller {
             next(error)
         }
     }
-
     /**
     * @description :forgotPassword controller .
     * @param :  req
     * @param :  res
     * @returns : res.send(result)
     */
-
     forgotPassword(req, res, next) {
         try {
             req.check('email').isEmail()
@@ -254,7 +235,7 @@ class Controller {
                 await service.resetPassword(req, filterRequest, (err, data) => {
 
                     if (err) {
-                         res.status(400).send(data);
+                        res.status(400).send(data);
                     }
                     else {
                         res.status(200).send(data);
@@ -274,31 +255,35 @@ class Controller {
     * @returns : res.send(result)
     */
     async upload(req, res) {
+        console.log("asaswdeqws", req.decoded.userId);
+
         const fileUpload = await uploadService.single('image')
         const responseResult = {
             success: false,
             message: "Error while uploading the image..",
             data: {}
         };
-        return new Promise((resolve, reject) => {
-            fileUpload(req, res, (err) => {
-                try {
-                    if (err) {
-                        responseResult.message = err;
-                        reject(res.send(responseResult));
-                    }
-                    else {
-                        responseResult.success = true;
-                        responseResult.message = "Image uploaded successfully.."
-                        responseResult.data = req.file.location;
-                        console.log("controller", req.file.metadata.fieldName);
-                        resolve(res.send(responseResult));
-                    }
+
+        fileUpload(req, res, (err) => {
+            try {
+                if (err) {
+                    responseResult.message = err;
+                    res.status(204).send(responseResult);
                 }
-                catch (err) {
-                    throw (err);
+                else {
+                    const data = {
+                        profilePic: req.file.location
+                    }
+                    service.uploadProfilePic(req, data);
+                    responseResult.success = true;
+                    responseResult.message = "Image uploaded successfully.."
+                    responseResult.data = req.file.location;
+                    res.status(200).send(responseResult);
                 }
-            })
+            }
+            catch (err) {
+                throw (err);
+            }
         })
     }
 }
