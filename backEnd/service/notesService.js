@@ -1,5 +1,4 @@
 const notesModel = require('../app/models/notesModel');
-var dateFormat = require('dateformat');
 /**
  * Purpose      :   Sevices is derived from controller, and is attached to an 
                     instance of the models.
@@ -18,11 +17,7 @@ class NotesService {
      */
     async createNotes(req, next) {
         try {
-            console.log("datsds", req);
-
             const result = await notesModel.createNotes(req)
-            console.log('result', result);
-
             return result;
         }
         catch (err) {
@@ -36,9 +31,7 @@ class NotesService {
      */
     async getAllNotes(req, next) {
         try {
-            let field = { isTrash: false, isArchive: false }
-            console.log("req", req);
-
+              let field = { isTrash: false, isArchive: false }
             return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
@@ -83,16 +76,16 @@ class NotesService {
     async isTrash(req, next) {
         try {
             const id = { _id: req.id }
-            const getData = await notesModel.getAllNotes(id);
+            const getData = await notesModel.getAllNotes(req,id);
             let requestData;
             if (getData.data[0].isTrash === false) {
                 requestData = { isTrash: true }
             }
             else if (getData.data[0].isTrash === true) {
                 requestData = { isTrash: false }
-            }
-            const updateData = await notesModel.updateNotes(id, requestData)
-            return updateData;
+            }     
+          const updateData= await notesModel.updateNotes(req,id,requestData)
+                return updateData;  
         } catch (error) {
             next(error)
         }
@@ -104,10 +97,9 @@ class NotesService {
     */
     async isArchive(req, next) {
         try {
+            
             const id = { _id: req.id }
-            const getData = await notesModel.getAllNotes(id);
-            console.log("dataa", getData);
-
+            const getData = await notesModel.getAllNotes(req,id);
             let requestData;
             if (getData.data[0].isArchive === false) {
                 requestData = { isArchive: true }
@@ -115,12 +107,7 @@ class NotesService {
             else if (getData.data[0].isArchive === true) {
                 requestData = { isArchive: false }
             }
-            console.log("requestData", requestData);
-            console.log("id", id);
-
-            const updateData = await notesModel.updateNotes(id, requestData)
-            console.log("updateData", updateData);
-
+            const updateData = await notesModel.updateNotes(req,id, requestData)
             return updateData;
         } catch (error) {
             next(error)
@@ -137,7 +124,7 @@ class NotesService {
             const filterData = {
                 reminder: req.reminder,
             }
-            const updateData = await notesModel.updateNotes(id, filterData)
+            const updateData = await notesModel.updateNotes(req,id, filterData)
             return updateData;
         } catch (error) {
             next(error)
@@ -154,7 +141,7 @@ class NotesService {
             const filterData = {
                 color: req.color,
             }
-            const updateData = await notesModel.updateNotes(id, filterData)
+            const updateData = await notesModel.updateNotes(req,id, filterData)
             return updateData;
         } catch (error) {
             next(error)
@@ -167,11 +154,9 @@ class NotesService {
     */
     async search(req, next) {
         try {
-            console.log("aasa", req.search)
             const filterData = {
                 search: req.search,
             }
-            console.log("filterdata", filterData);
             const updateData = await notesModel.search(filterData)
             return updateData;
         } catch (error) {
@@ -185,12 +170,9 @@ class NotesService {
      */
     addLabel(req, next) {
         try {
-            console.log("in ser", req)
             const id = { _id: req.noteId }
             let filterData = { $push: { label: req.labelId } }
-            console.log("inservvvvv", filterData);
-
-            return notesModel.updateNotes(id, filterData);
+            return notesModel.updateNotes(req,id,filterData);
         }
         catch (err) {
             next(err);
@@ -206,7 +188,7 @@ class NotesService {
         try {
             const id = { _id: req.noteId }
             let filterData = { $pull: { label: req.labelId } }
-            return notesModel.updateNotes(id, filterData);
+            return notesModel.updateNotes(req,id, filterData);
         }
         catch (err) {
             next(err);
@@ -220,7 +202,7 @@ class NotesService {
     async getAllReminderNotes(req, next) {
         try {
             let field = { reminder: { $ne: null } }
-            const result = await notesModel.getAllNotes(field);
+            const result = await notesModel.getAllNotes(req,field);
             return result;
         } catch (err) {
             next(err);
@@ -259,7 +241,7 @@ class NotesService {
     async getAllIsTrashNotes(req, next) {
         try {
             let field = { isTrash: true }
-            return await notesModel.getAllNotes(field);
+            return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
         }
@@ -272,7 +254,7 @@ class NotesService {
     async getAllIsArchiveNotes(req, next) {
         try {
             let field = { isArchive: true }
-            return await notesModel.getAllNotes(field);
+            return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
         }
@@ -285,7 +267,7 @@ class NotesService {
     async getAllLabelNotes(req, next) {
         try {
             let field = { label: { $ne: [] } }
-            return await notesModel.getAllNotes(field);
+            return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
         }

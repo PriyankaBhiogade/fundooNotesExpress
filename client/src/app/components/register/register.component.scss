@@ -1,0 +1,74 @@
+.card {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    margin-bottom: 3%;
+    width: fit-content;
+    // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.459);
+    border-radius: 2%;
+    height: fit-content;
+    padding: 48px 20px 48px 48px;
+    background-color: whitesmoke;
+    display: flexbox;
+    }
+
+    .data{
+        font-weight: lighter;
+    }
+    .data1{
+        font-weight: 400;
+        font-family: roboto,'Noto Sans Myanmar UI',arial,sans-serif
+    }
+    .data2{
+        font-weight: lighter;
+    }
+
+     .f{
+        color: #00a2ff; 
+     }
+     .email {
+         width: 85.5%
+     }
+     .next{
+        
+        float: right;
+        display: block;
+        background-color:  lightskyblue ;
+        text-align: center;
+        padding: -5px 3px;
+        text-decoration: none;
+        //  color: lightskyblue
+          
+     }
+     
+     .firstName{
+       width: 85%;
+     }
+    
+     .password{
+        width: 80%;
+    }
+    .p{
+    margin-top: -2px;
+     }
+     .material-icons {
+       font-family: 'Material Icons';
+       font-weight: normal;
+       font-style: normal;
+       font-size: 25px;
+       line-height: 3;
+       letter-spacing: normal;
+       text-transform: none;
+       display: inline-block;
+       white-space: nowrap;
+       word-wrap: normal;
+       direction: ltr;
+       color: rgb(59, 58, 58);
+       }
+       
+       :host::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: rgba(161, 161, 161, 0.774) !important;
+        height: 55% !important;
+        padding: 1em 0 1em 0 !important;
+      }
+   

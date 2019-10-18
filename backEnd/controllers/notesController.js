@@ -36,8 +36,6 @@ class NotesController {
                     "title": req.body.title,
                     "description": req.body.description
                 }
-                console.log("datatafasdas", req.body.description);
-
                 notesService.createNotes(filterRequest).then((data) => {
                     res.status(200).send(data);
                 }).catch((err) => {
@@ -202,6 +200,8 @@ class NotesController {
                 next(new Error("Id and isTrash is not null"));
             } else {
                 notesService.isTrash(filterRequest).then((data) => {
+                    console.log("data",data);
+                    
                     res.status(200).send(data);
                 }).catch((err) => {
                     res.status(400).send(err)

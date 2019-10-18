@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 const dbConfig = require('./config/dbConfig.js');
 const routes = require('./routes/userRoute');
 const expressValidator = require('express-validator');
+var cors = require('cors');
+    app.use(cors());
 /**
 * @description :Redis connection
 */
@@ -30,6 +32,7 @@ app.use('/', routes);
 * @description : Global Exception Handling Error message
 */
 app.use((error, req, res, next) => {
+ 
     let response = {
         success: false,
         status: 500,
@@ -45,9 +48,11 @@ require('./config/mongoConnection');
 * @description : Server connection port
 */
 app.get('/', (req, res) => {
+ 
     res.json(`message : Welcome to FundooNotes application.`);
 });
 app.listen(dbConfig.port, () => {
+    
     console.log(`Server is listening on port ${dbConfig.port}`);
 });
 /**

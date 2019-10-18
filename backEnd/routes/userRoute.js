@@ -22,8 +22,8 @@ try {
     router.post('/register',userContoller.registerUser);
     router.post('/login', userContoller.loginUser);
     router.post('/forgotPassword', userContoller.forgotPassword);
-    router.post('/reset', auth.checkToken, userContoller.resetPassword);
-    router.post('/upload', auth.checkToken,userContoller.upload);
+    router.post('/reset/:token', verifyToken.checkToken, userContoller.resetPassword);
+    router.post('/upload', verifyToken.checkToken,userContoller.upload);
     router.post('/isVerified/:token',verifyToken.checkToken, userContoller.isVerified);
     /**
     * @description :Notes routes

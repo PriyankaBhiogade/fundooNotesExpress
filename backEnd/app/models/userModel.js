@@ -116,21 +116,32 @@ class Model {
      * @returns : promise
      */
     loginUser(body, findData, next) {
+        console.log("findd ",findData._id)
         try {
             return new Promise((resolve, reject) => {
-                bcrypt.compare(body.password, findData.password).then((data) => {
+              
+                // const bPassword = body.password = bcrypt.hashSync(body.password, saltRounds)
+                bcrypt.compare( body.password, findData.password).then((data) => {
                     if (data == true) {
-                        resolve({});
+                        const response = {
+                            'userId': findData._id,
+                            'email': findData.email,
+                            'firstName':findData.firstName,
+                            'lastName':findData.lastName,
+                            // 'profilePic':findData.data[0].profilePic
+                        }
+                        resolve({response});
                     }
-                    else {
-                        resolve({ 'success': false, 'message': 'Invalid Password' });
+                    else{
+                        resolve(false);
                     }
+                   
                 }).catch((error) => {
                     reject(error);
                 })
             })
         } catch (error) {
-            next(error);
+            throw(error);
         }
     }
     /**
@@ -163,10 +174,7 @@ class Model {
      */
     update(req, body, callback) {
         try {
-            console.log("req", req.decoded.userId);
-            console.log("data", body);
-
-            userModel.updateOne({ _id: req.decoded.userId}, { $set: body }, (err, result) => {
+            userModel.updateOne({ email: req}, { $set: body }, (err, result) => {
                 if (err) {
                     console.log("Error", err)
                     callback(err);

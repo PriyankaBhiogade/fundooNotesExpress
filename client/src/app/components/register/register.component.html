@@ -1,0 +1,89 @@
+<div fxLayout="row" fxFlex="100" fxLayoutAlign="center center" style="height: 65ch">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <mat-card class="card">
+            <h3 class="data1">
+                <span style="color:#1111b6">F</span>
+                <span style="color:indigo">u</span>
+                <span style="color:#ff0000">n</span>
+                <span style="color:#ffd000">d</span>
+                <span style="color:#008000">o</span>
+                <span style="color:#4b0082">o</span>
+                <span style="color:#0000ff">N</span>
+                <span style="color:#ffd000">o</span>
+                <span style="color:green">t</span>
+                <span style="color:indigo">e</span>
+                <span style="color:red">s</span>
+            </h3>
+
+            <h2 class="data">Create your Fundoo Account</h2>
+
+            <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="-6%">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="-2%">
+                    <div>
+                        <mat-form-field appearance="outline" class="firstName">
+                            <mat-label>FirstName</mat-label>
+                            <input matInput placeholder="Enter your first name" [formControl]="firstName"required>
+                            <mat-error *ngIf="firstName.invalid">{{firstNameError()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="outline" class="firstName">
+                            <mat-label>LastName</mat-label>
+                            <input matInput placeholder="Enter your last name" [formControl]="lastName" required>
+                            <mat-error *ngIf="lastName.invalid">{{lastNameError()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="column" fxLayoutGap=-10%>
+                    <div>
+                        <mat-form-field appearance="outline" class="email">
+                            <mat-label aria-autocomplete="off">Email</mat-label>
+                            <input matInput placeholder="Enter your Email" [formControl]="email" required>
+                            <mat-icon matSuffix><img src="../../../assets/outline-mail-24px.svg"></mat-icon>
+                            <mat-error *ngIf="email.invalid">{{emailError()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <h5 class="data2">You can use letters,numbers</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div fxLayout="column" fxLayoutGap=-10%>
+                <div fxLayout="row" fxLayout.ls="column" fxLayoutGap="-6%">
+                    <div>
+                        <mat-form-field appearance="outline" class="password">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Enter your Password" [type]="hide ? 'text' : 'password' " [formControl]="password" required>
+                            <mat-error *ngIf="password.invalid">{{passwordError()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="outline" class="password">
+                            <mat-label>Confirm</mat-label>
+                            <input matInput placeholder="Enter your Conform Password" [type]="hide ? 'text' : 'password' " [formControl]="confirmPassword" required>
+                            <mat-error *ngIf="confirmPassword.invalid">{{confirmPasswordError()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="material-icons" fxLayoutGap="-8%" fxLayout.xs="column">
+                        <mat-icon matSuffix (click)="hide = !hide">{{!hide ? 'visibility_off' : 'visibility'}}
+                        </mat-icon>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="data2">Use 8 or more characters with a mix of letters,numbers
+                        & symbol</h5>
+                </div>
+                <!-- <mat-error [ngClass]="'error'"> {{getErrorMessage}} </mat-error> -->
+            </div>
+            <div fxLayout="row" fxLayoutGap=40%>
+                <div fxLayout="row" fxLayoutAlign="start">
+                    <a routerLink="/login" mat-button style="color:#0099ff">Sign in instead</a>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end">
+                    <a routerLink="/login" mat-flat-button class="next" (click)="next()">Submit</a>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

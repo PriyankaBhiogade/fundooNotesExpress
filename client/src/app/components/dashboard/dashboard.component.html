@@ -1,0 +1,220 @@
+<div style="height: 100vh;">
+  <div class="appbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+
+      <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5%">
+        <div>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5%">
+          <div>
+            <img src="../../../assets/keep_48dp.png">
+          </div>
+          <div>
+            <span>FundooNotes</span>
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex="70" fxLayoutAlign=" center center">
+        <form appearance="outline" class="searchbar">
+          <button mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+          <input class="input" placeholder="search" #box (keyup.enter)="onEnter(box.value)">
+
+        </form>
+      </div>
+
+      <div fxFlex="30" fxLayout="row" fxLayoutAlign=" center center">
+        <div fxLayout="row" fxLayoutGap="50%">
+          <div>
+            <button mat-icon-button>
+              <mat-icon aria-label="Refresh" (click)="refresh()" style="user-select: none">refresh</mat-icon>
+            </button>
+          </div>
+
+          <div>
+            <button mat-icon-button color="basic" id="grid" fxHide.xs>
+              <mat-icon>
+                <img *ngIf="gridview" (click)="changeView()" matTooltip="List view"
+                  src="../../../assets/listview.svg" />
+                <img *ngIf="!gridview" (click)="changeView()" matTooltip="Grid view" src="../../../assets/grid.svg" />
+              </mat-icon>
+            </button>
+          </div>
+          <!-- <div>
+            <button mat-icon-button>
+              <mat-icon ><img src="../../../assets/settingdata.svg"> </mat-icon>
+            </button>
+          </div> -->
+
+
+
+          <div>
+            <div fxLayout="row" fxLayoutAlign="end start">
+
+              <button style="outline: none;" mat-icon-button [matMenuTriggerFor]="menu">
+                <div mat-card-avatar
+                  [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'40px','width':'40px'}"
+                  class="img1"></div>
+              </button>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" style="margin-top: 1%;">
+
+              <mat-menu class="menu" #menu="matMenu" style="margin-top: 1%;">
+
+                <div style="width: 278px;">
+                  <mat-card-header style="margin-top: 1%;">
+                    <div mat-card-avatar style="margin-top: 1%;"
+                      [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'86px','width':'85px'}"
+                      class="img2" (click)=image.click()>
+                    </div>
+                    <mat-card-title class="color">{{firstName}} {{lastName}}</mat-card-title>
+                    <mat-card-subtitle>{{email}}</mat-card-subtitle>
+                  </mat-card-header><br>
+                  <mat-divider></mat-divider>
+                  <div fxLayout="row" fxLayoutAlign="end">
+                    <input type="file" class="fileSelect" (change)=profileImage($event) #image>
+                    <button mat-flat-button color="warn" routerLink="/login" (click)="logout()">Sign out</button>
+                  </div>
+                </div>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-toolbar>
+  </div>
+
+  <div class="divider">
+    <mat-divider></mat-divider>
+  </div>
+
+  <div>
+    <mat-sidenav-container class="sidenav" style="height:100vh;" >
+      <mat-sidenav #drawer mode="side" role="navigation" style="height:100vh; width: 22%;">
+        <mat-nav-list>
+          <div fxLayout="column">
+            <div>
+              <button mat-raised-button class="color" (click)="getNote()" fxLayout="row">
+                <div fxLayout="row" fxLayoutGap="20%">
+                  <div>
+                    <img src="../../../assets/notes.svg">
+                  </div>
+                  <div>
+                    <span class="color" style=" width:90px">Notes</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            <div>
+              <button mat-raised-button class="color" (click)="reminder()">
+                <div fxLayout="row" fxLayoutGap="13.5%">
+                  <div>
+                    <img src="../../../assets/reminder.svg">
+                  </div>
+                  <div>
+                    <span class="color" style=" width: 90px">Reminder</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+            
+
+          </div>
+
+          <div class="divider" fxLayoutGap=5%>
+            <span> </span>
+            <mat-divider></mat-divider>
+            <span>
+
+            </span>
+          </div>
+          <div>
+            <div class="lable">Labels</div>
+            <div *ngFor="let item of labels" fxLayout="row">
+              <div>
+                <button mat-raised-button class="color">
+                  <img src="../../../assets/l1.svg">
+                  <span class="color" style="width: 90px">
+                    {{ item.LableName}}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+
+
+            <div>
+              <button mat-raised-button class="color">
+                <div fxLayout="row" fxLayoutGap="13.5%">
+                  <div>
+                    <img src="../../../assets/editlable.svg">
+                  </div>
+                  <div>
+                    <span class="color" style="width: 90px" (click)="openDialoglabels()">Edit labels</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="divider" fxLayoutGap=5%>
+            <span> </span>
+            <mat-divider></mat-divider>
+            <span>
+
+              </span>
+          </div>
+           
+          <div>
+            <div>
+              <button mat-raised-button class="color" (click)="archive()">
+                <div fxLayout="row" fxLayoutGap="10.5%">
+                  <div>
+                    <img src="../../../assets/archeve.svg">
+                  </div>
+                  <div>
+                    <span class="color" style=" width: 90px">Archive</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="color" (click)="trash()">
+                <div fxLayout="row" fxLayoutGap="8%">
+                  <div>
+                    <mat-icon>delete</mat-icon>
+                  </div>
+                  <div>
+                    <span class="color" style=" width: 90px">Trash</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+          </div>
+
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content fxFlexFill>
+        <div>
+          <!-- <app-addnote class="sgg"></app-addnote> -->
+        </div>
+        <div>
+            <app-create-notes class="sgg"></app-create-notes>
+          <router-outlet></router-outlet>
+        </div>
+
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+  </div>
+</div>

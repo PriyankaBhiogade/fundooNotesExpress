@@ -6,6 +6,7 @@ let sendmailer = require('../service/sendMailService');
 let cacheingService = require('../service/cacheingService');
 const redis = require('redis');
 const client = redis.createClient();
+const tokenGenerate = require('../service/tokenGenerate');
 require('dotenv').config()
 
 /**
@@ -70,6 +71,8 @@ class Controller {
                     const tokenGenerate = token.GenerateToken(payload)
                     const url = process.env.isVerified / tokenGenerate.token;
                     sendmailer.sendMail(url, req.body.email);
+
+
                     res.status(200).send(result);
                 }).catch((err) => {
                     res.status(204).send(err);
@@ -139,26 +142,42 @@ class Controller {
                     "email": req.body.email,
                     "password": req.body.password
                 }
-                let result = await service.loginUser(filterRequest);
-                let payload = result
-                /*
-                * token genrated
-                */
-                let token = jwt.sign(payload, process.env.secretekey, { expiresIn: "24hr" });
-                /*
-                * token set and get using redis 
-                */
-                cacheingService.cacheingService(token)
-                let response = {
-                    success: true,
-                    'message': 'Login Sucessfully',
-                    data: token
-                }
-                res.status(200).send(response);
+                service.loginUser(filterRequest).then((data) => {
+                    if (data === false) {
+                        let response = {
+                            success: false,
+                            status: 400,
+                            message: 'Login failed',
+                            data: "invalid password",
+                        }
+                        res.status(400).send(response);
+                    }
+                    else {
+
+                        let payload = data
+                        /*
+                         * token genrated
+                         */
+                        let token = jwt.sign(payload, process.env.secretekey, { expiresIn: "24hr" });
+                        /*
+                         * token set and get using redis 
+                         */
+                        cacheingService.cacheingService(token)
+                        let response = {
+                            success: true,
+                            message: 'Login Sucessfully',
+                            data: data,
+                            token: token
+                        }
+                        res.status(200).send(response);
+                    }
+                }).catch((err) => {
+                    res.status(400).send(err);
+                })
             }
         }
         catch (error) {
-            next(error)
+            throw (error)
         }
     }
     /**
@@ -186,18 +205,19 @@ class Controller {
                     "email": req.body.email
                 }
                 service.forgotPasswordUser(filterRequest).then((result) => {
-                    client.get('token', (error, token) => {
-                        if (error) {
-                            console.log(error);
-                            throw error;
-                        }
-                        const url = `${process.env.resetPasswordUrl}${token}`;
-                        sendmailer.sendMail(url);
-                        response.success = true,
-                            response.message = "Password Forgot Sucessfully",
-                            response.data = url
-                        res.status(200).send(response);
-                    })
+                    const token = tokenGenerate.GenerateToken(filterRequest)
+                    // client.get('token', (error, token) => {
+                    //     if (error) {
+                    //         console.log(error);
+                    //         throw error;
+                    //     }
+                    const url = `${process.env.resetPasswordUrl}${token.token}`;
+                    sendmailer.sendMail(url);
+                    response.success = true,
+                        response.message = "Password Forgot Sucessfully",
+                        response.data = url
+                    res.status(200).send(response);
+                    // })
                 }).catch((err) => {
                     res.status(400).send(err);
                 })
@@ -214,25 +234,27 @@ class Controller {
     */
     //using callback
     async resetPassword(req, res) {
+        console.log("req",req.headers['data']);
+        
         try {
-            req.check('password').isLength({ min: 5 })
-                .withMessage('Minimun 5 char or number')
-                .notEmpty({ message: 'Password is required' })
+            // req.check('password').isLength({ min: 5 })
+            //     .withMessage('Minimun 5 char or number')
+            //     .notEmpty({ message: 'Password is required' })
 
-            const errors = req.validationErrors();
-            let response = {
-                success: false,
-                message: "Invalid Input",
-                data: { errors }
-            }
-            if (errors) {
-                res.status(422).send(response);
-            }
-            else {
+            // const errors = req.validationErrors();
+            // let response = {
+            //     success: false,
+            //     message: "Invalid Input",
+            //     data: { errors }
+            // }
+            // if (errors) {
+            //     res.status(422).send(response);
+            // }
+            // else {
                 const filterRequest = {
-                    "password": req.body.password
+                    "password": req.headers['data']
                 }
-                await service.resetPassword(req, filterRequest, (err, data) => {
+                await service.resetPassword(req.decoded.payload.email, filterRequest, (err, data) => {
 
                     if (err) {
                         res.status(400).send(data);
@@ -242,7 +264,7 @@ class Controller {
                     }
                 })
             }
-        }
+        // }
         catch (error) {
             throw (error)
         }

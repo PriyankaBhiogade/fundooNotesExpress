@@ -1,0 +1,138 @@
+
+
+.searchbar{
+    background-color:rgb(235, 233, 233);
+        width:700px;
+        min-height: 50px;
+        border-bottom-left-radius: 11px;
+        border-bottom-right-radius: 11px;
+        border-top-left-radius: 11px;
+        border-top-right-radius: 11px;
+       
+       
+}
+.input{
+    background-color:rgba(49, 119, 74, 0);;
+    width:88%;
+   
+    height: 43px;
+    border:none !important
+}
+input.input:focus{
+    outline-width: 0;
+    
+}
+.appbar{
+  margin-top: 1px;
+  margin-right: -8px;
+  margin-left: -4px;
+  height: 60px;
+  
+}
+.profile{
+    color: wheat
+
+}
+.profile1{
+  height: 285px;
+  width: 280px;
+}
+.profile2{
+border: none;
+height: 100px;
+width: 100px;
+}
+  .sidenav{
+    height: -webkit-fill-available;
+  
+    width:100%;
+     
+     background-color:white
+  }
+  .divider{
+      color: black;
+
+  }
+  .color{
+    
+    padding-left: -3px;
+    display: inline-block;
+    line-height: 47px;
+    vertical-align: top;
+     width: 277px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+    background-clip: padding-box;
+}
+.mat-raised-button:not([class*=mat-elevation-z]) {
+  box-shadow: 0 3px 1px -2px rgb(255, 253, 253), 0 2px 2px 0 rgb(255, 253, 253), 0 1px 5px 0 rgb(255, 253, 253);
+}
+  .lable{
+    color: #5f6368;
+    cursor: default;
+    letter-spacing: .07272727em;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .6875rem;
+    font-weight: 500;
+    line-height: 1rem;
+    text-transform: uppercase;
+    padding: 15px 24px 10px;
+  }
+   .img{
+    height: 24px;
+    width: 24px;
+    float: left;
+    margin-top: 8px;
+    vertical-align: middle;
+   }
+   .mat-raised-button:hover {
+    background-color: rgb(233, 227, 227);
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+   
+}
+    
+.mat-raised-button:focus {
+  background-color: bisque;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  
+ 
+} 
+   .sgg{
+     height: 100vh;
+     width:100vw;
+   }
+   .img1{
+     background-color: black
+  
+  } 
+  .img2{
+        background-color: paleturquoise;
+        border-radius: 50%
+  }
+  .menu{
+        // min-width: 112px;
+        width: 278px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        max-height: calc(100vh - 48px);
+        border-radius: 4px;
+        outline: 0;
+    }
+    .fileSelect{
+      display: none;
+  }
+  .content {
+
+    background-color: white;
+    // overflow-y: scroll;
+        overflow-x: hidden;
+      
+}

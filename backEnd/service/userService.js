@@ -86,16 +86,13 @@ class Service {
                 return (result);
             }
             else {
-                result = await model.loginUser(req, findData.data[0]);
-                const response = {
-                    'userId': findData.data[0]._id,
-                    'email': findData.data[0].email
-                }
-                return (response);
+               const result = await model.loginUser(req, findData.data[0])
+                    console.log("data",result)
+                    return (result);
             }
         }
         catch (error) {
-            next(error)
+            throw(error)
         }
     }
     /**
@@ -137,7 +134,7 @@ class Service {
      * @param :  callback
      * @returns : callback(result) 
      */
-    async resetPassword(req, data, callback) {
+   resetPassword(req, data, callback) {
         try {
             const responseResult = {
                 success: false,
@@ -148,7 +145,8 @@ class Service {
             newPassword = {
                 password: newPassword
             }
-            await model.update(req, newPassword, (err, data) => {
+          
+            model.update(req, newPassword, (err, data) => {
                 if (err) {
                     responseResult.result = err;
                     callback(responseResult);

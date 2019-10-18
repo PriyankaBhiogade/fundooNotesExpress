@@ -43,7 +43,7 @@ const notesSchema = new schema({
     },
     label: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'labels'
+        ref: "labels"
     }]
 },
     {
@@ -57,6 +57,22 @@ class NotesModel {
      * @param : request
      * @returns : promise
      */
+
+    findData(req, next) {
+        try {
+            const id = req.userId
+            return new Promise((resolve, reject) => {
+                notesModel.find({ userId: id }).populate('label').then((data) => {
+                    resolve(data);
+                }).catch((err) => {
+                    reject({ 'success': true, 'status': 500, 'message': 'Internal Server Error ', 'Error': err })
+                })
+            })
+        }
+        catch (error) {
+            next(error);
+        }
+    }
     createNotes(body, next) {
         try {
             return new Promise((resolve, reject) => {
@@ -81,7 +97,10 @@ class NotesModel {
                         response.status = 200,
                         response.messege = "Notes created Sucessfully",
                         response.data = data
-                    client.set("notesData" + body.userId, JSON.stringify(response), redis.print)
+
+                    this.findData(body).then((findData) => {
+                        client.set("notesData" + body.userId, JSON.stringify(findData), redis.print)
+                    })
                     resolve(response);
                 }).catch((error) => {
                     response.data = error
@@ -103,52 +122,157 @@ class NotesModel {
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
-                    status: 404,
                     messege: "All Notes not display",
                     data: {}
                 }
-                client.get("notesData" + req.userId,(error, result) => {
-                    const redisData = JSON.parse(result);
-                    notesModel.find(field).then((data) => {
-                            console.log("response.data.length",data.length);
-                            console.log("data1.data.length",redisData.length);
-                        if (data.length == redisData.length) {
+                let data = {
+                    reminder: { reminder: { $ne: null } },
+                    isArchive: { isArchive: true },
+                    isTrash: { isTrash: true },
+                    label: { label: { $ne: [] } },
+                    getAllNotes: { isTrash: false, isArchive: false }
+
+                }
+                if (JSON.stringify(field) === JSON.stringify(data.getAllNotes)) {
+                    client.get("notesData" + req.userId, (error, result) => {
+                        let redisData = JSON.parse(result);
+                        if (redisData != null) {
+                            const data1 = redisData.filter((data) => {
+                                if (data.isArchive == false && data.isTrash == false) {
+                                    return data
+                                }
+                            })
                             response.successs = true,
-                            response.status = 200,
-                            response.messege = "All Notes display Sucessfully from redis",
-                            response.data = redisData
-                            console.log('fetching data from cache-----');
-                            console.log('GET all notes ---->', response);
+                                response.messege = "All Notes display Sucessfully from redis",
+                                response.data = data1
                             resolve(response);
                         }
                         else {
-                            response.successs = true,
-                            response.status = 200,
-                            response.messege = "All Notes display Sucessfully from DB",
-                            response.data = data
-                            console.log('fetching data from api-----');
-                            client.set("notesData" + req.userId, JSON.stringify(data), redis.print)
-                            console.log("GET all notes ---->", data);
-                            resolve(response);
+                            notesModel.find(field).populate('label').then((data) => {
+                                response.successs = true,
+                                    response.messege = "All Notes display Sucessfully from DB",
+                                    response.data = data
+                                client.set("notesData" + req.userId, JSON.stringify(data), redis.print)
+                                resolve(response);
+                            }).catch((err) => {
+                                response.data = err
+                                reject(response);
+                            })
                         }
+                    })
+                }
+                else {
+                    notesModel.find(field).populate('label').then((data) => {
+                        response.successs = true,
+                            response.messege = " Notes display Sucessfully from DB",
+                            response.data = data
+                        resolve(response);
                     }).catch((err) => {
                         response.data = err
                         reject(response);
                     })
-                })
+                }
             })
+
         } catch (err) {
             next(err);
         }
     }
+
+    // if (JSON.stringify(field) === JSON.stringify(data.isTrash)) {
+    //     const data1 = redisData.filter((data) => {
+    //         if (data.isTrash == true) {
+    //             return data
+    //         }
+    //     })
+    //     response.successs = true,
+    //         response.messege = "All trash Notes display Sucessfully from redis",
+    //         response.data = data1
+    //     resolve(response);
+    // }
+    // else if (JSON.stringify(field) === JSON.stringify(data.isArchive)) {
+    //     const data1 = redisData.filter((data) => {
+    //         if (data.isArchive == true) {
+    //             return data
+    //         }
+    //     })
+    //     response.successs = true,
+    //         response.messege = "All Archive Notes display Sucessfully from redis",
+    //         response.data = data1
+    //     resolve(response);
+    // }
+    // else if (JSON.stringify(field) === JSON.stringify(data.reminder)) {
+    //     const data1 = redisData.filter((data) => {
+    //         if (data.reminder !== null) {
+    //             return data
+    //         }
+    //     })
+    //     response.successs = true,
+    //         response.messege = "All reminder Notes display Sucessfully from redis",
+    //         response.data = data1
+    //     resolve(response);
+    // }
+
+    // else if (JSON.stringify(field) === JSON.stringify(data.label)) {
+    //     const data1 = redisData.filter((data) => {
+    //         if (data.label.length !== 0) {
+    //             return data
+    //         }
+
+    //     })
+    //     response.successs = true,
+    //         response.messege = "All label Notes display Sucessfully from redis",
+    //         response.data = data1
+    //     resolve(response);
+    // }
+    // else if (JSON.stringify(field) === JSON.stringify(data.getAllNotes)) {
+
+    //     const data1 = redisData.filter((data) => {
+    //         if (data.isArchive == false && data.isTrash == false) {
+    //             return data
+    //         }
+    //     })
+    //     response.successs = true,
+    //         response.messege = "All Notes display Sucessfully from redis",
+    //         response.data = data1
+    //     resolve(response);
+    // }
+    // else {
+    //     console.log("invalid Data")
+    //         // }
+    //     }
+
+    // }
+    //     else {
+    //         notesModel.find().populate('label').then((data) => {
+    //             response.successs = true,
+    //                 response.messege = "All Notes display Sucessfully from DB",
+    //                 response.data = data
+    //             console.log('fetching data from api-----');
+    //             client.set("notesData" + req.userId, JSON.stringify(data), redis.print)
+    //             console.log("GET all notes ---->", data);
+    //             resolve(response);
+    //         })
+    //     }
+
+    // })
+
+    // }).catch ((err) => {
+    //     response.data = err
+    //     reject(response);
+    // })
+    //     } catch(err) {
+    //         next(err);
+    //     }
+    // }
+
     /**
     * @description : updateNotes is a function for update notes by id ..
     * @param : request
     * @returns : promise
     */
-    updateNotes(id, filterData, next) {
+    updateNotes(req, id, filterData, next) {
         try {
-            console.log(" model ----%%%%%", id, filterData);
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
@@ -158,12 +282,13 @@ class NotesModel {
                 }
                 notesModel.updateOne(id, filterData)
                     .then((data) => {
-                        console.log("dataaaaa", data);
-
                         response.successs = true,
                             response.status = 200,
                             response.messege = `Note update Sucessfully`,
-                            response.data = data
+                            response.data = data  
+                        this.findData(req).then((findData) => {
+                            client.set("notesData" + req.userId, JSON.stringify(findData), redis.print)
+                        })
                         resolve(response);
                     }).catch((err) => {
                         response.data = err
@@ -171,7 +296,7 @@ class NotesModel {
                     })
             })
         } catch (err) {
-            throw (err);
+            next(err);
         }
     }
 
@@ -195,6 +320,9 @@ class NotesModel {
                         response.messege = `Note deleted Sucessfully`,
                         response.data = data
 
+                    this.findData(body).then((findData) => {
+                        client.set("notesData" + body.userId, JSON.stringify(findData), redis.print)
+                    })
                     resolve(response);
                 }).catch((err) => {
                     response.data = err
