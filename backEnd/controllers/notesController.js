@@ -32,7 +32,7 @@ class NotesController {
             }
             else {
                 const filterRequest = {
-                    "userId": req.decoded.userId,
+                    "userId": req.decoded.response.userId,
                     "title": req.body.title,
                     "description": req.body.description
                 }
