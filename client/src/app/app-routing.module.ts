@@ -6,6 +6,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetComponent } from './components/reset/reset.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateNotesComponent } from './components/create-notes/create-notes.component';
+import { CreateNoteDialogboxComponent } from './components/create-note-dialogbox/create-note-dialogbox.component';
+import { GetNotesComponent } from './components/get-notes/get-notes.component';
 
 
 const routes: Routes = [
@@ -14,7 +16,9 @@ const routes: Routes = [
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'reset/:token', component: ResetComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'create-notes', component: CreateNotesComponent }
+  { path: 'create-notes', component: CreateNotesComponent },
+  { path: 'create-note-dialogbox', component: CreateNoteDialogboxComponent },
+  { path: 'GetNotes', component: GetNotesComponent }
 
 
 ];

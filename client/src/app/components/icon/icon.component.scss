@@ -1,0 +1,38 @@
+.reminder{
+    width: 268px;
+    height: 300px;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border-top-right-radius: 5%;
+    border-top-left-radius: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}.color{
+      
+    padding-left: 5px;
+    display: inline-block;
+    line-height: 50px;
+    vertical-align: top;
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+    background-clip: padding-box;
+    
+
+    
+}
+.lable{
+  color: #5f6368;
+  cursor: default;
+  letter-spacing: .07272727em;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .6875rem;
+  font-weight: 500;
+  line-height: 1rem;
+  text-transform: uppercase;
+  padding: 15px 24px 10px;
+}

@@ -1,63 +1,58 @@
 <!-- <div *ngFor="let item of notes" fxLayout="column" fxFlex="25%"  fxLayoutGap="100%" > -->
+<div>
+  <div *ngIf="flag === true" (click)="onOptionClick()">
+    <mat-card fxLayoutAlign="space-evenly center" class="card1">
+      <input class="input" fxLayoutAlign="start center" placeholder="  Take a note...">
+      <div fxLayout="row">
         <div>
-                <!-- <div *ngIf="flag === true" (click)="onOptionClick()"> -->
-                  <mat-card fxLayoutAlign="space-evenly center" class="card1"  >
-              
-                    <input class="input" fxLayoutAlign="start center" placeholder="Take a note...">
-              
-                    <div fxLayout="row">
-                      <div>
-                        <button mat-icon-button matTooltip="NewList">
-                          <img src="../../../assets/newlist.svg">
-              
-                        </button>
-                      </div>
-                      <div>
-                        <button mat-icon-button matTooltip="Brush">
-                          <!-- <mat-icon class="material-icons">brush</mat-icon> -->
-                        </button>
-                      </div>
-                      <div>
-                        <button mat-icon-button matTooltip="insert_photo">
-                          <!-- <mat-icon class="material-icons">insert_photo</mat-icon> -->
-                        </button>
-                      </div>
-                    </div>
-                  </mat-card>
-                </div>
-              
-                <!-- <div *ngIf="flag === false" fxLayoutAlign="space-between center">
-                   [style.backgroundColor]="item.color" ===wite bel -->
-                  <!-- <mat-card fxLayout="column" class="card2" >
-                    <div fxLayout="column" fxLayoutGap="5%">
-              
-                      <div fxLayout="row" fxLayoutGap ="50%">
-                        <textarea matInput fxLayoutAlign="start start" class="input" placeholder="Title" [(formControl)]="title">
-                     <button mat-icon-button matTooltip="Pin Note" fxLayout="row" fxLayoutAlign="end end">
-                            <img src="../../../assets/pin.svg">
-                          </button></textarea>
-                        </div>
-                      <div>
-                        <textarea matInput class="input" fxLayoutAlign="start center"  placeholder="Take a note..."
-                          [(formControl)]="description"> </textarea>
-                      </div> -->
-                      <!-- <div>
-                          <mat-chip-list >
-                              <mat-chip class="reminder" >
-                                  {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
-                            </mat-chip-list>
-                      
-                      </div> -->
-              
-                      
-                      <!-- <div fxLayoutGap ="40%" fxLayout ="row">
-                        <app-icon [noteData]="item"  (changeReminder)="reminder(item,$event)" ></app-icon>
-                        <button mat-flat-button (click)="close() " style="color:black" >Close</button>
-                      </div>
-              
-                    </div>
-                  </mat-card>
-                </div> -->
-               
-              
-              
+          <button mat-icon-button matTooltip="NewList">
+            <img src="../../../assets/newlist.svg">
+          </button>
+        </div>
+        <div>
+          <button mat-icon-button matTooltip="Brush">
+            <mat-icon class="material-icons">brush</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button mat-icon-button matTooltip="insert_photo">
+            <mat-icon class="material-icons">insert_photo</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!-- <div *ngIf="flag === false" fxLayoutAlign="space-around start"> -->
+
+  <mat-card fxLayout="column" class="card2"  *ngIf="flag === false" fxLayoutAlign="space-around start">
+    <div fxLayout="column" fxLayoutGap="4%">
+        <div fxLayout="row" fxLayoutGap="9%">
+          <textarea matInput type="text" placeholder="title" class="input" [(ngModel)]="note.title">
+          <button mat-icon-button matTooltip="Pin Note">
+              <img src="../../../assets/pin.svg">
+            </button></textarea>
+        </div>
+
+        <div fxLayout="row-wrap" fxLayoutAlign="center center">
+          <textarea matInput type="text" placeholder="Take a Note..." [(ngModel)]="note.description"
+            class="input"></textarea>
+        </div>   
+      <!-- <div>
+        <mat-chip-list>
+          <mat-chip class="reminder">
+            {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
+        </mat-chip-list>
+
+      </div> -->
+      <div fxLayout="row" class="icon" fxLayoutGap="70%">
+        <app-icon ></app-icon>
+        <button mat-flat-button matTooltip="close" (click)=close() style="color:black">Close</button>
+      </div>
+    </div>
+</mat-card>
+<!-- </div> -->
+
+
+<!-- </div> -->

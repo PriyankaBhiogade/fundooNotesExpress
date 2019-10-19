@@ -1,0 +1,23 @@
+<button mat-raised-button class="Dialog" (click)="openDialog(item)"></button>
+<div fxLayout="column" fxLayoutGap="7%" [style.backgroundColor]="setcolor">
+  <div class="input" fxLayout="row" fxLayoutGap="60%">
+    <textarea matInput fxLayoutAlign="start start" class="input" placeholder="Title" [(formControl)]="title">
+    <button mat-icon-button matTooltip="Pin Note" fxLayout="row" fxLayoutAlign="end end">
+      <img src="../../../assets/pin.svg">
+    </button></textarea>
+  </div>
+
+  <div>
+    <textarea matInput class="input" fxLayoutAlign="start center" placeholder="Take a note..."
+      [(formControl)]="description"></textarea>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="40%">
+    <!-- <app-icon [noteData]="item"></app-icon> -->
+    <button mat-flat-button style="color:black" (click)="next()" (click)="refresh()">Close</button>
+  </div>
+</div>
+
+
+
+

@@ -26,4 +26,26 @@ export class HttpService {
     console.log("data",options.data);
     return this.http.post(this.url+'reset/:token',options.data,httpOptions);
   }
+
+  public postNote(options):any
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'token': localStorage.getItem('token')
+      })
+    }; 
+    console.log('token in Http service resetpassword :', httpOptions);
+    console.log("data",options.data);
+    return this.http.post(this.url + options.url, options.data, httpOptions)
+  }
+  public getNote(options):any
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'token': localStorage.getItem('token')
+      })
+    }; 
+   console.log("token",httpOptions)
+    return this.http.get(this.url + options.url, httpOptions)
+  }
 }

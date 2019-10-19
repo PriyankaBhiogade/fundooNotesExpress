@@ -2,7 +2,7 @@
 
 .searchbar{
     background-color:rgb(235, 233, 233);
-        width:700px;
+        width:680px;
         min-height: 50px;
         border-bottom-left-radius: 11px;
         border-bottom-right-radius: 11px;
@@ -24,13 +24,15 @@ input.input:focus{
 }
 .appbar{
   margin-top: 1px;
-  margin-right: -8px;
-  margin-left: -4px;
+  // margin-left: 5px;
   height: 60px;
+
+   
   
 }
 .profile{
     color: wheat
+
 
 }
 .profile1{
@@ -89,18 +91,18 @@ width: 100px;
    }
    .mat-raised-button:hover {
     background-color: rgb(233, 227, 227);
-    border-bottom-left-radius: 25px;
+    border-bottom-left-radius: 3px;
     border-bottom-right-radius: 25px;
-    border-top-left-radius: 25px;
+    border-top-left-radius: 3px;
     border-top-right-radius: 25px;
    
 }
     
 .mat-raised-button:focus {
   background-color: bisque;
-  border-bottom-left-radius: 25px;
+  border-bottom-left-radius: 3px;
   border-bottom-right-radius: 25px;
-  border-top-left-radius: 25px;
+  border-top-left-radius: 3px;
   border-top-right-radius: 25px;
   
  

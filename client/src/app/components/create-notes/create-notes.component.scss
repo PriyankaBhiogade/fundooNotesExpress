@@ -12,36 +12,45 @@
  border-top-left-radius: 11px;
  border-top-right-radius: 11px;
  }
-    .input{
-      
-      width:100%;
-      border:none;
-      resize:none; 
-    }
-    input.input:focus{
-    outline-width: 0;
-    
-}
+   
 .card2{
   margin-left: auto;
   margin-right: auto;
   margin-top: 4%;
   margin-bottom: 3%;
-  width: 40%;
+  width: 45%;
 box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.459);
 border-bottom-left-radius: 11px;
 border-bottom-right-radius: 11px;
 border-top-left-radius: 11px;
 border-top-right-radius: 11px;
-  height: 15%;
+
  
   }
   .addnote{
     background-image:image/svg+xml; 
     right: 120px;
 }
-// .card3{
-//   width: 40%;
-//   height: 40%;
-// }
-  
+icon{
+  margin-left: 28%
+}
+
+.input
+{
+    width: 350px;
+    height: 20px;
+    border: none;
+    color: #202124;
+    direction: ltr;
+    font-family: 'Roboto',arial,sans-serif;
+    font-size: .875rem;
+    resize:none; 
+    outline: none;
+    border: transparent;
+    overflow: hidden;
+}
+
+input.input:focus
+{
+    outline-width: 0; 
+}
