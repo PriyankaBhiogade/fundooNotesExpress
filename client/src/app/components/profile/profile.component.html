@@ -1,0 +1,11 @@
+
+<input  (change)="fileChange($event)"  type="file" style="width: 15%;height:15%">
+<image-cropper
+[imageChangedEvent]="onclickEvent"
+[maintainAspectRatio]="true"
+[aspectRatio]="4/3"
+[resizeToWidth]="128"
+format="png/svg/jpg"
+(imageCropped)= "imageCropped($event)">
+</image-cropper>
+<button mat-button mat-flat-button color="warn" (click)="uploadpic()">Upload</button>

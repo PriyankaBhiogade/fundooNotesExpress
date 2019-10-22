@@ -8,7 +8,7 @@ export class UserService {
 
   constructor(private httpService: HttpService) { }
   register(data) {
-    var option =
+    const option =
     {
       url :'register',
       data: data
@@ -20,7 +20,7 @@ export class UserService {
   login(data){
     console.log("service",data);
     
-    var option =
+    const option =
     {
       url :'login',
       data: data
@@ -29,7 +29,7 @@ export class UserService {
   }
   forgotPassword(data){
   
-    var option =
+    const option =
     {
       url :'forgotPassword',
       data: data
@@ -39,12 +39,20 @@ export class UserService {
   reset(token,data){
     console.log("token",token);
     
-    var option =
+    const option =
     {
       url :'reset/'+token,
       data: data
     }
     return this.httpService.userWithToken(token,option);
+  }
+  profile(data){
+    const option =
+    {
+      url :'upload',
+      data: data
+    }
+    return this.httpService.postNote(option);
   }
   }
 

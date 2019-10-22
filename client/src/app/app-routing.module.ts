@@ -8,6 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateNotesComponent } from './components/create-notes/create-notes.component';
 import { CreateNoteDialogboxComponent } from './components/create-note-dialogbox/create-note-dialogbox.component';
 import { GetNotesComponent } from './components/get-notes/get-notes.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 const routes: Routes = [
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'create-notes', component: CreateNotesComponent },
   { path: 'create-note-dialogbox', component: CreateNoteDialogboxComponent },
-  { path: 'GetNotes', component: GetNotesComponent }
+  { path: 'GetNotes', component: GetNotesComponent },
+  { path: 'Profile', component: ProfileComponent }
 
 
 ];

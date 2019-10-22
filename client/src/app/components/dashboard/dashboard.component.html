@@ -50,9 +50,11 @@
           <div>
             <div fxLayout="row" fxLayoutAlign="end start">
               <button style="outline: none;" mat-icon-button [matMenuTriggerFor]="menu">
-                <div mat-card-avatar
-                  [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'40px','width':'40px'}"
-                  class="img1"></div>
+                <!-- <div mat-card-avatar
+                  [ngStyle]="{'background-image': 'url('{{img}}')','background-size':'cover', 'height':'40px','width':'40px'}"
+                  class="img1"></div> -->
+                  <img src = {{img}}  [ngStyle]="{'background-size':'cover', 'height':'40px','width':'40px'}"
+                  class="img1">
               </button>
             </div>
 
@@ -62,14 +64,14 @@
                   <mat-card-header style="margin-top: 1%;">
                     <div mat-card-avatar style="margin-top: 1%;"
                       [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'86px','width':'85px'}"
-                      class="img2" (click)=image.click()>
+                      class="img2" (click)=profileImage($event)>
                     </div>
                     <mat-card-title class="color">{{firstName}} {{lastName}}</mat-card-title>
                     <mat-card-subtitle>{{email}}</mat-card-subtitle>
                   </mat-card-header><br>
                   <mat-divider></mat-divider>
                   <div fxLayout="row" fxLayoutAlign="end">
-                    <input type="file" class="fileSelect" (change)=profileImage($event) #image>
+                    <input type="file" class="fileSelect" (change)=profileImage($event) >
                     <button mat-flat-button color="warn" routerLink="/login" (click)="logout()">Sign out</button>
                   </div>
                 </div>
@@ -88,13 +90,13 @@
   </div>
 
   <div>
-    <mat-sidenav-container class="sidenav" style="height:100vh;">
+    <mat-sidenav-container class="sidenav" >
       <mat-sidenav #drawer mode="side" role="navigation" style="height:100vh; width: 22%;">
         <mat-nav-list>
           <div fxLayout="column">
 
             <div>
-              <button mat-raised-button class="color" (click)="getNote()" fxLayout="row">
+              <button mat-raised-button class="color" fxLayout="row">
                 <div fxLayout="row" fxLayoutGap="20%">
                   <div>
                     <img src="../../../assets/notes.svg">
@@ -107,7 +109,7 @@
             </div>
 
             <div>
-              <button mat-raised-button class="color" (click)="reminder()">
+              <button mat-raised-button class="color" >
                 <div fxLayout="row" fxLayoutGap="13.5%">
                   <div>
                     <img src="../../../assets/reminder.svg">
@@ -195,7 +197,7 @@
         </mat-nav-list>
       </mat-sidenav>
 
-      <mat-sidenav-content fxFlexFill>
+      <mat-sidenav-content fxFlexFill >
         <div>
           <app-create-notes class="sgg"></app-create-notes>
           <app-get-notes></app-get-notes>

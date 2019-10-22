@@ -23,11 +23,11 @@ const multerS3Config = multer({
      bucket: process.env.bucket,
      acl: 'public-read',
     metadata: (req, file, cb) => {
-      console.log("file",file);
+      // console.log("file",file);
       cb(null,{ fieldName: file.originalname });
     },
     key: (req, file, cb) => {
-      console.log("data", file);
+      // console.log("data", file);
       cb(null, `img_${Date.now().toString()}.png`);
     }
   })

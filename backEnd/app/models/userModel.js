@@ -116,32 +116,32 @@ class Model {
      * @returns : promise
      */
     loginUser(body, findData, next) {
-        console.log("findd ",findData._id)
         try {
             return new Promise((resolve, reject) => {
-              
+
                 // const bPassword = body.password = bcrypt.hashSync(body.password, saltRounds)
-                bcrypt.compare( body.password, findData.password).then((data) => {
+                bcrypt.compare(body.password, findData.password).then((data) => {
                     if (data == true) {
+                        console.log("datdats",findData.profilePic)
                         const response = {
                             'userId': findData._id,
                             'email': findData.email,
-                            'firstName':findData.firstName,
-                            'lastName':findData.lastName,
-                            // 'profilePic':findData.data[0].profilePic
+                            'firstName': findData.firstName,
+                            'lastName': findData.lastName,
+                             'profilePic':findData.profilePic
                         }
-                        resolve({response});
+                        resolve({ response });
                     }
-                    else{
+                    else {
                         resolve(false);
                     }
-                   
+
                 }).catch((error) => {
                     reject(error);
                 })
             })
         } catch (error) {
-            throw(error);
+            throw (error);
         }
     }
     /**
@@ -172,16 +172,21 @@ class Model {
      * @param :  callback
      * @returns : promise
      */
-    update(req, body, callback) {
+    update(req,body, callback) {
         try {
-            userModel.updateOne({ email: req}, { $set: body }, (err, result) => {
-                if (err) {
-                    console.log("Error", err)
-                    callback(err);
-                }
-                else {
-                    callback(null, result);
-                }
+            var promise = new Promise((resolve, reject) => {
+                userModel.updateOne({ email:req.decoded.response.email}, { $set:body}, (err, data) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(data)
+                    }
+                })
+            })
+            promise.then((data) => {
+                return callback(null, data)
+            }).catch((err) => {
+                return callback(err)
             })
         } catch (error) {
             return (error);

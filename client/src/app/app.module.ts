@@ -17,6 +17,8 @@ import { CreateNotesComponent } from './components/create-notes/create-notes.com
 import { CreateNoteDialogboxComponent } from './components/create-note-dialogbox/create-note-dialogbox.component';
 import { IconComponent } from './components/icon/icon.component';
 import { GetNotesComponent } from './components/get-notes/get-notes.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,9 @@ import { GetNotesComponent } from './components/get-notes/get-notes.component';
     CreateNotesComponent,
     CreateNoteDialogboxComponent,
     IconComponent,
-    GetNotesComponent
+    GetNotesComponent,
+    ProfileComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,8 @@ import { GetNotesComponent } from './components/get-notes/get-notes.component';
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
-    appMaterial
+    appMaterial,
+    ImageCropperModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

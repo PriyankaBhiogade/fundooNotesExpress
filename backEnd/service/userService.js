@@ -50,11 +50,8 @@ class Service {
 
     isVerified(req, callback, next) {
         try {
-            const data = { isVerified: true }
-            console.log("sevice", req.body, data);
-
+            const data = { isVerified: true }       
             model.update(req, data, (err, data) => {
-                console.log("service data111", data);
                 if (err) {
                     callback(err);
                 }
@@ -86,13 +83,12 @@ class Service {
                 return (result);
             }
             else {
-               const result = await model.loginUser(req, findData.data[0])
-                    console.log("data",result)
-                    return (result);
+                const result = await model.loginUser(req, findData.data[0])                
+                return (result);
             }
         }
         catch (error) {
-            throw(error)
+            throw (error)
         }
     }
     /**
@@ -134,7 +130,7 @@ class Service {
      * @param :  callback
      * @returns : callback(result) 
      */
-   resetPassword(req, data, callback) {
+    resetPassword(req, data, callback) {
         try {
             const responseResult = {
                 success: false,
@@ -145,7 +141,7 @@ class Service {
             newPassword = {
                 password: newPassword
             }
-          
+
             model.update(req, newPassword, (err, data) => {
                 if (err) {
                     responseResult.result = err;
@@ -168,10 +164,17 @@ class Service {
      * @param :  req
      * @returns : result
      */
-    async uploadProfilePic(req, url, next) {
-        try {
-            const result = await model.update(req, url);
-            return (result);
+    async uploadProfilePic(req,body, callback) {
+        try {           
+            await model.update(req,body, (err, data) => {
+                if (err) {
+                    return callback(err)
+                }
+                else {                   
+                    return callback(null, data)
+                }
+            });
+
         } catch (error) {
             throw (error)
         }

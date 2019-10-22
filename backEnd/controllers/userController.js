@@ -169,6 +169,7 @@ class Controller {
                             data: data,
                             token: token
                         }
+                        console.log("response",response)
                         res.status(200).send(response);
                     }
                 }).catch((err) => {
@@ -234,8 +235,8 @@ class Controller {
     */
     //using callback
     async resetPassword(req, res) {
-        console.log("req",req.headers['data']);
-        
+        console.log("req", req.headers['data']);
+
         try {
             // req.check('password').isLength({ min: 5 })
             //     .withMessage('Minimun 5 char or number')
@@ -251,19 +252,19 @@ class Controller {
             //     res.status(422).send(response);
             // }
             // else {
-                const filterRequest = {
-                    "password": req.headers['data']
-                }
-                await service.resetPassword(req.decoded.payload.email, filterRequest, (err, data) => {
-
-                    if (err) {
-                        res.status(400).send(data);
-                    }
-                    else {
-                        res.status(200).send(data);
-                    }
-                })
+            const filterRequest = {
+                "password": req.headers['data']
             }
+            await service.resetPassword(req.decoded.payload.email, filterRequest, (err, data) => {
+
+                if (err) {
+                    res.status(400).send(data);
+                }
+                else {
+                    res.status(200).send(data);
+                }
+            })
+        }
         // }
         catch (error) {
             throw (error)
@@ -277,7 +278,7 @@ class Controller {
     * @returns : res.send(result)
     */
     async upload(req, res) {
-        console.log("asaswdeqws", req.decoded.userId);
+        // console.log("asaswdeqws", req);
 
         const fileUpload = await uploadService.single('image')
         const responseResult = {
@@ -290,17 +291,24 @@ class Controller {
             try {
                 if (err) {
                     responseResult.message = err;
-                    res.status(204).send(responseResult);
+                    return res.status(204).send(responseResult);
                 }
                 else {
                     const data = {
-                        profilePic: req.file.location
-                    }
-                    service.uploadProfilePic(req, data);
-                    responseResult.success = true;
-                    responseResult.message = "Image uploaded successfully.."
-                    responseResult.data = req.file.location;
-                    res.status(200).send(responseResult);
+                        profilePic: req.file.location,                      
+                    }                                          
+                    service.uploadProfilePic(req,data, (err, data) => {
+                        if(err){
+                            responseResult.message = err;
+                            return res.send(responseResult)
+                        }
+                        else{
+                            responseResult.success = true;
+                            responseResult.message = "Image uploaded successfully.."
+                            responseResult.data = req.file.location;
+                            return res.status(200).send(responseResult);
+                        }
+                    });
                 }
             }
             catch (err) {
