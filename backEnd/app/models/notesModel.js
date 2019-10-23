@@ -97,8 +97,9 @@ class NotesModel {
                         response.status = 200,
                         response.messege = "Notes created Sucessfully",
                         response.data = data
-
+                    console.log("new data",data)
                     this.findData(body).then((findData) => {
+                        console.log("findData data",findData)
                         client.set("notesData" + body.userId, JSON.stringify(findData), redis.print)
                     })
                     resolve(response);
@@ -119,6 +120,8 @@ class NotesModel {
    */
     getAllNotes(req, field, next) {
         try {
+            console.log("modelreq",req)
+            console.log("field",field)
             return new Promise((resolve, reject) => {
                 let response = {
                     successs: false,
@@ -135,6 +138,8 @@ class NotesModel {
                 }
                 if (JSON.stringify(field) === JSON.stringify(data.getAllNotes)) {
                     client.get("notesData" + req.userId, (error, result) => {
+                        console.log("redisDataaa", req.userId)
+                        console.log("redisDataaa",result)
                         let redisData = JSON.parse(result);
                         if (redisData != null) {
                             const data1 = redisData.filter((data) => {
@@ -145,14 +150,17 @@ class NotesModel {
                             response.successs = true,
                                 response.messege = "All Notes display Sucessfully from redis",
                                 response.data = data1
+                                console.log("dfgdg",data1)
                             resolve(response);
                         }
                         else {
                             notesModel.find(field).populate('label').then((data) => {
+                               
                                 response.successs = true,
                                     response.messege = "All Notes display Sucessfully from DB",
                                     response.data = data
                                 client.set("notesData" + req.userId, JSON.stringify(data), redis.print)
+                                console.log("model",response)
                                 resolve(response);
                             }).catch((err) => {
                                 response.data = err
@@ -163,6 +171,7 @@ class NotesModel {
                 }
                 else {
                     notesModel.find(field).populate('label').then((data) => {
+                        console.log("model",data)
                         response.successs = true,
                             response.messege = " Notes display Sucessfully from DB",
                             response.data = data
