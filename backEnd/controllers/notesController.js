@@ -66,9 +66,11 @@ class NotesController {
    */
     getAllNotes(req, res, next) {
         try {
+            
             const filterRequest = {
-                "userId": req.decoded.userId
+                "userId": req.decoded.response.userId
             }
+            console.log("getallnotes",req.decoded.response.userId)
             notesService.getAllNotes(filterRequest).then((data) => {
                 res.status(200).send(data);
             }).catch((err) => {
@@ -97,7 +99,7 @@ class NotesController {
     updateNotes(req, res, next) {
         try {
             req.checkBody('noteId')
-                .notEmpty({ message: 'FirstName is required' })
+                .notEmpty({ message: 'noteId is required' })
 
             req.checkBody('title')
                 .notEmpty({ message: 'title is required' })
@@ -114,7 +116,7 @@ class NotesController {
             }
             else {
                 const filterRequest = {
-                    'userId': req.decoded.userId,
+                    'userId': req.decoded.response.userId,
                     'id': req.body.noteId,
                     'title': req.body.title,
                     'description': req.body.description
@@ -152,7 +154,7 @@ class NotesController {
                 next(new Error('ID is missing'));
             }
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'id': req.body.noteId
             }
             notesService.deleteNotes(filterRequest).then((data) => {
@@ -191,8 +193,9 @@ class NotesController {
 
                 next(new Error('isTrash is undefined'));
             }
+            console.log("isTrash",req.decoded.response.userId)
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'id': req.body.noteId,
                 'isTrash': req.body.isTrash
             }
@@ -237,7 +240,7 @@ class NotesController {
                 next(new Error('isArchive is undefined'));
             }
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'id': req.body.noteId,
                 'isArchive': req.body.isArchive
             }
@@ -280,7 +283,7 @@ class NotesController {
             //     next(new Error('Reminder is undefined'));
             // }
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'id': req.body.noteId,
                 'reminder': req.body.reminder
             }
@@ -324,7 +327,7 @@ class NotesController {
                 next(new Error('Color is undefined'));
             }
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'id': req.body.noteId,
                 'color': req.body.color
             }
@@ -364,7 +367,7 @@ class NotesController {
     search(req, res, next) {
         try {
             const filterRequest = {
-                'userId': req.decoded.userId,
+                'userId': req.decoded.response.userId,
                 'search': req.body.search
             }
             notesService.search(filterRequest).then((data) => {
@@ -398,7 +401,7 @@ class NotesController {
                 next(new Error('labelId is undefined'));
             }
             const filterRequest = {
-                "userId": req.decoded.userId,
+                "userId":req.decoded.response.userId,
                 "noteId": req.body.noteId,
                 "labelId": req.body.labelId,
             }
@@ -435,7 +438,7 @@ class NotesController {
                 next(new Error('labelId is undefined'));
             }
             const filterRequest = {
-                "userId": req.decoded.userId,
+                "userId": req.decoded.response.userId,
                 "noteId": req.body.noteId,
                 "labelId": req.body.labelId,
             }
@@ -468,7 +471,8 @@ class NotesController {
    * @returns : res.send(result)
    */
     getAllReminderNotes(req, res, next) {
-        console.log("get data", req.body);
+        console.log("getAllReminderNotes",req.decoded.response.userId)
+
 
         try {
             const filterRequest = {
@@ -504,8 +508,10 @@ class NotesController {
      */
     getAllIsTrashNotes(req, res, next) {
         try {
+            console.log("getAllIsTrashNotes",req.decoded.response.userId)
+
             const filterRequest = {
-                "userId": req.decoded.userId
+                "userId": req.decoded.response.userId
             }
             notesService.getAllIsTrashNotes(filterRequest).then((data) => {
                 res.status(200).send(data);
@@ -535,10 +541,13 @@ class NotesController {
      */
     getAllIsArchiveNotes(req, res, next) {
         try {
+            console.log("getAllIsArchiveNotes",req.decoded.response.userId)
+
             const filterRequest = {
-                "userId": req.decoded.userId
+                "userId": req.decoded.response.userId
             }
             notesService.getAllIsArchiveNotes(filterRequest).then((data) => {
+                console.log("constro",data)
                 res.status(200).send(data);
             }).catch((err) => {
                 res.status(400).send(err);
@@ -565,8 +574,10 @@ class NotesController {
      */
     getAllLabelNotes(req, res, next) {
         try {
+            console.log("getAllLabelNotes",req.decoded.response.userId)
+
             const filterRequest = {
-                "userId": req.decoded.userId
+                "userId": req.decoded.response.userId
             }
             notesService.getAllLabelNotes(filterRequest).then((data) => {
                 res.status(200).send(data);
