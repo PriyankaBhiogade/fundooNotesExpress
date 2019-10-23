@@ -11,7 +11,8 @@ import { DataService } from '../../services/data.service'
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  titlename: any;
+  gridview: boolean;
   constructor(public dialog: MatDialog,
     private route: Router,
     private note: NotesService, private dataService: DataService) { }
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit {
       console.log("datdata",this.profile)
     })
     // console.log("messege",this.message)
+   this.viewUpdate();
   }
   
   profileImage(event): void {
@@ -43,6 +45,40 @@ export class DashboardComponent implements OnInit {
   }
   refresh() {
     window.location.reload();
+  }
+  viewUpdate() {
+    this.dataService.currentMessage.subscribe(
+      response => this.gridview = response
+    );
+  }
+  changeView() {
+    this.gridview = !this.gridview;
+    this.dataService.changeMessage(this.gridview);
+  }
+
+  addNote() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'addNote']);
+  }
+  icon() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'icon']);
+  }
+  getNote() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'getNotes']);
+  }
+  archive() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'isArchive']);
+  }
+  trash() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'isTrash']);
+  }
+  reminder() {
+    this.titlename = "FundooNote"
+    this.route.navigate(['dashboard', 'reminder']);
   }
 
 

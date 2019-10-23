@@ -1,8 +1,8 @@
 <div fxLayout="row" fxFlex="auto" fxFlex.gt=60% >
-        <!-- fxLayoutGap ="5%" for 2nd card -->
-        <!-- <mat-menu #Reminder="matMenu">
+       <!-- fxLayoutGap ="5%" for 2nd card  -->
+         <mat-menu #Reminder="matMenu">
           <div class="reminder">
-            <span>Reminder: </span>
+            <span>  Reminder: </span>
             <div fxLayout="row">
               <button mat-menu-item (click)="currentDate()">Later today</button>
               <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 AM</button>
@@ -15,14 +15,15 @@
               <button mat-menu-item (click)="nextWeek()">Next week</button>
               <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 PM</button>
             </div>
-            <button mat-menu-item>Home</button>
-            <button mat-menu-item>Select date and time</button>
-            <button mat-menu-item>Select Place</button>
+            <button mat-menu-item> Home</button>
+            <button mat-menu-item> Select date and time</button>
+            <button mat-menu-item> Select Place</button>
           </div>
-        </mat-menu> -->
-        <!-- <button mat-icon-button matTooltip="Reminder">
+        </mat-menu> 
+
+       <button mat-icon-button matTooltip="Reminder">
           <mat-icon class="material-icons" [matMenuTriggerFor]="Reminder">add_alert</mat-icon>
-        </button> -->
+        </button> 
       
       
         <button mat-icon-button matTooltip="Collaborator">

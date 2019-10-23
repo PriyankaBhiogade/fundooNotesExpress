@@ -1,5 +1,8 @@
 
-
+mat-toolbar{
+  z-index: 9;
+  position: fixed;
+}
 .searchbar{
     background-color:rgb(235, 233, 233);
         width:680px;
@@ -23,22 +26,9 @@ input.input:focus{
     
 }
 .appbar{
-  margin-top: 1px;
-  // margin-left: 5px;
-  height: 60px;
-}
-.profile{
-    color: wheat
-}
 
-.profile1{
-  height: 285px;
-  width: 280px;
-}
-.profile2{
-border: none;
-height: 100px;
-width: 100px;
+  top: 0;
+  height: 64px;
 }
   .sidenav{
      background-color:white
@@ -112,14 +102,14 @@ width: 100px;
         border-radius: 50%
   }
   .menu{
-        // min-width: 112px;
-        width: 278px;
+        width: 113%;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         max-height: calc(100vh - 48px);
         border-radius: 4px;
         outline: 0;
     }
+ 
     .fileSelect{
       display: none;
   }
@@ -129,4 +119,8 @@ width: 100px;
     // overflow-y: scroll;
         overflow-x: hidden;
       
+}
+::ng-deep.mat-list-base {
+  z-index: 1;
+  position: fixed;
 }

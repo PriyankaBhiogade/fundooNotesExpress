@@ -42,10 +42,12 @@
               <mat-icon>
                 <img *ngIf="gridview" (click)="changeView()" matTooltip="List view"
                   src="../../../assets/listview.svg" />
+
                 <img *ngIf="!gridview" (click)="changeView()" matTooltip="Grid view" src="../../../assets/grid.svg" />
               </mat-icon>
             </button>
           </div>
+
 
           <div>
             <div fxLayout="row" fxLayoutAlign="end start">
@@ -53,14 +55,13 @@
                 <!-- <div mat-card-avatar
                   [ngStyle]="{'background-image': 'url('{{img}}')','background-size':'cover', 'height':'40px','width':'40px'}"
                   class="img1"></div> -->
-                  <img src = {{img}}  [ngStyle]="{'background-size':'cover', 'height':'40px','width':'40px'}"
-                  class="img1">
+                <img src={{img}} [ngStyle]="{'background-size':'cover', 'height':'40px','width':'40px'}" class="img2">
               </button>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start center" style="margin-top: 1%;">
-              <mat-menu class="menu" #menu="matMenu" style="margin-top: 1%;">
-                <div style="width: 278px;">
+              <mat-menu #menu="matMenu" style="margin-top: 1%;">
+                <div style="width: 89%">
                   <mat-card-header style="margin-top: 1%;">
                     <div mat-card-avatar style="margin-top: 1%;"
                       [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'86px','width':'85px'}"
@@ -71,7 +72,7 @@
                   </mat-card-header><br>
                   <mat-divider></mat-divider>
                   <div fxLayout="row" fxLayoutAlign="end">
-                    <input type="file" class="fileSelect" (change)=profileImage($event) >
+                    <input type="file" class="fileSelect" (change)=profileImage($event)>
                     <button mat-flat-button color="warn" routerLink="/login" (click)="logout()">Sign out</button>
                   </div>
                 </div>
@@ -85,18 +86,18 @@
     </mat-toolbar>
   </div>
 
-  <div class="divider">
-    <mat-divider></mat-divider>
-  </div>
+  <!-- <div class="divider"> -->
+  <mat-divider></mat-divider>
+  <!-- </div> -->
 
   <div>
-    <mat-sidenav-container class="sidenav" >
+    <mat-sidenav-container class="sidenav">
       <mat-sidenav #drawer mode="side" role="navigation" style="height:100vh; width: 22%;">
         <mat-nav-list>
           <div fxLayout="column">
 
             <div>
-              <button mat-raised-button class="color" fxLayout="row">
+              <button mat-raised-button class="color" fxLayout="row" (click)="getNote()">
                 <div fxLayout="row" fxLayoutGap="20%">
                   <div>
                     <img src="../../../assets/notes.svg">
@@ -109,7 +110,7 @@
             </div>
 
             <div>
-              <button mat-raised-button class="color" >
+              <button mat-raised-button class="color" (click)="reminder()">
                 <div fxLayout="row" fxLayoutGap="13.5%">
                   <div>
                     <img src="../../../assets/reminder.svg">
@@ -197,10 +198,10 @@
         </mat-nav-list>
       </mat-sidenav>
 
-      <mat-sidenav-content fxFlexFill >
+      <mat-sidenav-content fxFlexFill>
         <div>
           <app-create-notes class="sgg"></app-create-notes>
-          <app-get-notes></app-get-notes>
+          <!-- <app-get-notes></app-get-notes> -->
         </div>
         <div>
           <router-outlet></router-outlet>

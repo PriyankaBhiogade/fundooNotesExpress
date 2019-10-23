@@ -5,11 +5,12 @@ import { NotesService } from 'src/app/services/notes.service';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-get-notes',
-  templateUrl: './get-notes.component.html',
-  styleUrls: ['./get-notes.component.scss']
+  selector: 'app-is-archive',
+  templateUrl: './is-archive.component.html',
+  styleUrls: ['./is-archive.component.scss']
 })
-export class GetNotesComponent implements OnInit {
+export class IsArchiveComponent implements OnInit {
+
   @Input() noteData: any
   public dialogRef: any
   message: string;
@@ -44,7 +45,7 @@ export class GetNotesComponent implements OnInit {
     );
   }
   getNote() {
-    this.noteService.getAllNotes().subscribe(
+    this.noteService.getAllArchiveNotes().subscribe(
       (response: any) => {
         console.log("response ------>",response)
 
@@ -53,24 +54,6 @@ export class GetNotesComponent implements OnInit {
         // this.notee = response.result.label
       }
     )
-  }
-  reminder(item: any, $event) {
-    this.reminder = $event;
-    this.model = {
-      reminder: this.reminder,
-      id: item.id,
-      fundooUserId: localStorage.getItem('userid')
-    }
-    console.log("reminder", this.model);
-    this.noteService.getAllNotes().subscribe(Response => {
-        console.log("data of reminder: ", Response);
-        //  this.reminder = Response;
-      },
-        error => {
-          console.log("error of reminder:: ", error);
-
-        }
-      )
   }
 
 }

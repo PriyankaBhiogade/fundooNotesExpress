@@ -1,0 +1,29 @@
+
+<div fxLayout="row "  class="card3" fxLayoutAlign="space-between center"  >
+    <div *ngFor="let item of notes"  fxLayout="column" fxFlex="25%"  fxLayoutGap="100%" >
+        <div *ngIf="item.isTrash === false && item.isArchive === false">
+    
+            <div *ngIf= "item.reminder != null"  class="card3" >
+            <mat-card class="card1"style [style.backgroundColor]="item.color">
+               
+              <div fxLayout="column" fxLayoutGap="10%" >
+                <div (click)="openDialog(item)" >
+                  {{item.title}}
+                </div>
+              <div fxLayout="column" fxLayoutGap="5%">
+                <div (click)="openDialog(item)" >
+                  {{item.description}}
+                </div>
+               
+                <div>
+                    <app-icon></app-icon>
+                    <!-- <app-icon [noteData]="item" class="icon_hover"  (changeReminder)="reminder(item,$event)" ></app-icon> -->
+                </div>
+              </div>
+              </div>
+             
+            </mat-card>
+          </div>
+        </div>
+        </div>
+    </div>
