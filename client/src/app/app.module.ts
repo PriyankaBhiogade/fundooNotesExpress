@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appMaterial } from './app.module.appMaterial';
 import { MatIconModule} from '@angular/material/icon';
+import { MatDividerModule} from '@angular/material/divider';
 import { MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { RegisterComponent } from './components/register/register.component';
@@ -19,6 +20,13 @@ import { IconComponent } from './components/icon/icon.component';
 import { GetNotesComponent } from './components/get-notes/get-notes.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { IsTrashComponent } from './components/is-trash/is-trash.component';
+import { IsArchiveComponent } from './components/is-archive/is-archive.component';
+import { ReminderComponent } from './components/reminder/reminder.component';
+import { ColorComponent } from './components/color/color.component';
+import { SearchComponent } from './components/search/search.component';
+import { LabelsComponent } from './components/labels/labels.component';
+import { DataService } from './services/data.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +40,12 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     IconComponent,
     GetNotesComponent,
     ProfileComponent,
+    IsTrashComponent,
+    IsArchiveComponent,
+    ReminderComponent,
+    ColorComponent,
+    SearchComponent,
+    LabelsComponent,
     
   ],
   imports: [
@@ -42,9 +56,12 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatFormFieldModule,
     MatIconModule,
     appMaterial,
+    MatDividerModule,
     ImageCropperModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [DataService],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ProfileComponent]
 })
 export class AppModule { }

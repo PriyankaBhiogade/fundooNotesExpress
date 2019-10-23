@@ -5,6 +5,7 @@ import { HttpService } from './http.service';
   providedIn: 'root'
 })
 export class UserService {
+  currentView: any;
 
   constructor(private httpService: HttpService) { }
   register(data) {

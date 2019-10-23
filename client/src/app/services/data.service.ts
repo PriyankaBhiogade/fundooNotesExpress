@@ -6,14 +6,14 @@ import { BehaviorSubject } from 'rxjs';
 export class DataService {
 
   
-  private messageSource = new BehaviorSubject('');
+  private messageSource = new BehaviorSubject(true);
   
   currentMessage = this.messageSource.asObservable();
 
   constructor() { }
   @Output() image = new EventEmitter();
 
-  changeMessage(message: string) {
+  changeMessage(message) {
     console.log("messsdfsdge",message)
     this.messageSource.next(message)
   }

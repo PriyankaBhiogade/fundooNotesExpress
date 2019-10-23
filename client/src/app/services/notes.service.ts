@@ -37,4 +37,26 @@ export class NotesService {
     
     return this.httpService.getNote(option); 
   }
+  setReminder(data){
+    
+  }
+  getAllArchiveNotes(){
+    var option =
+    {
+      url :'getAllIsArchiveNotes'   
+    }
+    console.log("service",option);
+    
+    return this.httpService.getNote(option); 
+  }
+  getAllTrashNotes(){
+    var option =
+    {
+      url :'getAllIsTrashNotes'   
+    }
+    console.log("service",option);
+    
+    return this.httpService.getNote(option); 
+  
+  }
 }

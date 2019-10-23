@@ -9,21 +9,47 @@ import { CreateNotesComponent } from './components/create-notes/create-notes.com
 import { CreateNoteDialogboxComponent } from './components/create-note-dialogbox/create-note-dialogbox.component';
 import { GetNotesComponent } from './components/get-notes/get-notes.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { IsTrashComponent } from './components/is-trash/is-trash.component';
+import { IsArchiveComponent } from './components/is-archive/is-archive.component';
+import { ReminderComponent } from './components/reminder/reminder.component';
+import { ColorComponent } from './components/color/color.component';
+import { SearchComponent } from './components/search/search.component';
+import { LabelsComponent } from './components/labels/labels.component';
 
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'reset/:token', component: ResetComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'create-notes', component: CreateNotesComponent },
-  { path: 'create-note-dialogbox', component: CreateNoteDialogboxComponent },
-  { path: 'GetNotes', component: GetNotesComponent },
-  { path: 'Profile', component: ProfileComponent }
 
 
-];
+  { path: 'dashboard',component:DashboardComponent,
+  
+
+  children: [
+         {path:'',component:GetNotesComponent},
+         {path:'getNotes',component:GetNotesComponent},
+         {path:'isArchive',component:IsArchiveComponent},
+         {path:'isTrash',component:IsTrashComponent},
+         {path:'reminder',component:ReminderComponent},
+         {path:'search',component:SearchComponent}
+  ]
+},
+]
+  // { path: 'dashboard', component: DashboardComponent },
+  // { path: 'create-notes', component: CreateNotesComponent },
+  // { path: 'create-note-dialogbox', component: CreateNoteDialogboxComponent },
+  // { path: 'getNotes', component: GetNotesComponent },
+  // { path: 'profile', component: ProfileComponent },
+  // { path: 'isArchive', component: IsArchiveComponent },
+  // { path: 'isTrash', component: IsTrashComponent},
+  // { path: 'reminder', component: ReminderComponent },
+  // { path: 'labels', component: LabelsComponent },
+  // { path: 'color', component: ColorComponent },
+  // { path: 'search', component: SearchComponent }
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
