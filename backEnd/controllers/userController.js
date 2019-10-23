@@ -304,7 +304,7 @@ class Controller {
                         }
                         else{
                             responseResult.success = true;
-                            responseResult.message = "Image uploaded successfully.."
+                            responseResult.message = "Image uploaded successfully..."
                             responseResult.data = req.file.location;
                             return res.status(200).send(responseResult);
                         }

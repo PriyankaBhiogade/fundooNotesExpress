@@ -177,9 +177,9 @@ class Model {
             var promise = new Promise((resolve, reject) => {
                 userModel.updateOne({ email:req.decoded.response.email}, { $set:body}, (err, data) => {
                     if (err) {
-                        reject(err)
+                        reject(err);
                     } else {
-                        resolve(data)
+                        resolve(data);
                     }
                 })
             })
