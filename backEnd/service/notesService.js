@@ -241,6 +241,7 @@ class NotesService {
     async getAllIsTrashNotes(req, next) {
         try {
             let field = { isTrash: true }
+            console.log("srfsd",req)
             return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
@@ -254,6 +255,7 @@ class NotesService {
     async getAllIsArchiveNotes(req, next) {
         try {
             let field = { isArchive: true }
+            console.log("srfsd",req)
             return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
