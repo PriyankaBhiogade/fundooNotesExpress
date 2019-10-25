@@ -1,4 +1,4 @@
-<button mat-raised-button class="Dialog" (click)="openDialog(item)"></button>
+<button mat-raised-button  (click)="openDialog(item)"></button>
 <div fxLayout="column" fxLayoutGap="7%" [style.backgroundColor]="setcolor">
   <div class="input" fxLayout="row" fxLayoutGap="60%">
     <textarea matInput fxLayoutAlign="start start" class="input" placeholder="Title" [(formControl)]="title">
@@ -12,9 +12,9 @@
       [(formControl)]="description"></textarea>
   </div>
 
-  <div fxLayout="row" fxLayoutGap="40%">
-    <!-- <app-icon [noteData]="item"></app-icon> -->
-    <button mat-flat-button style="color:black" (click)="next()" (click)="refresh()">Close</button>
+  <div fxLayout="row" fxLayoutGap="50%">
+    <app-icon [noteData]="item"></app-icon>
+    <button mat-flat-button style="color:black" (click)="onClose()">Close</button>
   </div>
 </div>
 

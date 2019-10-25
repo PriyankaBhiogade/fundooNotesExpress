@@ -51,7 +51,8 @@ class NotesService {
                 title: req.title,
                 description: req.description
             }
-            return await notesModel.updateNotes(id, filterData);
+            console.log("service",id,filterData)
+            return await notesModel.updateNotes( req,id, filterData);
         } catch (err) {
             next(err);
         }

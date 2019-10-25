@@ -32,22 +32,18 @@
       
       
       
-        <!-- <mat-menu #color_lens="matMenu">
+        <mat-menu #color_lens="matMenu">
           <div fxLayout="row" fxLayoutAlign=" start" *ngFor="let color of colorArray">
             <div *ngFor="let colors of color">
               <button [ngStyle]="{'background-color':colors.hexcode}" (click)="setColor(colors.hexcode)" mat-mini-fab>
               </button>
             </div>
           </div>
-        </mat-menu> -->
-        <!-- <button mat-icon-button matTooltip="Change color">
+        </mat-menu>
+        <button mat-icon-button matTooltip="Change color">
           <mat-icon class="material-icons" [matMenuTriggerFor]="color_lens">color_lens</mat-icon>
-        </button> -->
-      
-      
-        <button mat-icon-button matTooltip="Add_Image">
-          <mat-icon class="material-icons">insert_photo</mat-icon>
         </button>
+      
       <!-- <div  fxLayout="row"  fxLayoutGap="-1%" > -->
         <!-- <div> -->
         <button mat-icon-button matTooltip="Archive" (click)="archive()">
@@ -80,10 +76,10 @@
             <button mat-menu-item (click)="delete()">Delete Note</button>
             <button mat-menu-item [matMenuTriggerFor]="Label" >Add Label</button>
           </div>
-        </mat-menu>
+        </mat-menu> -->
         <button mat-icon-button matTooltip="More">
           <mat-icon class="material-icons" [matMenuTriggerFor]="more_vert">more_vert</mat-icon>
         </button>
-      </div> -->
-      <!-- </div> -->
-      </div>
+      <!-- </div> --> 
+      <!-- </div>
+       </div> -->

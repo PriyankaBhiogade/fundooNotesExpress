@@ -27,6 +27,7 @@ import { ColorComponent } from './components/color/color.component';
 import { SearchComponent } from './components/search/search.component';
 import { LabelsComponent } from './components/labels/labels.component';
 import { DataService } from './services/data.service';
+import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/edit-labeldialogbox.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { DataService } from './services/data.service';
     ColorComponent,
     SearchComponent,
     LabelsComponent,
+    EditLabeldialogboxComponent,
     
   ],
   imports: [
@@ -62,6 +64,6 @@ import { DataService } from './services/data.service';
   providers: [DataService],
   bootstrap: [AppComponent],
   entryComponents: [
-    ProfileComponent]
+    ProfileComponent,CreateNoteDialogboxComponent,EditLabeldialogboxComponent]
 })
 export class AppModule { }

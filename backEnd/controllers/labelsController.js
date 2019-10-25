@@ -17,12 +17,12 @@ class LabelController {
    */
     createLabel(req, res, next) {
         try {
-            if (typeof req.body.labelName === 'undefined') {
+            if (typeof req.body.label === 'undefined') {
                 next(new Error('labelName is undefined'));
             }
             const filterRequest = {
-                "userId": req.decoded.userId,
-                "labelName": req.body.labelName,
+                "userId": req.decoded.response.userId,
+                "labelName": req.body.label,
             }
             console.log("in contro",filterRequest);
             
@@ -58,6 +58,7 @@ class LabelController {
                 "userId": req.decoded.userId
             }
             labelService.getAllLabel(filterRequest).then((data) => {
+                console.log("datdata",data)
                 res.status(200).send(data);
             }).catch((err) => {
                 res.status(400).send(err);

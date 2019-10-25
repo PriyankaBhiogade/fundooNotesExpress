@@ -1,0 +1,42 @@
+<div class="dialoglabel" fxLayout="column" fxLayoutAlign=" center center">
+    <mat-divider></mat-divider>
+
+    <div>
+        <h4>Edit Labels</h4>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div>
+            <mat-form-field class="input">
+                <input matInput placeholder="create label"  [(ngModel)]="label.label">
+            </mat-form-field>
+
+            <button (click)="createlabel()" style="border: 0px;background-color: white">
+                <img src="https://img.icons8.com/material/24/000000/checkmark.png">
+            </button>
+        </div>
+    </div>
+
+    <div *ngFor="let items of labels" fxLayout="row" fxLayoutAlign="center center">
+        <div>
+            <button mat-button (click)="deleteLabel(items)">
+                <mat-icon>delete_outline</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <mat-form-field class="example-full-width">
+                <input matInput type="text" [(ngModel)]="items.label">
+            </mat-form-field>
+        </div>
+
+        <div>
+            <button mat-button (click)="onEditLabel(items.label,items)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+
+    </div>
+    <mat-divider></mat-divider>
+
+</div>

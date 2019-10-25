@@ -17,9 +17,6 @@ export class CreateNoteDialogboxComponent implements OnInit {
     public dialogBox: MatDialog,
     public dialogRef: MatDialogRef<CreateNoteDialogboxComponent>,
     @Inject(MAT_DIALOG_DATA) public notes: any,) { }
-  
-     
-
     title = new FormControl(this.notes.title);
     description = new FormControl(this.notes.description);
     noteId = this.notes.noteId
@@ -29,11 +26,12 @@ export class CreateNoteDialogboxComponent implements OnInit {
   onClose() {
     this.dialogBox.closeAll();
     const notesdata = {
-      "_id": this.noteId,
+      "_id": this.notes.noteData._id,
       "title": this.title.value,
       "description": this.description.value
     }
-    this.noteService.updateNote(this.notes.noteId, notesdata).subscribe(
+ 
+    this.noteService.updateNote(this.notes.noteData._id, notesdata).subscribe(
       (res: any) => {
         console.log("res",res)
         this.snackBar.open(

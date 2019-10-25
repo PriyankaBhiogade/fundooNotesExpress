@@ -21,12 +21,12 @@ export class NotesService {
   updateNote(id,data) {
     var option =
     {
-      url :'register',
+      url :'updateNotes',
       data: data
     }
-    console.log("service",option);
+    console.log("service",option.data);
     
-    return this.httpService.postReq(option);
+    return this.httpService.postNote(option);
   }
   getAllNotes(){
     var option =
@@ -37,7 +37,14 @@ export class NotesService {
     
     return this.httpService.getNote(option); 
   }
-  setReminder(data){
+  getAllReminderNotes(){
+    var option =
+    {
+      url :'getAllReminderNotes'   
+    }
+    console.log("service",option);
+    
+    return this.httpService.getNote(option); 
     
   }
   getAllArchiveNotes(){
@@ -58,5 +65,15 @@ export class NotesService {
     
     return this.httpService.getNote(option); 
   
+  }
+  setColor(data){
+    var option =
+    {
+      url :'color',
+      data: data
+    }
+    console.log("service",option.data);
+    
+    return this.httpService.postNote(option);
   }
 }

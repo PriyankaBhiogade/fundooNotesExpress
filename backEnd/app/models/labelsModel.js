@@ -76,7 +76,8 @@ class LabelModel {
                 messege: "All Label not display",
                 data: {}
             }
-            labelModel.find(field).then((data) => {
+            labelModel.find().then((data) => {
+                console.log("darad",data)
                 response.successs = true,
                     response.status = 200,
                     response.messege = "All Label display Sucessfully",

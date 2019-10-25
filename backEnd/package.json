@@ -5,8 +5,9 @@
   "start": "nodemon server.js",
   "scripts": {
     "test": "mocha test",
-    "start": "node server.js"
+    "start": "node ."
   },
+   
   "author": "",
   "license": "ISC",
   "dependencies": {

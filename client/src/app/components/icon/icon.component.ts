@@ -22,26 +22,26 @@ export class IconComponent implements OnInit {
   constructor(private noteService: NotesService) { }
 
   ngOnInit() {
-    // this.onclick() 
-  //  this.colorArray=[
-  //    [
-  //    { "name":"WHITE","hexcode":"#FFFFFF"},
-  //    {"name":"RED","hexcode":"#FF0000"},
-  //    {"name":"MEDIUMVIOLETRED","hexcode":"#C71585"},
-  //    {"name":"YELLOW","hexcode":"#FFFF00"}  ],
+  
+   this.colorArray=[
+     [
+     { "name":"WHITE","hexcode":"#FFFFFF"},
+     {"name":"RED","hexcode":"#FF0000"},
+     {"name":"MEDIUMVIOLETRED","hexcode":"#C71585"},
+     {"name":"YELLOW","hexcode":"#FFFF00"}  ],
 
-  //    [
-  //    { "name":"DARKRED","hexcode":"#8B0000"},
-  //    {"name":"PURPLE","hexcode":"#800080"},
-  //    {"name":"DARKGREEN","hexcode":"#006400"},
-  //    {"name":"NAVY","hexcode":"#000080"}  ],
+     [
+     { "name":"DARKRED","hexcode":"#8B0000"},
+     {"name":"PURPLE","hexcode":"#800080"},
+     {"name":"DARKGREEN","hexcode":"#006400"},
+     {"name":"NAVY","hexcode":"#000080"}  ],
 
-  //    [
-  //     { "name":"DARKKHAKI","hexcode":"#BDB76B"},
-  //     {"name":"CADETBLUE","hexcode":"#5F9EA0"},
-  //     {"name":"ROSYBROWN","hexcode":"ROSYBROWN"},
-  //     {"name":"DARKSLATEGRAY","hexcode":"#2F4F4F"}  ]
-  //  ]
+     [
+      { "name":"DARKKHAKI","hexcode":"#BDB76B"},
+      {"name":"CADETBLUE","hexcode":"#5F9EA0"},
+      {"name":"ROSYBROWN","hexcode":"ROSYBROWN"},
+      {"name":"DARKSLATEGRAY","hexcode":"#2F4F4F"}  ]
+   ]
   }
   setColor(colors){
     this.changeColor.emit(colors) 

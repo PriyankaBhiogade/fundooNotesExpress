@@ -3,6 +3,7 @@ import { noteModel } from 'src/app/models/notes';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { NotesService } from 'src/app/services/notes.service';
 import { DataService } from 'src/app/services/data.service';
+import { CreateNoteDialogboxComponent } from '../create-note-dialogbox/create-note-dialogbox.component';
 
 @Component({
   selector: 'app-get-notes',
@@ -11,7 +12,6 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class GetNotesComponent implements OnInit {
   @Input() noteData: any
-  public dialogRef: any
   message: string;
 
   note: noteModel = new noteModel();
@@ -21,7 +21,7 @@ export class GetNotesComponent implements OnInit {
   model: any
   constructor( private snackBar: MatSnackBar,
     private noteService: NotesService,
-    public matDialog: MatDialog,
+    public dialog: MatDialog,
     private dataService :DataService 
     )
     {}
@@ -54,23 +54,39 @@ export class GetNotesComponent implements OnInit {
       }
     )
   }
-  reminder(item: any, $event) {
-    this.reminder = $event;
+
+  item : any[];
+  openDialog(item): void {
+    const dialogRef = this.dialog.open(CreateNoteDialogboxComponent, {
+      width: '550px',
+      // height:'200px',
+      data: { noteData: item, disableClose: true }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  color(item: any, $event) {
+    this.color = $event;
+    console.log("color",this.color)
+    console.log("idnote",item);
     this.model = {
-      reminder: this.reminder,
-      id: item.id,
-      fundooUserId: localStorage.getItem('userid')
+      color: this.color,
+      noteId: item._id  
     }
-    console.log("reminder", this.model);
-    this.noteService.getAllNotes().subscribe(Response => {
-        console.log("data of reminder: ", Response);
+    console.log("color", this.model);
+    this.noteService.setColor(this.model)
+      .subscribe(Response => {
+        console.log("data of color: ", Response);
         //  this.reminder = Response;
       },
         error => {
-          console.log("error of reminder:: ", error);
+          console.log("error of color:: ", error);
 
         }
       )
   }
+
+
 
 }

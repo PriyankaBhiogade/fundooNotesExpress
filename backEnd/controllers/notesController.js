@@ -98,7 +98,8 @@ class NotesController {
      */
     updateNotes(req, res, next) {
         try {
-            req.checkBody('noteId')
+           
+            req.checkBody('_id')
                 .notEmpty({ message: 'noteId is required' })
 
             req.checkBody('title')
@@ -117,7 +118,7 @@ class NotesController {
             else {
                 const filterRequest = {
                     'userId': req.decoded.response.userId,
-                    'id': req.body.noteId,
+                    'id': req.body._id,
                     'title': req.body.title,
                     'description': req.body.description
                 }
@@ -319,6 +320,7 @@ class NotesController {
       */
     color(req, res, next) {
         try {
+        console.log("body",req.body)
             if (typeof req.body.noteId === 'undefined') {
                 next(new Error('ID is missing'));
             }

@@ -1,7 +1,7 @@
 <div *ngIf="gridview === true" fxLayout="row wrap" fxLayoutGap = "3%" class="data">
-    <div *ngFor="let item of notes" class="data2" >
+    <div *ngFor="let item of notes" class="data2"  >
         <div *ngIf= "item.isArchive === true" >
-        <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap = "3%">
+        <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap = "3%" [style.backgroundColor]="item.color">
           <div fxLayout="column" fxLayoutGap="10%">
             <div (click)="openDialog(item)">
               {{item.title}}
@@ -22,9 +22,8 @@
                 </mat-chip-list>
               </div>
               <div>
-                <!-- <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
-                        (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)"></app-icon> -->
-                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)">
+                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)"
+                (changeColor)="color(item,$event)" >
                 </app-icon>
               </div>
             </div>

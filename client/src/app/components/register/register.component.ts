@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
       password: this.password.value,
       confirmPassword: this.confirmPassword.value
     }
-console.log("datata",this.user);
+    console.log("datata", this.user);
 
     if (this.firstName.value == '' && this.lastName.value == '' && this.confirmPassword.value == '' && this.email.value == '' && this.password.value == '') {
       this.getErrorMessage = "Fields are required";
