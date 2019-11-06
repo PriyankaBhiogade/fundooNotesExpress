@@ -23,7 +23,7 @@
               </div>
               <div>
                 <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)"
-                (changeColor)="color(item,$event)" >
+                (changeLabel)="getLabel(item,$event)"   (changeColor)="color(item,$event)" >
                 </app-icon>
               </div>
             </div>
@@ -33,7 +33,7 @@
     </div>
   </div>
   
-  <div *ngIf="gridview===false" fxLayout="column wrap" fxLayoutGap = "3%" class="data">
+  <div *ngIf="gridview===false" fxLayout="column wrap" fxLayoutGap = "3%" class="data" [style.backgroundColor]="item.color">
   
     <div *ngFor="let item of notes"  class="data2"  >
         <div *ngIf= "item.isArchive === true" >
@@ -58,9 +58,8 @@
                 </mat-chip-list>
               </div>
               <div>
-                <!-- <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
-                (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)"></app-icon> -->
-                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)">
+                <app-icon [noteData]="item" fxFlex=100% class="icon_hover"  (changeLabel)="getLabel(item,$event)" (changeReminder)="reminder(item,$event)" 
+                (changeColor)="color(item,$event)">
                 </app-icon>
               </div>
             </div>

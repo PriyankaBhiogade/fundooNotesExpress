@@ -51,7 +51,6 @@ class NotesService {
                 title: req.title,
                 description: req.description
             }
-            console.log("service",id,filterData)
             return await notesModel.updateNotes( req,id, filterData);
         } catch (err) {
             next(err);
@@ -241,8 +240,7 @@ class NotesService {
     */
     async getAllIsTrashNotes(req, next) {
         try {
-            let field = { isTrash: true }
-            console.log("srfsd",req)
+            let field = { isTrash: true ,isArchive: false }
             return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);
@@ -255,8 +253,7 @@ class NotesService {
     */
     async getAllIsArchiveNotes(req, next) {
         try {
-            let field = { isArchive: true }
-            console.log("srfsd",req)
+            let field = { isArchive: true ,isTrash:false }
             return await notesModel.getAllNotes(req,field);
         } catch (err) {
             next(err);

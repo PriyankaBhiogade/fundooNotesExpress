@@ -21,6 +21,7 @@ export class ReminderComponent implements OnInit {
   notee:any
   gridview:boolean;
   model: any
+  data1: any;
   constructor( private snackBar: MatSnackBar,
     private noteService: NotesService,
     public matDialog: MatDialog,
@@ -56,4 +57,48 @@ export class ReminderComponent implements OnInit {
       }
     )
   }
+  color(item: any, $event) {
+    this.color = $event;
+    console.log("color", this.color)
+    console.log("idnote", item);
+    this.model = {
+      color: this.color,
+      noteId: item._id
+    }
+    console.log("color", this.model);
+    this.noteService.setColor(this.model)
+      .subscribe(Response => {
+        console.log("data of color: ", Response);       
+      },
+        error => {
+          console.log("error of color:: ", error);
+
+        }
+      )
+  }
+
+  Lable_id:any
+  getLabel(item:any,$event){
+    this.Lable_id =$event._id;
+    console.log("event",$event);
+      this.model = {
+        "labelId": this.Lable_id,
+        "noteId": item._id,
+        "userId": item.userId
+      }
+      console.log("data model11fgdf1",this.model);
+      this.noteService.addLabelToNote(this.model)
+  
+        .subscribe(response => {
+          this.data1 = response
+          console.log("label data  ",  this.data1)
+  
+          this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
+        },
+          error => {
+            console.log(error)
+             this.snackBar.open('Not added', 'End Now', { duration: 3000 })
+          }
+        )
+    }
 }

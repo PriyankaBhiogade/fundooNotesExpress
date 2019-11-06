@@ -1,85 +1,70 @@
-<div fxLayout="row" fxFlex="auto" fxFlex.gt=60% >
-       <!-- fxLayoutGap ="5%" for 2nd card  -->
-         <mat-menu #Reminder="matMenu">
-          <div class="reminder">
-            <span>  Reminder: </span>
-            <div fxLayout="row">
-              <button mat-menu-item (click)="currentDate()">Later today</button>
-              <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 AM</button>
-            </div>
-            <div fxLayout="row">
-              <button mat-menu-item (click)="tomorrowDate()">Tomorrow</button>
-              <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 PM</button>
-            </div>
-            <div fxLayout="row">
-              <button mat-menu-item (click)="nextWeek()">Next week</button>
-              <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 PM</button>
-            </div>
-            <button mat-menu-item> Home</button>
-            <button mat-menu-item> Select date and time</button>
-            <button mat-menu-item> Select Place</button>
-          </div>
-        </mat-menu> 
+<div fxLayout="row" fxFlex="auto" fxFlex.gt=60%>
+  <!-- fxLayoutGap ="5%" for 2nd card  -->
+  <mat-menu #Reminder="matMenu">
+    <div class="reminder">
+      <span> Reminder: </span>
+      <div fxLayout="row">
+        <button mat-menu-item (click)="currentDate()">Later today</button>
+        <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 AM</button>
+      </div>
+      <div fxLayout="row">
+        <button mat-menu-item (click)="tomorrowDate()">Tomorrow</button>
+        <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 PM</button>
+      </div>
+      <div fxLayout="row">
+        <button mat-menu-item (click)="nextWeek()">Next week</button>
+        <button mat-menu-item fxLayout="row" fxLayoutAlign="end end">08:00 PM</button>
+      </div>
+      <button mat-menu-item> Home</button>
+      <button mat-menu-item> Select date and time</button>
+      <button mat-menu-item> Select Place</button>
+    </div>
+  </mat-menu>
 
-       <button mat-icon-button matTooltip="Reminder">
-          <mat-icon class="material-icons" [matMenuTriggerFor]="Reminder">add_alert</mat-icon>
-        </button> 
-      
-      
-        <button mat-icon-button matTooltip="Collaborator">
-          <mat-icon class="material-icons">person_add</mat-icon>
+  <button mat-icon-button matTooltip="Reminder">
+    <mat-icon class="material-icons" [matMenuTriggerFor]="Reminder">add_alert</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Collaborator">
+    <mat-icon class="material-icons">person_add</mat-icon>
+  </button>
+  <mat-menu #color_lens="matMenu">
+    <div fxLayout="row" fxLayoutAlign=" start" *ngFor="let color of colorArray">
+      <div *ngFor="let colors of color">
+        <button [ngStyle]="{'background-color':colors.hexcode}" (click)="setColor(colors.hexcode)" mat-mini-fab>
         </button>
-      
-      
-      
-        <mat-menu #color_lens="matMenu">
-          <div fxLayout="row" fxLayoutAlign=" start" *ngFor="let color of colorArray">
-            <div *ngFor="let colors of color">
-              <button [ngStyle]="{'background-color':colors.hexcode}" (click)="setColor(colors.hexcode)" mat-mini-fab>
-              </button>
-            </div>
+      </div>
+    </div>
+  </mat-menu>
+  <button mat-icon-button matTooltip="Change color">
+    <mat-icon class="material-icons" [matMenuTriggerFor]="color_lens">color_lens</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Archive" (click)="archive()">
+    <mat-icon class="material-icons" fxLayoutGap="-3%">archive</mat-icon>
+  </button>
+
+  <div>
+    <mat-menu #Label="matMenu">
+      <div fxLayout="column" fxLayoutAlign="start" style="width:150px; height: 120px ">
+        <span style="margin-left:8px"> Label note </span>
+        <mat-divider></mat-divider>
+        <div *ngFor="let item of labels;index as i" fxLayout="row" fxLayoutGap="15px">
+          <div fxLayout="row">
+            <mat-checkbox [(ngModel)]="checked+i" (click)="setLabel(item)" style="margin-left:8px">
+            </mat-checkbox>
           </div>
-        </mat-menu>
-        <button mat-icon-button matTooltip="Change color">
-          <mat-icon class="material-icons" [matMenuTriggerFor]="color_lens">color_lens</mat-icon>
-        </button>
-      
-      <!-- <div  fxLayout="row"  fxLayoutGap="-1%" > -->
-        <!-- <div> -->
-        <button mat-icon-button matTooltip="Archive" (click)="archive()">
-          <mat-icon class="material-icons" fxLayoutGap="-3%">archive</mat-icon>
-        </button>
-      
-      <!-- </div> -->
-      <!-- <div>
-        <mat-menu #Label="matMenu" style="width:50px">
-          <div fxLayout="column" fxLayoutAlign="start start">
-            <div>Label note </div>
-            <mat-divider></mat-divider>
-            <br>
-      
-            <div *ngFor='let item of labels;index as i' fxLayout="row" fxLayoutGap="20px">
-              <div fxLayout="row">
-                <mat-checkbox [(ngModel)]="checked+i" (click)="setLabel(item.LableName)"></mat-checkbox>
-              </div>
-              <div>
-                {{item.LableName}}
-              </div>
-      
-            </div>
-      
+          <div>
+            {{item.labelName}}
           </div>
-        </mat-menu>
-      
-        <mat-menu #more_vert="matMenu">
-          <div fxLayout="column" fxLayoutAlign=" start">
-            <button mat-menu-item (click)="delete()">Delete Note</button>
-            <button mat-menu-item [matMenuTriggerFor]="Label" >Add Label</button>
-          </div>
-        </mat-menu> -->
-        <button mat-icon-button matTooltip="More">
-          <mat-icon class="material-icons" [matMenuTriggerFor]="more_vert">more_vert</mat-icon>
-        </button>
-      <!-- </div> --> 
-      <!-- </div>
-       </div> -->
+        </div>
+      </div>
+    </mat-menu>
+  </div>
+  <mat-menu #more_vert="matMenu">
+    <div fxLayout="column" fxLayoutAlign=" start">
+      <button mat-menu-item (click)="delete()">Delete Note</button>
+      <button mat-menu-item [matMenuTriggerFor]="Label" (click)="onclick()">Add Label</button>
+    </div>
+  </mat-menu>
+  <button mat-icon-button matTooltip="More">
+    <mat-icon class="material-icons" [matMenuTriggerFor]="more_vert">more_vert</mat-icon>
+  </button>

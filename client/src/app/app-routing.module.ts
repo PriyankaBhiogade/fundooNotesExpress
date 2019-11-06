@@ -14,7 +14,6 @@ import { IsArchiveComponent } from './components/is-archive/is-archive.component
 import { ReminderComponent } from './components/reminder/reminder.component';
 import { ColorComponent } from './components/color/color.component';
 import { SearchComponent } from './components/search/search.component';
-import { LabelsComponent } from './components/labels/labels.component';
 
 
 const routes: Routes = [
@@ -23,8 +22,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'reset/:token', component: ResetComponent },
-
-
   { path: 'dashboard',component:DashboardComponent,
   
 

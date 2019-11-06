@@ -22,6 +22,7 @@ export class IsArchiveComponent implements OnInit {
   gridview:boolean;
   model: any
   dialog: any;
+  data1: any;
   constructor( private snackBar: MatSnackBar,
     private noteService: NotesService,
     public matDialog: MatDialog,
@@ -45,11 +46,10 @@ export class IsArchiveComponent implements OnInit {
 
     );
   }
-  getNote() {
+  getNote() { 
     this.noteService.getAllArchiveNotes().subscribe(
       (response: any) => {
-        console.log("response ------>",response)
-
+        console.log("response ------>",response.data)
         this.notes = response.data
         console.log("dbfhjsdfvg",this.notes)
         // this.notee = response.result.label
@@ -87,5 +87,29 @@ export class IsArchiveComponent implements OnInit {
         }
       )
   }
+  Lable_id:any
+  getLabel(item:any,$event){
+    this.Lable_id =$event._id;
+    console.log("event",$event);
+      this.model = {
+        "labelId": this.Lable_id,
+        "noteId": item._id,
+        "userId": item.userId
+      }
+      console.log("data model11fgdf1",this.model);
+      this.noteService.addLabelToNote(this.model)
+  
+        .subscribe(response => {
+          this.data1 = response
+          console.log("label data  ",  this.data1)
+  
+          this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
+        },
+          error => {
+            console.log(error)
+             this.snackBar.open('Not added', 'End Now', { duration: 3000 })
+          }
+        )
+    }
 
 }

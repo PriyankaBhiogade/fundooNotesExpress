@@ -18,6 +18,7 @@ class NotesController {
    * @returns : res.send(result)
    */
     createNotes(req, res, next) {
+        console.log("req.body",req.body)
         try {
             req.checkBody('title').notEmpty({ message: 'Title is required' })
             const error = req.validationErrors();
@@ -187,7 +188,7 @@ class NotesController {
 
     isTrash(req, res, next) {
         try {
-            if (typeof req.body.noteId === 'undefined') {
+            if (typeof req.body._id === 'undefined') {
                 next(new Error('ID is missing'));
             }
             if (typeof req.body.isTrash === 'undefined') {
@@ -197,7 +198,7 @@ class NotesController {
             console.log("isTrash",req.decoded.response.userId)
             const filterRequest = {
                 'userId': req.decoded.response.userId,
-                'id': req.body.noteId,
+                'id': req.body._id,
                 'isTrash': req.body.isTrash
             }
             if (filterRequest.id == null && filterRequest.isTrash == null) {
@@ -233,7 +234,7 @@ class NotesController {
     */
     isArchive(req, res, next) {
         try {
-            if (typeof req.body.noteId === 'undefined') {
+            if (typeof req.body._id === 'undefined') {
                 next(new Error('ID is missing'));
             }
             if (typeof req.body.isArchive === 'undefined') {
@@ -242,9 +243,10 @@ class NotesController {
             }
             const filterRequest = {
                 'userId': req.decoded.response.userId,
-                'id': req.body.noteId,
+                'id': req.body._id,
                 'isArchive': req.body.isArchive
             }
+            console.log("req111",req.decoded.response)
             if (filterRequest.id == null && filterRequest.isArchive == null) {
                 next(new Error("Id and isArchive is not null"));
             } else {
@@ -367,6 +369,7 @@ class NotesController {
       */
 
     search(req, res, next) {
+        console.log("data",req.body)
         try {
             const filterRequest = {
                 'userId': req.decoded.response.userId,
@@ -398,6 +401,7 @@ class NotesController {
      * @returns : res.send(result)
      */
     addLabel(req, res, next) {
+        console.log("req label",req.body)
         try {
             if (typeof req.body.labelId === 'undefined') {
                 next(new Error('labelId is undefined'));

@@ -25,7 +25,6 @@ import { IsArchiveComponent } from './components/is-archive/is-archive.component
 import { ReminderComponent } from './components/reminder/reminder.component';
 import { ColorComponent } from './components/color/color.component';
 import { SearchComponent } from './components/search/search.component';
-import { LabelsComponent } from './components/labels/labels.component';
 import { DataService } from './services/data.service';
 import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/edit-labeldialogbox.component';
 @NgModule({
@@ -46,7 +45,6 @@ import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/ed
     ReminderComponent,
     ColorComponent,
     SearchComponent,
-    LabelsComponent,
     EditLabeldialogboxComponent,
     
   ],

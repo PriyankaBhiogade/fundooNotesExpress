@@ -1,4 +1,4 @@
 export class labelModel{
-    _id:String
+    _id:string
     labelName:string
 }

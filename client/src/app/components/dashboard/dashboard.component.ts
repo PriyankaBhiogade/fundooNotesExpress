@@ -6,6 +6,7 @@ import { NotesService } from 'src/app/services/notes.service';
 import { DataService } from '../../services/data.service'
 import { EditLabeldialogboxComponent } from '../edit-labeldialogbox/edit-labeldialogbox.component';
 import { LabelsService } from 'src/app/services/labels.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,8 @@ import { LabelsService } from 'src/app/services/labels.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  private messageSource = new BehaviorSubject([]);
+  currentMessage = this.messageSource.asObservable();
   titlename: any;
   gridview: boolean;
   constructor(public dialog: MatDialog,
@@ -22,7 +25,8 @@ export class DashboardComponent implements OnInit {
   lastName = localStorage.getItem('lastName')
   email = localStorage.getItem('email')
   profile = localStorage.getItem('profile')
-  labels: any[];
+  labels:Array<any> = [];
+
   // message: any
   img = this.profile;
   ngOnInit() {
@@ -33,6 +37,9 @@ export class DashboardComponent implements OnInit {
     })
     // console.log("messege",this.message)
     this.viewUpdate();
+  }
+  logout() {
+    localStorage.removeItem('token')
   }
 
   profileImage(event): void {
@@ -66,6 +73,30 @@ export class DashboardComponent implements OnInit {
         console.log("response", response)
         this.labels = response.data
         console.log("labels", this.labels)
+      }
+    )
+  }
+
+  value: string;
+  data: {};
+  search: any;
+  onEnter(value: string) {
+    this.value = value;
+    this.data = {
+      search: this.value
+    }
+    console.log("datasdfa",this.data);
+    this.note.searchNote(this.data).subscribe( 
+      (response: any) => {
+        console.log("search note111", response);
+        this.search = response['data']
+        console.log("data", this.search);
+
+        this.messageSource.next(this.search);
+        this.route.navigate(['dashboard', 'search']);
+      },
+      error => {
+        console.log("error", error);
       }
     )
   }

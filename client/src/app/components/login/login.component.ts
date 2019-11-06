@@ -66,13 +66,14 @@ export class LoginComponent implements OnInit {
           'Login Successful',
           'End now',
           { duration: 1000 });
-        this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/dashboard');
       },
       error => {
         this.snackBar.open(
           "Login Failed",
           "undo",
-          { duration: 2500 })
+          { duration: 2500 });
+          this.router.navigateByUrl('/login');
       }
     )
   }

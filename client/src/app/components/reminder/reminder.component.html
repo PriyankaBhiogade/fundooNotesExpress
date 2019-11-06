@@ -2,7 +2,7 @@
   <div *ngFor="let item of notes" class="data2">
     <!-- <div *ngIf="item.isTrash === false && item.isArchive === false"> -->
         <div *ngIf="item.reminder != null">
-          <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap="3%">
+          <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap="3%" [style.backgroundColor]="item.color">
             <div fxLayout="column" fxLayoutGap="10%">
               <div (click)="openDialog(item)">
                 {{item.title}}
@@ -23,9 +23,8 @@
                   </mat-chip-list>
                 </div>
                 <div>
-                  <!-- <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
-                          (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)"></app-icon> -->
-                  <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)">
+                  <app-icon [noteData]="item" fxFlex=100% class="icon_hover"  (changeLabel)="getLabel(item,$event)" (changeReminder)="reminder(item,$event)" 
+                  (changeColor)="color(item,$event)">
                   </app-icon>
                 </div>
               </div>
@@ -41,7 +40,7 @@
   <div *ngFor="let item of notes" class="data2">
     <!-- <div *ngIf="item.isTrash === false && item.isArchive === false"> -->
         <div *ngIf="item.reminder != null">
-        <mat-card fxLayout="row" fxFlex="auto" class="card2">
+        <mat-card fxLayout="row" fxFlex="auto" class="card2" [style.backgroundColor]="item.color">
           <div fxLayout="column" fxLayoutGap="10%">
             <div (click)="openDialog(item)">
               {{item.title}}
@@ -62,9 +61,8 @@
                 </mat-chip-list>
               </div>
               <div>
-                <!-- <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
-                  (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)"></app-icon> -->
-                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeReminder)="reminder(item,$event)">
+                <app-icon [noteData]="item" fxFlex=100% class="icon_hover"  (changeLabel)="getLabel(item,$event)" (changeReminder)="reminder(item,$event)" 
+                (changeColor)="color(item,$event)">
                 </app-icon>
               </div>
             </div>

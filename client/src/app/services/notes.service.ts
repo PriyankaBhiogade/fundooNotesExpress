@@ -76,4 +76,47 @@ export class NotesService {
     
     return this.httpService.postNote(option);
   }
-}
+  setArchive(data){
+    var option =
+    {
+      url :'isArchive',
+      data: data
+    }
+    console.log("service",option.data);
+    
+    return this.httpService.postNote(option);
+  }
+  setdelete(data){
+    var option =
+    {
+      url :'isTrash',
+      data: data
+    }
+    console.log("service",option.data);
+    
+    return this.httpService.postNote(option);
+  }
+  addLabelToNote(data){
+    var option =
+    {
+      url :'addLabelToNotes',
+      data: data
+    }
+    console.log("service",option.data);
+    
+    return this.httpService.postNote(option);
+  }
+  searchNote(data){
+    var option =
+    {
+      url :'search',
+      data: data
+    }
+    console.log("service",option.data);
+    
+    return this.httpService.postNote(option);
+  }
+  
+  }
+  
+

@@ -35,7 +35,7 @@ export class HttpService {
       })
     }; 
     console.log('token in Http service resetpassword :',localStorage.getItem('token'));
-    console.log("data",options.data);
+    console.log("data",options);
     return this.http.post(this.url + options.url, options.data, httpOptions)
   }
   public getNote(options):any
