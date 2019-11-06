@@ -17,6 +17,7 @@ export class ReminderComponent implements OnInit {
   message: string;
 
   note: noteModel = new noteModel();
+  len;
   notes:[] ;
   notee:any
   gridview:boolean;
