@@ -26,6 +26,7 @@ class Controller {
     * @returns : res.send(result)
     */
     registerUser(req, res, next) {
+        console.log("register",req.body)
         try {
             /*
             * @description :validation using expressValidator
@@ -52,9 +53,10 @@ class Controller {
                 success: false,
                 status: 422,
                 message: "Invalid Input",
-                data: { errors }
+                data: errors
             }
             if (errors) {
+                console.log("datdatadta",errors)
                 return res.status(422).send(response);
             }
             else {

@@ -11,7 +11,7 @@
                 <div fxLayoutGap="10%" (click)="openDialog(item)">
                   {{item.description}}
                 </div>
-                <div *ngIf="item.reminder != null">
+                <div *ngIf="len">
                   <mat-chip-list>
                     <mat-chip class="reminder">
                       {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>

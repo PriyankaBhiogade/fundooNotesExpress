@@ -18,7 +18,7 @@ export class IsTrashComponent implements OnInit {
   message: string;
 
   note: noteModel = new noteModel();
-  notes: Array<any> = [];
+  notes: Array< any> = [];
   notee: any
   gridview: boolean;
   model: any
@@ -40,17 +40,13 @@ export class IsTrashComponent implements OnInit {
     this.dataService.currentMessage.subscribe(
       response => {
         this.message = response['Title']
-        console.log("response =====>", this.message)
       }
     );
   }
   getNote() {
     this.noteService.getAllTrashNotes().subscribe(
       (response: any) => {
-        console.log("response ------>", response.data)
-
         this.notes = response.data
-        console.log("dbfhjsdfvg", this.notes)
         // this.notee = response.result.label
       }
     )
@@ -68,21 +64,15 @@ export class IsTrashComponent implements OnInit {
   }
   color(item: any, $event) {
     this.color = $event;
-    console.log("color", this.color)
-    console.log("idnote", item);
     this.model = {
       color: this.color,
       noteId: item._id
     }
-    console.log("color", this.model);
     this.noteService.setColor(this.model)
       .subscribe(Response => {
-        console.log("data of color: ", Response);
-
       },
         error => {
           console.log("error of color:: ", error);
-
         }
       )
   }
@@ -95,13 +85,9 @@ export class IsTrashComponent implements OnInit {
       "noteId": item._id,
       "userId": item.userId
     }
-    console.log("data model11fgdf1", this.model);
     this.noteService.addLabelToNote(this.model)
-
       .subscribe(response => {
         this.data1 = response
-        console.log("label data  ", this.data1)
-
         this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
       },
         error => {

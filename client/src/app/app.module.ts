@@ -27,6 +27,9 @@ import { ColorComponent } from './components/color/color.component';
 import { SearchComponent } from './components/search/search.component';
 import { DataService } from './services/data.service';
 import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/edit-labeldialogbox.component';
+import { DisplayNotesComponent } from './components/display-notes/display-notes.component';
+import { AuthGuard } from './auth-guard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +49,7 @@ import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/ed
     ColorComponent,
     SearchComponent,
     EditLabeldialogboxComponent,
+    DisplayNotesComponent,
     
   ],
   imports: [
@@ -59,7 +63,7 @@ import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/ed
     MatDividerModule,
     ImageCropperModule,
   ],
-  providers: [DataService],
+  providers: [DataService,AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
     ProfileComponent,CreateNoteDialogboxComponent,EditLabeldialogboxComponent]

@@ -1,0 +1,108 @@
+<div *ngIf="gridview === true" fxLayout="row wrap" fxLayoutGap="3%" class="data">
+    <div *ngFor="let item of NotesArray" class="data2">
+      <div *ngIf="item.isTrash === false && item.isArchive === false">
+        <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap="3%" [style.backgroundColor]="item.color">
+          <div fxLayout="column" fxLayoutGap="10%">
+            <div (click)="openDialog(item)">
+              {{item.title}}
+            </div>
+            <div fxLayout="column" fxLayoutGap="7%">
+              <div fxLayoutGap="10%" (click)="openDialog(item)">
+                {{item.description}}
+              </div>
+              <div *ngIf="item.reminder != null">
+                <mat-chip-list>
+                  <mat-chip class="reminder">
+                    {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
+                </mat-chip-list>
+              </div>
+  
+              <div *ngIf="item.label != null" fxLayout ="row wrap" fxLayoutGap="1.5%" >
+                <mat-chip-list  *ngFor="let i of item.label" >
+                  <mat-chip>{{i.labelName}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div>
+                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
+                  (changeReminder)="reminder(item,$event)" (changeColor)="color(item,$event)">
+                </app-icon>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="gridview===false" fxLayout="column wrap" fxLayoutGap="3%" class="data">
+  
+    <div *ngFor="let item of notes" class="data2">
+      <div *ngIf="item.isTrash === false && item.isArchive === false">
+        <mat-card fxLayout="row" fxFlex="auto" class="card2" [style.backgroundColor]="item.color">
+          <div fxLayout="column" fxLayoutGap="10%">
+            <div (click)="openDialog(item)">
+              {{item.title}}
+            </div>
+            <div fxLayout="column" fxLayoutGap="7%">
+              <div fxLayoutGap="10%" (click)="openDialog(item)">
+                {{item.description}}
+              </div>
+              <div *ngIf="item.reminder != null">
+                <mat-chip-list>
+                  <mat-chip class="reminder">
+                    {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div *ngIf="item.LabelName != null">
+                <mat-chip-list>
+                  <mat-chip>{{item.LabelName}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div>
+                <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
+                  (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)">
+                </app-icon>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+<!-- <div *ngIf="gridview===false" fxLayout="column wrap" fxLayoutGap="3%" class="data">
+
+  <div *ngFor="let item of notes" class="data2">
+    <div *ngIf="item.isTrash === false && item.isArchive === false">
+      <mat-card fxLayout="row" fxFlex="auto" class="card2" [style.backgroundColor]="item.color">
+        <div fxLayout="column" fxLayoutGap="10%">
+          <div (click)="openDialog(item)">
+            {{item.title}}
+          </div>
+          <div fxLayout="column" fxLayoutGap="7%">
+            <div fxLayoutGap="10%" (click)="openDialog(item)">
+              {{item.description}}
+            </div>
+            <div *ngIf="item.reminder != null">
+              <mat-chip-list>
+                <mat-chip class="reminder">
+                  {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
+              </mat-chip-list>
+            </div>
+            <div *ngIf="item.LabelName != null">
+              <mat-chip-list>
+                <mat-chip>{{item.LabelName}}</mat-chip>
+              </mat-chip-list>
+            </div>
+            <div>
+              <app-icon [noteData]="item" fxFlex=100% class="icon_hover" (changeLabel)="getLabel(item,$event)"
+                (changeColor)="color(item,$event)" (changeReminder)="reminder(item,$event)">
+              </app-icon>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div> -->
+

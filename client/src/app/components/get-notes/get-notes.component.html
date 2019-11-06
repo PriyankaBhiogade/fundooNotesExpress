@@ -1,4 +1,6 @@
-<div *ngIf="gridview === true" fxLayout="row wrap" fxLayoutGap="3%" class="data">
+<!-- <app-display-notes [NotesArray]="notes"></app-display-notes> -->
+
+ <div *ngIf="gridview === true" fxLayout="row wrap" fxLayoutGap="3%" class="data">
   <div *ngFor="let item of notes" class="data2">
     <div *ngIf="item.isTrash === false && item.isArchive === false">
       <mat-card fxLayout="row" fxFlex="auto" class="card1" fxLayoutGap="3%" [style.backgroundColor]="item.color">
@@ -68,4 +70,4 @@
       </mat-card>
     </div>
   </div>
-</div>
+</div> 

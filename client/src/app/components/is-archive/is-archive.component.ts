@@ -17,7 +17,7 @@ export class IsArchiveComponent implements OnInit {
   message;
 
   note: noteModel = new noteModel();
-  notes:[] ;
+  notes: Array<any> = [];
   notee:any
   gridview:boolean;
   model: any
@@ -49,9 +49,7 @@ export class IsArchiveComponent implements OnInit {
   getNote() { 
     this.noteService.getAllArchiveNotes().subscribe(
       (response: any) => {
-        console.log("response ------>",response.data)
         this.notes = response.data
-        console.log("dbfhjsdfvg",this.notes)
         // this.notee = response.result.label
       }
     )
@@ -96,13 +94,10 @@ export class IsArchiveComponent implements OnInit {
         "noteId": item._id,
         "userId": item.userId
       }
-      console.log("data model11fgdf1",this.model);
       this.noteService.addLabelToNote(this.model)
-  
         .subscribe(response => {
           this.data1 = response
           console.log("label data  ",  this.data1)
-  
           this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
         },
           error => {

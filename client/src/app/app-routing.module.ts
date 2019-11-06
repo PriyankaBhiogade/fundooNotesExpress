@@ -14,6 +14,7 @@ import { IsArchiveComponent } from './components/is-archive/is-archive.component
 import { ReminderComponent } from './components/reminder/reminder.component';
 import { ColorComponent } from './components/color/color.component';
 import { SearchComponent } from './components/search/search.component';
+import { AuthGuard } from './auth-guard';
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'reset/:token', component: ResetComponent },
-  { path: 'dashboard',component:DashboardComponent,
+  { canActivate:[AuthGuard],path: 'dashboard',component:DashboardComponent,
   
 
   children: [
