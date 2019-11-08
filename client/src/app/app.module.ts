@@ -28,7 +28,12 @@ import { SearchComponent } from './components/search/search.component';
 import { DataService } from './services/data.service';
 import { EditLabeldialogboxComponent } from './components/edit-labeldialogbox/edit-labeldialogbox.component';
 import { DisplayNotesComponent } from './components/display-notes/display-notes.component';
-import { AuthGuard } from './auth-guard';
+// import { AuthGuard } from './auth-guard';
+// import * as firebase from 'firebase';
+import {AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '.././environments/environment'
 
 @NgModule({
   declarations: [
@@ -62,8 +67,13 @@ import { AuthGuard } from './auth-guard';
     appMaterial,
     MatDividerModule,
     ImageCropperModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    
   ],
-  providers: [DataService,AuthGuard],
+  // ,AuthGuard
+  providers: [DataService],
   bootstrap: [AppComponent],
   entryComponents: [
     ProfileComponent,CreateNoteDialogboxComponent,EditLabeldialogboxComponent]

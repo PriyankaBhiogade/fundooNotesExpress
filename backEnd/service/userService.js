@@ -179,5 +179,8 @@ class Service {
             throw (error)
         }
     }
+    notificationToken(req){
+        model.notificationTokenSet(req)
+        }
 }
 module.exports = new Service();

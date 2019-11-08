@@ -4,7 +4,8 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { NotesService } from 'src/app/services/notes.service';
 import { DataService } from 'src/app/services/data.service';
 import { CreateNoteDialogboxComponent } from '../create-note-dialogbox/create-note-dialogbox.component';
-
+import { DataSharingService } from 'src/app/services/data-sharing.service';
+import { NotificationService } from '../../../notification.service' 
 @Component({
   selector: 'app-get-notes',
   templateUrl: './get-notes.component.html',
@@ -16,14 +17,15 @@ export class GetNotesComponent implements OnInit {
 
   note: noteModel = new noteModel();
   notes: Array<any> = [];
-  notee: any
   gridview: boolean;
   model: any
   data1: any;
   constructor(private snackBar: MatSnackBar,
     private noteService: NotesService,
     public dialog: MatDialog,
-    private dataService: DataService
+    private dataService: DataService,
+    private data: DataSharingService,
+    private notificationService: NotificationService
   ) { }
   ngOnInit() {
     this.getNote();
@@ -40,14 +42,16 @@ export class GetNotesComponent implements OnInit {
     );
   }
   getNote() {
-    this.noteService.getAllNotes().subscribe(
-      (response: any) => {
-        this.notes = response.data
-        // this.notee = response.result.label
-      }
-    )
-  }
+    this.data.currentMessage.subscribe(message => {
+      this.noteService.getAllNotes().subscribe(
+        (response: any) => {
+          this.notes = response.data
 
+          // this.notee = response.result.label
+        }
+      )
+    })
+  }
   item: any[];
   openDialog(item): void {
     const dialogRef = this.dialog.open(CreateNoteDialogboxComponent, {
@@ -66,6 +70,7 @@ export class GetNotesComponent implements OnInit {
     }
     this.noteService.setColor(this.model)
       .subscribe(Response => {
+        this.data.changeMessage(Response)
         console.log("data of color: ", Response);
       },
         error => {
@@ -74,19 +79,40 @@ export class GetNotesComponent implements OnInit {
         }
       )
   }
+  reminder(item: any, $event) {
+    this.reminder = $event;
+    console.log("reminder",this.reminder)
+    this.model = {
+      reminder: this.reminder,
+      noteId: item._id
+    }
+    console.log("nodel reminder",this.model)
+    this.noteService.setReminder(this.model)
+      .subscribe(Response => {
+        this.data.changeMessage(Response)
+        this.notificationService.getPermission();
+        console.log("data of reminder: ", Response);
+      },
+        error => {
+          console.log("error of reminder:: ", error);
 
-  Lable_id: any
+        }
+      )
+  }
+  Label_id: any
   getLabel(item: any, $event) {
-    this.Lable_id = $event._id;
+    this.Label_id = $event._id;
     console.log("event", $event);
     this.model = {
-      "labelId": this.Lable_id,
+      "labelId": this.Label_id,
       "noteId": item._id,
       "userId": item.userId
     }
     this.noteService.addLabelToNote(this.model)
       .subscribe(response => {
         this.data1 = response
+        console.log("data of color: ", this.data1);
+        this.data.changeMessage(this.data1)
         this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
       },
         error => {

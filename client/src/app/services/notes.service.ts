@@ -14,8 +14,6 @@ export class NotesService {
       url :'createNotes',
       data: data
     }
-    console.log("service",option);
-    
     return this.httpService.postNote(option);
   }
   updateNote(id,data) {
@@ -23,27 +21,21 @@ export class NotesService {
     {
       url :'updateNotes',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
   getAllNotes(){
     var option =
     {
       url :'getAllNotes'   
-    }
-    console.log("service",option);
-    
+    }    
     return this.httpService.getNote(option); 
   }
   getAllReminderNotes(){
     var option =
     {
       url :'getAllReminderNotes'   
-    }
-    console.log("service",option);
-    
+    }    
     return this.httpService.getNote(option); 
     
   }
@@ -51,18 +43,14 @@ export class NotesService {
     var option =
     {
       url :'getAllIsArchiveNotes'   
-    }
-    console.log("service",option);
-    
+    }    
     return this.httpService.getNote(option); 
   }
   getAllTrashNotes(){
     var option =
     {
       url :'getAllIsTrashNotes'   
-    }
-    console.log("service",option);
-    
+    }    
     return this.httpService.getNote(option); 
   
   }
@@ -71,19 +59,24 @@ export class NotesService {
     {
       url :'color',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
+  setReminder(data){
+    var option =
+    {
+      url :'reminder',
+      data: data
+    }    
+    return this.httpService.postNote(option);
+  }
+  
   setArchive(data){
     var option =
     {
       url :'isArchive',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
   setdelete(data){
@@ -91,9 +84,7 @@ export class NotesService {
     {
       url :'isTrash',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
   addLabelToNote(data){
@@ -101,9 +92,7 @@ export class NotesService {
     {
       url :'addLabelToNotes',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
   searchNote(data){
@@ -111,9 +100,7 @@ export class NotesService {
     {
       url :'search',
       data: data
-    }
-    console.log("service",option.data);
-    
+    }    
     return this.httpService.postNote(option);
   }
   

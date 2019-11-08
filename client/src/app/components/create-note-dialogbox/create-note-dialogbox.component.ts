@@ -3,6 +3,7 @@ import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { NotesService } from  '../../services/notes.service'
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 @Component({
   selector: 'app-create-note-dialogbox',
   templateUrl: './create-note-dialogbox.component.html',
@@ -11,6 +12,7 @@ import { NotesService } from  '../../services/notes.service'
 export class CreateNoteDialogboxComponent implements OnInit {
   @Input() noteData: any
   constructor(
+    private data:DataSharingService,
     private noteService: NotesService,
     private snackBar: MatSnackBar,
     private activtedRoute: ActivatedRoute,
@@ -22,7 +24,6 @@ export class CreateNoteDialogboxComponent implements OnInit {
     noteId = this.notes.noteId
   ngOnInit() {
   }
-
   onClose() {
     this.dialogBox.closeAll();
     const notesdata = {
@@ -33,6 +34,7 @@ export class CreateNoteDialogboxComponent implements OnInit {
  
     this.noteService.updateNote(this.notes.noteData._id, notesdata).subscribe(
       (res: any) => {
+        this.data.changeMessage(res)
         console.log("res",res)
         this.snackBar.open(
           "Notes are updated successfully",

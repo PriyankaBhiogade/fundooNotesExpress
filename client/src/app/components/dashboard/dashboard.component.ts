@@ -7,6 +7,7 @@ import { DataService } from '../../services/data.service'
 import { EditLabeldialogboxComponent } from '../edit-labeldialogbox/edit-labeldialogbox.component';
 import { LabelsService } from 'src/app/services/labels.service';
 import { BehaviorSubject } from 'rxjs';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,31 +18,30 @@ export class DashboardComponent implements OnInit {
   private messageSource = new BehaviorSubject([]);
   currentMessage = this.messageSource.asObservable();
   titlename: any;
-  gridview: boolean;
+  gridview: boolean;2
   constructor(public dialog: MatDialog,
     private route: Router,
-    private note: NotesService, private dataService: DataService, private labelService: LabelsService, ) { }
+    private note: NotesService, private dataSharingService: DataSharingService
+    , private dataService: DataService, private labelService: LabelsService, private dataService1: DataSharingService) { }
   firstName = localStorage.getItem('firstName')
   lastName = localStorage.getItem('lastName')
   email = localStorage.getItem('email')
-  profile = localStorage.getItem('profile')
-  labels:Array<any> = [];
-
+  profile: any = localStorage.getItem('profile')
+  // img = this.profile;
+  labels: Array<any> = [];
+  // img = this.profile;
   // message: any
-  img = this.profile;
   ngOnInit() {
     this.getLabel();
-    this.dataService.image.subscribe((data: any) => {
-      this.profile = data
-      console.log("datdata", this.profile)
+    this.dataSharingService.image.subscribe(message => {
+      this.profile = message
     })
-    // console.log("messege",this.message)
     this.viewUpdate();
   }
+  
   logout() {
     localStorage.removeItem('token')
   }
-
   profileImage(event): void {
     const dialogRef = this.dialog.open(ProfileComponent, {
       width: '400px',
@@ -49,8 +49,6 @@ export class DashboardComponent implements OnInit {
     });
     dialogRef.afterClosed()
       .subscribe(result => {
-
-        // this.img = localStorage.getItem("profile")
       });
   }
   refresh() {
@@ -60,7 +58,6 @@ export class DashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(EditLabeldialogboxComponent, {
       width: '400px',
       data: {}
-
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -68,13 +65,13 @@ export class DashboardComponent implements OnInit {
     });
   }
   getLabel() {
-    this.labelService.getLabel().subscribe(
-      (response: any) => {
-        console.log("response", response)
-        this.labels = response.data
-        console.log("labels", this.labels)
-      }
-    )
+    this.dataSharingService.currentMessage.subscribe(message => {
+      this.labelService.getLabel().subscribe(
+        (response: any) => {
+          this.labels = response.data
+        }
+      )
+    })
   }
 
   value: string;
@@ -85,13 +82,9 @@ export class DashboardComponent implements OnInit {
     this.data = {
       search: this.value
     }
-    console.log("datasdfa",this.data);
-    this.note.searchNote(this.data).subscribe( 
+    this.note.searchNote(this.data).subscribe(
       (response: any) => {
-        console.log("search note111", response);
         this.search = response['data']
-        console.log("data", this.search);
-
         this.messageSource.next(this.search);
         this.route.navigate(['dashboard', 'search']);
       },

@@ -55,6 +55,14 @@ export class UserService {
     }
     return this.httpService.postNote(option);
   }
+  notification(data){
+    const option =
+    {
+      url :'upload',
+      data: data
+    }
+    return this.httpService.postNote(option);
+  }
   }
 
 

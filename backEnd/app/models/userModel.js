@@ -44,6 +44,9 @@ const userSchema = new schema({
         type: Boolean,
         default: false
     },
+    systemToken: {
+        type:String
+    }
 },
     {
         timestamps: true
@@ -191,6 +194,10 @@ class Model {
         } catch (error) {
             return (error);
         }
+    }
+    notificationTokenSet(req){
+        userModel.updateOne({})
+
     }
 }
 module.exports = new Model();

@@ -5,9 +5,19 @@
 export const environment = {
   production: false,
     baseUrl : 'http://localhost:3000/register',
-    url : 'http://localhost:3000/'
+    url : 'http://localhost:3000/',
   
-  
+
+     firebaseConfig:{
+      apiKey: "AIzaSyBM4FQ1TgkTd8hR6NdwkNtD2lixc4_oGNI",
+      authDomain: "fundoonotes-29a41.firebaseapp.com",
+      databaseURL: "https://fundoonotes-29a41.firebaseio.com",
+      projectId: "fundoonotes-29a41",
+      storageBucket: "fundoonotes-29a41.appspot.com",
+      messagingSenderId: "100506863197",
+      appId: "1:100506863197:web:803643fcbbdafc26f5afb4",
+      measurementId: "G-9JJ2C1YEGB"
+    }
 };
 
 /*

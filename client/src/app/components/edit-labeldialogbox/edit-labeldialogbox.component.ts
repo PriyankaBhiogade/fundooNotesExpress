@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { LabelsService } from 'src/app/services/labels.service';
 import { labelModel } from 'src/app/models/label';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-edit-labeldialogbox',
@@ -15,20 +16,18 @@ export class EditLabeldialogboxComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditLabeldialogboxComponent>,
     @Inject(MAT_DIALOG_DATA) public notes: any, private labelService: LabelsService,
-    private matSnackBar: MatSnackBar) { }
+    private matSnackBar: MatSnackBar,private data: DataSharingService) { }
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit() {
     this.getLabel();
-
   }
-  
   createlabel() {
     this.labelService.createLabel(this.label).subscribe(
       (response: any) => {
-        console.log("response",response)
+        this.data.changeMessage(response)
         this.matSnackBar.open(
           "Label created Successfully",
           "undo",
@@ -36,7 +35,6 @@ export class EditLabeldialogboxComponent implements OnInit {
         )
       },
       (error) => {
-
         this.matSnackBar.open(
           "Label creation Failed",
           "undo",
@@ -50,14 +48,15 @@ export class EditLabeldialogboxComponent implements OnInit {
    * @description function to display all label
    */
   getLabel() {
+    this.data.currentMessage.subscribe(message =>{
+      console.log("messege",message)
     this.labelService.getLabel().subscribe(
       (response: any) => {
-        console.log("response dashbord",response)
         this.labels = response.result
       }
     )
+  })
   }
-
   /**
    * @description function to delete a label
    */
@@ -70,8 +69,8 @@ export class EditLabeldialogboxComponent implements OnInit {
 
     this.labelService.deleteLabel(label._id, data1).subscribe(
       (response: any) => {
-        console.log("sdfdcas",response)
-          this.matSnackBar.open(
+        this.data.changeMessage(response)     
+         this.matSnackBar.open(
             "Label deleted Successfully",
             "undo",
             { duration: 2500 }

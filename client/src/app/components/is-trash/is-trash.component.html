@@ -16,9 +16,9 @@
                     {{item.reminder | date:'MMM d, y, h:mm a'}}</mat-chip>
                 </mat-chip-list>
               </div>
-              <div *ngIf="item.LabelName != null">
-                <mat-chip-list>
-                  <mat-chip>{{item.LabelName}}</mat-chip>
+              <div *ngIf="item.label != null" fxLayout ="row wrap" fxLayoutGap="1.5%" >
+                <mat-chip-list  *ngFor="let i of item.label" >
+                  <mat-chip>{{i.labelName}}</mat-chip>
                 </mat-chip-list>
               </div>
               <div>

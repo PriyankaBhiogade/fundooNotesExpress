@@ -25,6 +25,7 @@ try {
     router.post('/reset/:token', verifyToken.checkToken, userContoller.resetPassword);
     router.post('/upload', verifyToken.checkToken,userContoller.upload);
     router.post('/isVerified/:token',verifyToken.checkToken, userContoller.isVerified);
+    router.post('/notificationService',userContoller.notificationService);
     /**
     * @description :Notes routes
     */

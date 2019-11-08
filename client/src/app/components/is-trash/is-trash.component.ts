@@ -4,6 +4,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { NotesService } from 'src/app/services/notes.service';
 import { DataService } from 'src/app/services/data.service';
 import { CreateNoteDialogboxComponent } from '../create-note-dialogbox/create-note-dialogbox.component';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-is-trash',
@@ -27,7 +28,9 @@ export class IsTrashComponent implements OnInit {
   constructor(private snackBar: MatSnackBar,
     private noteService: NotesService,
     public matDialog: MatDialog,
-    private dataService: DataService
+    private dataService: DataService,
+    private data:DataSharingService
+
   ) { }
   ngOnInit() {
     this.getNote();
@@ -44,12 +47,14 @@ export class IsTrashComponent implements OnInit {
     );
   }
   getNote() {
+    this.data.currentMessage.subscribe(message =>{
     this.noteService.getAllTrashNotes().subscribe(
       (response: any) => {
         this.notes = response.data
         // this.notee = response.result.label
       }
     )
+    })
   }
   item: any[];
   openDialog(item): void {
@@ -70,6 +75,7 @@ export class IsTrashComponent implements OnInit {
     }
     this.noteService.setColor(this.model)
       .subscribe(Response => {
+        this.data.changeMessage(Response)
       },
         error => {
           console.log("error of color:: ", error);
@@ -88,6 +94,8 @@ export class IsTrashComponent implements OnInit {
     this.noteService.addLabelToNote(this.model)
       .subscribe(response => {
         this.data1 = response
+        console.log("label",response)
+        this.data.changeMessage(response)
         this.snackBar.open('add label successfully', 'End Now', { duration: 3000 })
       },
         error => {

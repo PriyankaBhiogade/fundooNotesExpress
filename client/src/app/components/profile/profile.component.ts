@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { UserService } from 'src/app/services/user.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper'
 import { DataService } from '../../services/data.service'
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private snackbar: MatSnackBar,
     public dialogRef: MatDialogRef<ProfileComponent>,
-    private dataSevice: DataService
+    private dataSevice: DataService,
+    private dataSharingService: DataSharingService
   ) { }
 
   ngOnInit() {
@@ -41,8 +43,10 @@ export class ProfileComponent implements OnInit {
     uploadData.append('image', this.uploadData, this.uploadedFiles.name);
     this.userService.profile(uploadData).subscribe(
       (response: any) => {
-        console.log("response", response);
-        this.dataSevice.uploadProfile(response.data);
+        this.dataSharingService.uploadProfile(response.data);
+        console.log("repsonse",response.data)
+        localStorage.setItem('profile',response.data )
+        // this.dataSevice.uploadProfile(response.data);
         this.dialogRef.close();
 
         this.snackbar.open('image uploaded Successfully..', 'End now', { duration: 1000 });

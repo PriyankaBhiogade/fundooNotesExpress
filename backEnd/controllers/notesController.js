@@ -278,6 +278,7 @@ class NotesController {
       * @returns : res.send(result)
       */
     reminder(req, res, next) {
+        console.log("req reminder",req.body)
         try {
             // if (typeof req.body.noteId === 'undefined') {
             //     next(new Error('ID is missing'));

@@ -318,5 +318,18 @@ class Controller {
             }
         })
     }
+    notificationService(req,res){
+        const data ={
+            token : req.body.token
+        }
+        service.notificationToken(data).then((data) =>{
+                   if(data == true){
+                       return res.status(200).send('sucess');
+                   }
+                   else{
+                       return res.status(404).send('fail');                   }
+        })
+
+    }
 }
 module.exports = new Controller();

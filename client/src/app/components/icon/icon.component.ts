@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NotesService } from 'src/app/services/notes.service';
 import { noteModel } from 'src/app/models/notes';
 import { LabelsService } from 'src/app/services/labels.service';
+import { DataSharingService } from 'src/app/services/data-sharing.service';
 
 @Component({
   selector: 'app-icon',
@@ -21,25 +22,25 @@ export class IconComponent implements OnInit {
   flag = false;
   labels: any[];
   checked: any
-  constructor(private noteService: NotesService, private labelService: LabelsService, ) { }
+  constructor(private noteService: NotesService, private labelService: LabelsService, private data: DataSharingService) { }
 
   ngOnInit() {
     this.onclick();
     this.colorArray = [
       [
         { "name": "WHITE", "hexcode": "#FFFFFF" },
-        { "name": "RED", "hexcode": "#FF0000" },
-        { "name": "MEDIUMVIOLETRED", "hexcode": "#C71585" },
+        { "name": "MAROON", "hexcode": "#800000" },
+        { "name": "TEAL", "hexcode": "#008080" },
         { "name": "YELLOW", "hexcode": "#FFFF00" }],
 
       [
-        { "name": "DARKRED", "hexcode": "#8B0000" },
-        { "name": "PURPLE", "hexcode": "#800080" },
-        { "name": "DARKGREEN", "hexcode": "#006400" },
-        { "name": "NAVY", "hexcode": "#000080" }],
+        { "name": "INDIANRED", "hexcode": "#CD5C5C" },
+        { "name": "DARKKHAKI", "hexcode": "#BDB76B" },
+        { "name": "PLUM", "hexcode": "#DDA0DD" },
+        { "name": "PALEVIOLETRED", "hexcode": "#DB7093" }],
 
       [
-        { "name": "DARKKHAKI", "hexcode": "#BDB76B" },
+        { "name": "LIGHTCORAL", "hexcode": "#F08080" },
         { "name": "CADETBLUE", "hexcode": "#5F9EA0" },
         { "name": "ROSYBROWN", "hexcode": "ROSYBROWN" },
         { "name": "DARKSLATEGRAY", "hexcode": "#2F4F4F" }]
@@ -85,28 +86,22 @@ export class IconComponent implements OnInit {
   }
   // note: noteModel = new noteModel();
   archive(note) {
-
     note = {
       isArchive: this.flag = true,
       _id: this.noteData._id,
       userid: localStorage.getItem('userId')
     }
-
-    console.log("userid", note)
-
     this.noteService.setArchive(note)
       .subscribe(Response => {
-        console.log("data of set archive: ", Response);
+        this.data.changeMessage(Response)
       },
         error => {
           console.log("error of archive:: ", error);
-
         }
       )
   }
 
   delete(note) {
-
     note = {
       isTrash: this.flag = true,
       _id: this.noteData._id,
@@ -115,20 +110,20 @@ export class IconComponent implements OnInit {
     console.log("delete", note);
     this.noteService.setdelete(note)
       .subscribe(Response => {
-        console.log("data of set delete: ", Response);
+        this.data.changeMessage(Response)
       },
         error => {
           console.log("error of delete:: ", error);
-
         }
       )
   }
   onclick() {
-
     this.labelService.getLabel()
       .subscribe(response => {
         //  this.label = response;
         this.labels = response.data;
+        // this.data.changeMessage(response.data)
+
       },
         error => {
           console.log("error of getAllNotes: ", error);

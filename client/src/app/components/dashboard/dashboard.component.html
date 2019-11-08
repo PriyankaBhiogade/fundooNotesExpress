@@ -53,7 +53,7 @@
               <!-- <div mat-card-avatar
                   [ngStyle]="{'background-image': 'url('{{img}}')','background-size':'cover', 'height':'40px','width':'40px'}"
                   class="img1"></div> -->
-              <img src={{img}} [ngStyle]="{'background-size':'cover', 'height':'40px','width':'40px'}" class="img2">
+              <img src={{profile}} [ngStyle]="{'background-size':'cover', 'height':'40px','width':'40px'}" class="img2">
             </button>
           </div>
 
@@ -62,7 +62,7 @@
               <div style="width: 89%">
                 <mat-card-header style="margin-top: 1%;">
                   <div mat-card-avatar style="margin-top: 1%;"
-                    [ngStyle]="{'background-image': 'url('+img+')','background-size':'cover', 'height':'86px','width':'85px'}"
+                    [ngStyle]="{'background-image': 'url('+profile+')','background-size':'cover', 'height':'86px','width':'85px'}"
                     class="img2" (click)=profileImage($event)>
                   </div>
                   <mat-card-title class="color">{{firstName}} {{lastName}}</mat-card-title>
